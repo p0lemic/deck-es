@@ -1,0 +1,37 @@
+version: '3.2'
+
+services:
+  php:
+    build:
+      dockerfile: docker/dev/php/Dockerfile
+      context: .
+    container_name: deck-php
+    expose:
+      - 80
+    ports:
+      - 80:80
+    volumes:
+      - .:/var/www/deck
+    working_dir: /var/www/deck
+    links:
+      - database
+    environment:
+      - PHP_IDE_CONFIG=serverName=Test
+      - XDEBUG_REMOTE_HOST=docker.for.mac.host.internal
+
+  database:
+    image: postgres:9.6.6
+    container_name: deck-database
+    expose:
+      - 5432
+    ports:
+      - 5432:5432
+    environment:
+      - POSTGRES_USER=admin
+      - POSTGRES_PASSWORD=pass
+      - POSTGRES_DB=deck
+    volumes:
+      - ./volumes/postgresql:/var/lib/postgresql/data
+volumes:
+  database:
+    driver: local

@@ -1,0 +1,14 @@
+Deck\Domain\Game\Game:
+    type: entity
+    repositoryClass: Deck\Infrastructure\Persistence\Repository\Game\DoctrineGameRepository
+    table: games
+    schema: deck
+    id:
+        id:
+            id: true
+            type: uuid
+    fields:
+        deck:
+            type: string
+        players:
+            type: string

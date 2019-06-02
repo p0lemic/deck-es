@@ -1,0 +1,3 @@
+index:
+    path: /
+    controller: Deck\Infrastructure\Ui\Http\Controller\Game\HomeController::index
