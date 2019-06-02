@@ -11,3 +11,6 @@
 .phpunit
 /phpunit.xml
 ###< symfony/phpunit-bridge ###
+
+/volumes
+/volumes/*
