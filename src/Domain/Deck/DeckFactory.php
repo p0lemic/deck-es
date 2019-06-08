@@ -6,6 +6,6 @@ class DeckFactory
 {
     public function createNew() : Deck
     {
-        return new Deck();
+        return new Deck(DeckId::create());
     }
 }

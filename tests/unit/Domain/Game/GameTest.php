@@ -4,13 +4,13 @@ namespace Deck\Tests\unit\Domain\Game;
 
 use Deck\Domain\Deck\DeckFactory;
 use Deck\Domain\Game\Game;
+use Deck\Domain\Game\GameId;
 use Deck\Domain\User\Player;
 use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
 {
-    /** @test */
-    public function newDeckShouldHas40Cards(): void
+    public function testNewDeckShouldHas40Cards(): void
     {
         $deckFactory = new DeckFactory();
         $playerOne = new Player('Player1');
@@ -20,8 +20,12 @@ class GameTest extends TestCase
             $playerTwo
         ];
 
-        $game = new Game($deckFactory, $players);
+        /** @var GameId $gameId */
+        $gameId = $this->createMock(GameId::class);
 
+        $game = new Game($gameId, $deckFactory, $players);
+
+        $this->assertEquals($gameId->value(), $game->id()->value());
         $this->assertCount(40, $game->deck()->cards());
 
         $game->playerDraw($playerOne);

@@ -6,7 +6,6 @@ use Deck\Domain\Deck\Deck;
 use Deck\Domain\Deck\DeckFactory;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
 use Deck\Domain\User\Player;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 /**
@@ -34,14 +33,14 @@ class Game
     /** @var Player[] */
     private $players;
 
-    public function __construct(DeckFactory $deckFactory, array $players)
+    public function __construct(GameId $aGameId, DeckFactory $deckFactory, array $players)
     {
-        $this->id = Uuid::uuid4()->toString();
+        $this->id = $aGameId;
         $this->deck = $deckFactory->createNew();
         $this->players = $players;
     }
 
-    public function id(): UuidInterface
+    public function id(): GameId
     {
         return $this->id;
     }

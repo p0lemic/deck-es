@@ -8,11 +8,15 @@ class Deck
 {
     public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
 
+    /** @var DeckId */
+    private $id;
     /** @var Card[] */
     private $cards = [];
 
-    public function __construct()
+    public function __construct(DeckId $aDeckId)
     {
+        $this->id = $aDeckId;
+
         foreach (Suite::AVAILABLE_SUITES as $suite) {
             foreach (Rank::AVAILABLE_RANKS as $rank => $rankName) {
                 $this->cards[] = new Card(new Suite($suite), new Rank($rank));
@@ -24,6 +28,11 @@ class Deck
         }
 
         shuffle($this->cards);
+    }
+
+    public function id(): DeckId
+    {
+        return $this->id;
     }
 
     public function cards(): array

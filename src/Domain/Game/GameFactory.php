@@ -16,6 +16,6 @@ class GameFactory
 
     public function createNewGame(array $players) : Game
     {
-        return new Game($this->deckFactory, $players);
+        return new Game(GameId::create(), $this->deckFactory, $players);
     }
 }
