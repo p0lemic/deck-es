@@ -2,6 +2,8 @@
 
 namespace Deck\Domain\Game;
 
+use Deck\Domain\Deck\DeckFactory;
+
 class GameFactory
 {
     /** @var DeckFactory */

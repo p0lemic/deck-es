@@ -1,8 +1,8 @@
 <?php
 
-namespace Deck\Domain\Game;
+namespace Deck\Domain\Deck;
 
-use InvalidArgumentException;
+use Deck\Domain\Deck\Exception\InvalidSuiteException;
 
 class Suite
 {
@@ -21,10 +21,15 @@ class Suite
         $this->setSuite($value);
     }
 
+    /**
+     * @param string $value
+     * @return void
+     * @throws InvalidSuiteException
+     */
     private function setSuite(string $value): void
     {
         if (!in_array($value, self::AVAILABLE_SUITES, true)) {
-            throw new InvalidArgumentException('Invalid suite type '.$value);
+            throw InvalidSuiteException::fromSuiteString($value);
         }
 
         $this->value = $value;

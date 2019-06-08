@@ -9,7 +9,7 @@ services:
     expose:
       - 80
     ports:
-      - 80:80
+      - 89:80
     volumes:
       - .:/var/www/deck
     working_dir: /var/www/deck

@@ -1,10 +1,10 @@
 <?php
 
-namespace Deck\Tests\unit\Domain\Game;
+namespace Deck\Tests\unit\Domain\Deck;
 
-use Deck\Domain\Game\Suite;
-use Deck\Domain\Game\Rank;
-use Deck\Domain\Game\Card;
+use Deck\Domain\Deck\Suite;
+use Deck\Domain\Deck\Rank;
+use Deck\Domain\Deck\Card;
 use PHPUnit\Framework\TestCase;
 
 class CardTest extends TestCase

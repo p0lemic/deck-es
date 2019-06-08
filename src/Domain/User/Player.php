@@ -1,6 +1,10 @@
 <?php
 
-namespace Deck\Domain\Game;
+namespace Deck\Domain\User;
+
+use Deck\Domain\Deck\Card;
+use Ramsey\Uuid\Uuid;
+use Ramsey\Uuid\UuidInterface;
 
 class Player
 {
@@ -8,11 +12,14 @@ class Player
     private $id;
     /** @var string */
     private $username;
+    /** @var array */
+    private $hand;
 
     public function __construct(string $username)
     {
         $this->id = Uuid::uuid4()->toString();
         $this->username = $username;
+        $this->hand = [];
     }
 
     public function id(): UuidInterface
@@ -23,5 +30,15 @@ class Player
     public function username(): string
     {
         return $this->username;
+    }
+
+    public function hand(): array
+    {
+        return $this->hand;
+    }
+
+    public function addCardToPlayersHand(Card $card): void
+    {
+        $this->hand[] = $card;
     }
 }

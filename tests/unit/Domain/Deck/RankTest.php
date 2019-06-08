@@ -1,9 +1,9 @@
 <?php
 
-namespace Deck\Tests\unit\Domain\Game;
+namespace Deck\Tests\unit\Domain\Deck;
 
-use Deck\Domain\Game\Rank;
-use InvalidArgumentException;
+use Deck\Domain\Deck\Exception\InvalidRankException;
+use Deck\Domain\Deck\Rank;
 use PHPUnit\Framework\TestCase;
 
 class RankTest extends TestCase
@@ -21,7 +21,7 @@ class RankTest extends TestCase
     {
         $invalidRankType = 13;
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidRankException::class);
         $this->expectExceptionMessage(sprintf('Invalid rank type %s', $invalidRankType));
 
         $suite = new Rank($invalidRankType);

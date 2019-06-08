@@ -1,9 +1,9 @@
 <?php
 
-namespace Deck\Tests\unit\Domain\Game;
+namespace Deck\Tests\unit\Domain\Deck;
 
-use Deck\Domain\Game\Suite;
-use InvalidArgumentException;
+use Deck\Domain\Deck\Exception\InvalidSuiteException;
+use Deck\Domain\Deck\Suite;
 use PHPUnit\Framework\TestCase;
 
 class SuiteTest extends TestCase
@@ -21,7 +21,7 @@ class SuiteTest extends TestCase
     {
         $invalidSuiteType = 'bastos';
 
-        $this->expectException(InvalidArgumentException::class);
+        $this->expectException(InvalidSuiteException::class);
         $this->expectExceptionMessage(sprintf('Invalid suite type %s', $invalidSuiteType));
 
         $suite = new Suite($invalidSuiteType);

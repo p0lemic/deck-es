@@ -2,6 +2,10 @@
 
 namespace Deck\Domain\Game;
 
+use Deck\Domain\Deck\Deck;
+use Deck\Domain\Deck\DeckFactory;
+use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
+use Deck\Domain\User\Player;
 use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
@@ -47,13 +51,46 @@ class Game
         return $this->deck;
     }
 
-    public function playerDraw(): Card
+    /**
+     * @param Player $player
+     * @return void
+     * @throws CardsNumberInUseNotValidException
+     */
+    public function playerDraw(Player $player): void
     {
-        return $this->deck->draw();
+        $card = $this->deck->draw();
+
+        $player->addCardToPlayersHand($card);
+
+        $this->assertTotalCardsInGameAreConsistency();
     }
 
+    /**
+     * @return Player[]
+     */
     public function players(): array
     {
         return $this->players;
+    }
+
+    /**
+     * @return void
+     * @throws CardsNumberInUseNotValidException
+     */
+    public function assertTotalCardsInGameAreConsistency(): void
+    {
+        $totalCardsInDeck = count($this->deck->cards());
+
+        $totalCardsInPlayersHand = 0;
+        foreach ($this->players() as $player) {
+            $totalCardsInPlayersHand += count($player->hand());
+        }
+
+        if (Deck::TOTAL_INITIAL_CARDS_IN_DECK !== ($totalCardsInDeck + $totalCardsInPlayersHand)) {
+            throw CardsNumberInUseNotValidException::invalidNumber(
+                Deck::TOTAL_INITIAL_CARDS_IN_DECK,
+                $totalCardsInDeck + $totalCardsInPlayersHand
+            );
+        }
     }
 }

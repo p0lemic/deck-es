@@ -1,7 +1,8 @@
 <?php
 
-namespace Deck\Domain\Game;
+namespace Deck\Domain\Deck;
 
+use Deck\Domain\Deck\Exception\InvalidRankException;
 use InvalidArgumentException;
 
 class Rank
@@ -27,10 +28,15 @@ class Rank
         $this->setRank($value);
     }
 
+    /**
+     * @param string $value
+     * @return void
+     * @throws InvalidRankException
+     */
     private function setRank(string $value): void
     {
         if (!in_array($value, self::AVAILABLE_RANKS, true)) {
-            throw new InvalidArgumentException('Invalid rank type '.$value);
+            throw InvalidRankException::fromRankString($value);
         }
 
         $this->value = $value;

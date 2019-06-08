@@ -1,9 +1,13 @@
 <?php
 
-namespace Deck\Domain\Game;
+namespace Deck\Domain\Deck;
+
+use Deck\Domain\Deck\Exception\DeckCardsNumberException;
 
 class Deck
 {
+    public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
+
     /** @var Card[] */
     private $cards = [];
 
@@ -13,6 +17,10 @@ class Deck
             foreach (Rank::AVAILABLE_RANKS as $rank => $rankName) {
                 $this->cards[] = new Card(new Suite($suite), new Rank($rank));
             }
+        }
+
+        if (count($this->cards) !== self::TOTAL_INITIAL_CARDS_IN_DECK) {
+            throw DeckCardsNumberException::invalidInitialNumber(self::TOTAL_INITIAL_CARDS_IN_DECK, count($this->cards));
         }
 
         shuffle($this->cards);

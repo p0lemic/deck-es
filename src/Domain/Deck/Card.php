@@ -1,6 +1,6 @@
 <?php
 
-namespace Deck\Domain\Game;
+namespace Deck\Domain\Deck;
 
 class Card
 {
