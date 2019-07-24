@@ -2,6 +2,7 @@
 
 namespace Deck\Domain\Game;
 
+use Deck\Domain\Aggregate\Aggregate;
 use Deck\Domain\Deck\Deck;
 use Deck\Domain\Deck\DeckFactory;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
@@ -22,7 +23,7 @@ use Ramsey\Uuid\UuidInterface;
  *
  */
 
-class Game
+class Game extends Aggregate
 {
     /** @var UuidInterface */
     private $id;

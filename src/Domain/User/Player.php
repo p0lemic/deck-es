@@ -3,7 +3,6 @@
 namespace Deck\Domain\User;
 
 use Deck\Domain\Deck\Card;
-use Ramsey\Uuid\Uuid;
 use Ramsey\Uuid\UuidInterface;
 
 class Player
@@ -15,9 +14,9 @@ class Player
     /** @var array */
     private $hand;
 
-    public function __construct(string $username)
+    public function __construct(PlayerId $playerId, string $username)
     {
-        $this->id = Uuid::uuid4()->toString();
+        $this->id = $playerId;
         $this->username = $username;
         $this->hand = [];
     }

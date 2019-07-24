@@ -2,9 +2,10 @@
 
 namespace Deck\Domain\Deck;
 
+use Deck\Domain\Aggregate\Aggregate;
 use Deck\Domain\Deck\Exception\DeckCardsNumberException;
 
-class Deck
+class Deck extends Aggregate
 {
     public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
 
@@ -13,6 +14,10 @@ class Deck
     /** @var Card[] */
     private $cards = [];
 
+    /**
+     * @param DeckId $aDeckId
+     * @throws DeckCardsNumberException
+     */
     public function __construct(DeckId $aDeckId)
     {
         $this->id = $aDeckId;

@@ -2,8 +2,9 @@
 
 namespace Deck\Infrastructure\Ui\Http\Controller\Game;
 
-use Deck\Application\Game\CreateGameRequest;
-use Deck\Application\Game\CreateGameService;
+use Deck\Application\Game\CreateGameCommand;
+use Deck\Application\Game\CreateGameHandler;
+use function print_r;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -11,10 +12,10 @@ use Throwable;
 
 class HomeController extends AbstractController
 {
-    /** @var CreateGameService */
+    /** @var CreateGameHandler */
     private $createDeckService;
 
-    public function __construct(CreateGameService $createDeckService)
+    public function __construct(CreateGameHandler $createDeckService)
     {
         $this->createDeckService = $createDeckService;
     }
@@ -22,14 +23,14 @@ class HomeController extends AbstractController
     public function index(Request $request): Response
     {
         //try {
-            $createGameRequest = new CreateGameRequest(
+            $createGameRequest = new CreateGameCommand(
                 [
                     'Player 1',
                     'Player 2'
                 ]
             );
 
-            $game = $this->createDeckService->execute($createGameRequest);
+            $game = $this->createDeckService->handle($createGameRequest);
 
             return $this->render(
                 '@DeckTwigTemplates/game/deck.html.twig',

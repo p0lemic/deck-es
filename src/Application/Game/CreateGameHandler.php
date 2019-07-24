@@ -5,7 +5,7 @@ namespace Deck\Application\Game;
 use Deck\Domain\Game\Game;
 use Deck\Domain\Game\GameFactory;
 
-class CreateGameService
+class CreateGameHandler
 {
     /** @var GameFactory */
     private $gameFactory;
@@ -15,7 +15,7 @@ class CreateGameService
         $this->gameFactory = $gameFactory;
     }
 
-    public function execute(CreateGameRequest $createGameRequest): Game
+    public function handle(CreateGameCommand $createGameRequest): Game
     {
         return $this->gameFactory->createNewGame($createGameRequest->players());
     }

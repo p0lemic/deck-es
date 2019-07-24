@@ -6,7 +6,7 @@ namespace Deck\Application\Game;
 
 use Deck\Application\Game\Exception\InvalidPlayerNumber;
 
-final class CreateGameRequest
+final class CreateGameCommand
 {
     private $players;
 

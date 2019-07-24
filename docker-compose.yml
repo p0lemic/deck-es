@@ -31,7 +31,7 @@ services:
       - POSTGRES_PASSWORD=pass
       - POSTGRES_DB=deck
     volumes:
-      - ./volumes/postgresql:/var/lib/postgresql/data
+      - database:/var/lib/postgresql/data
 volumes:
   database:
     driver: local

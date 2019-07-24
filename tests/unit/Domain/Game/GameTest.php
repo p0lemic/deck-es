@@ -6,6 +6,7 @@ use Deck\Domain\Deck\DeckFactory;
 use Deck\Domain\Game\Game;
 use Deck\Domain\Game\GameId;
 use Deck\Domain\User\Player;
+use Deck\Domain\User\PlayerId;
 use PHPUnit\Framework\TestCase;
 
 class GameTest extends TestCase
@@ -13,8 +14,14 @@ class GameTest extends TestCase
     public function testNewDeckShouldHas40Cards(): void
     {
         $deckFactory = new DeckFactory();
-        $playerOne = new Player('Player1');
-        $playerTwo = new Player('Player2');
+
+        /** @var PlayerId $aPlayerOneId */
+        $aPlayerOneId = $this->createMock(PlayerId::class);
+        $playerOne = new Player($aPlayerOneId, 'Player1');
+
+        /** @var PlayerId $aPlayerTwoId */
+        $aPlayerTworId = $this->createMock(PlayerId::class);
+        $playerTwo = new Player($aPlayerTworId, 'Player2');
         $players = [
             $playerOne,
             $playerTwo
