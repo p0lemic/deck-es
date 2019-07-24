@@ -3,6 +3,7 @@
 namespace Deck\Domain\Deck;
 
 use Deck\Domain\Aggregate\Aggregate;
+use Deck\Domain\Deck\Event\CardWasDraw;
 use Deck\Domain\Deck\Exception\DeckCardsNumberException;
 
 class Deck extends Aggregate
@@ -45,6 +46,9 @@ class Deck extends Aggregate
 
     public function draw(): Card
     {
-        return array_pop($this->cards);
+        $card = array_pop($this->cards);
+        $this->recordThat(new CardWasDraw($this, $card));
+
+        return $card;
     }
 }
