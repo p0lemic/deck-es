@@ -7,7 +7,6 @@ use Deck\Domain\Deck\Deck;
 use Deck\Domain\Deck\DeckFactory;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
 use Deck\Domain\User\Player;
-use Ramsey\Uuid\UuidInterface;
 
 /**
  * Aggregate Root
@@ -25,9 +24,6 @@ use Ramsey\Uuid\UuidInterface;
 
 class Game extends Aggregate
 {
-    /** @var UuidInterface */
-    private $id;
-
     /** @var Deck */
     private $deck;
 
@@ -39,11 +35,6 @@ class Game extends Aggregate
         $this->id = $aGameId;
         $this->deck = $deckFactory->createNew();
         $this->players = $players;
-    }
-
-    public function id(): GameId
-    {
-        return $this->id;
     }
 
     public function deck(): Deck

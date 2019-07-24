@@ -6,8 +6,15 @@ use Deck\Domain\Event\DomainEvent;
 
 abstract class Aggregate implements AggregateRoot
 {
+    /** @var AggregateId */
+    protected $id;
     /** @var DomainEvent[] */
     private $recordedEvents = [];
+
+    public function getAggregateId(): AggregateId
+    {
+        return $this->id;
+    }
 
     public function setAggregateId(AggregateId $id): void
     {

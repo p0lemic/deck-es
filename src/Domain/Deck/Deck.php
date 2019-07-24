@@ -9,8 +9,6 @@ class Deck extends Aggregate
 {
     public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
 
-    /** @var DeckId */
-    private $id;
     /** @var Card[] */
     private $cards = [];
 
