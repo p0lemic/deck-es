@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Deck\Event;
 
+use DateTimeImmutable;
 use DateTimeInterface;
 use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Deck\Card;
 use Deck\Domain\Deck\Deck;
 use Deck\Domain\Event\DomainEvent;
 
-final class CardWasDraw implements DomainEvent
+final class CardWasDrawn implements DomainEvent
 {
     /** @var AggregateId */
     private $aggregateId;
@@ -21,12 +22,14 @@ final class CardWasDraw implements DomainEvent
     /** @var DateTimeInterface */
     private $occurredOn;
 
-    public function __construct(Deck $deck, Card $card)
-    {
+    public function __construct(
+        Deck $deck,
+        Card $card
+    ) {
         $this->deck = $deck;
         $this->card = $card;
         $this->aggregateId = $deck->getAggregateId();
-        $this->occurredOn = new DateTime();
+        $this->occurredOn = new DateTimeImmutable();
     }
 
     public function deck(): Deck

@@ -78,9 +78,6 @@
     "doctrine/reflection": {
         "version": "v1.0.0"
     },
-    "facebook/webdriver": {
-        "version": "1.6.0"
-    },
     "jdorn/sql-formatter": {
         "version": "v1.2.17"
     },
@@ -89,6 +86,22 @@
     },
     "ocramius/proxy-manager": {
         "version": "2.2.2"
+    },
+    "php-amqplib/php-amqplib": {
+        "version": "v2.9.2"
+    },
+    "php-amqplib/rabbitmq-bundle": {
+        "version": "1.12",
+        "recipe": {
+            "repo": "github.com/symfony/recipes-contrib",
+            "branch": "master",
+            "version": "1.12",
+            "ref": "ce3ca2e4577270c4f518539aa6b9e878998fcfef"
+        },
+        "files": [
+            "config/packages/old_sound_rabbit_mq.yaml",
+            "src/Consumer/.gitignore"
+        ]
     },
     "psr/cache": {
         "version": "1.0.1"
@@ -227,9 +240,6 @@
     "symfony/orm-pack": {
         "version": "v1.0.6"
     },
-    "symfony/panther": {
-        "version": "v0.3.0"
-    },
     "symfony/phpunit-bridge": {
         "version": "4.1",
         "recipe": {
@@ -251,9 +261,6 @@
     },
     "symfony/polyfill-php72": {
         "version": "v1.11.0"
-    },
-    "symfony/process": {
-        "version": "v4.2.8"
     },
     "symfony/profiler-pack": {
         "version": "v1.0.4"

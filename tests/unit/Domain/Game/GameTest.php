@@ -20,8 +20,8 @@ class GameTest extends TestCase
         $playerOne = new Player($aPlayerOneId, 'Player1');
 
         /** @var PlayerId $aPlayerTwoId */
-        $aPlayerTworId = $this->createMock(PlayerId::class);
-        $playerTwo = new Player($aPlayerTworId, 'Player2');
+        $aPlayerTwoId = $this->createMock(PlayerId::class);
+        $playerTwo = new Player($aPlayerTwoId, 'Player2');
         $players = [
             $playerOne,
             $playerTwo
@@ -32,7 +32,7 @@ class GameTest extends TestCase
 
         $game = new Game($gameId, $deckFactory, $players);
 
-        $this->assertEquals($gameId->value(), $game->id()->value());
+        $this->assertEquals($gameId->value(), $game->getAggregateId()->value());
         $this->assertCount(40, $game->deck()->cards());
 
         $game->playerDraw($playerOne);

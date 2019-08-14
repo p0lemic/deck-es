@@ -2,26 +2,26 @@
 
 namespace Deck\Domain\User;
 
+use Deck\Domain\Aggregate\Aggregate;
 use Deck\Domain\Deck\Card;
-use Ramsey\Uuid\UuidInterface;
 
-class Player
+class Player extends Aggregate
 {
-    /** @var UuidInterface */
-    private $id;
     /** @var string */
     private $username;
     /** @var array */
     private $hand;
 
-    public function __construct(PlayerId $playerId, string $username)
-    {
+    public function __construct(
+        PlayerId $playerId,
+        string $username
+    ) {
         $this->id = $playerId;
         $this->username = $username;
         $this->hand = [];
     }
 
-    public function id(): UuidInterface
+    public function id(): PlayerId
     {
         return $this->id;
     }

@@ -16,8 +16,11 @@ services:
     links:
       - database
     environment:
-      - PHP_IDE_CONFIG=serverName=Test
-      - XDEBUG_REMOTE_HOST=docker.for.mac.host.internal
+      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      PHP_IDE_CONFIG: 'serverName=Test'
+      XDEBUG_REMOTE_HOST: 'docker.for.mac.host.internal'
+    networks:
+      - network
 
   database:
     image: postgres:9.6.6
@@ -32,6 +35,39 @@ services:
       - POSTGRES_DB=deck
     volumes:
       - database:/var/lib/postgresql/data
+    networks:
+      - network
+
+  rabbitmq:
+    # There is a prebuilt RabbitMQ image; see
+    # https://hub.docker.com/_/rabbitmq/ for details.
+    # This variant is built on Alpine Linux (it's smaller) and includes
+    # the management UI.
+    image: 'rabbitmq:3.6-management-alpine'
+
+    # These ports are exposed on the host; 'hostport:containerport'.
+    # You could connect to this server from outside with the *host's*
+    # DNS name or IP address and port 5672 (the left-hand side of the
+    # colon).
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'
+
+    # Run this container on a private network for this application.
+    # This is necessary for magic Docker DNS to work: other containers
+    # also running on this network will see a host name "rabbitmq"
+    # (the name of this section) and the internal port 5672, even though
+    # that's not explicitly published above.
+    networks:
+      - network
+
 volumes:
   database:
     driver: local
+
+networks:
+  # Declare our private network.  We must declare one for the magic
+  # Docker DNS to work, but otherwise its default settings are fine.
+  network: {}

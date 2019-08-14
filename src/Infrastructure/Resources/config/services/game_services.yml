@@ -1,20 +1,20 @@
 services:
-    #SERVICES
-    game.service.createdeck:
-        class: Deck\App\Application\Game\CreateDeckService
-        arguments:
-            - '@game.factory.game'
-
     #FACTORIES
     game.factory.deck:
-        class: Deck\App\Domain\Game\DeckFactory
+        class: Deck\Domain\Deck\DeckFactory
 
     game.factory.game:
-        class: Deck\App\Domain\Game\GameFactory
+        class: Deck\Domain\Game\GameFactory
         arguments: ['@game.factory.deck']
 
     #REPOSITORIES
     game.repository.game:
-        class: Deck\App\Infrastructure\Persistence\Repository\Game\DoctrineGameRepository
+        class: Deck\Infrastructure\Persistence\Repository\Game\DoctrineGameRepository
         factory: ['@doctrine.orm.default_entity_manager', 'getRepository']
         arguments: ['Deck\App\Domain\Game\Game']
+
+    game.create_new_game_handler:
+        class: Deck\Application\Game\CreateGameHandler
+        arguments: ['@game.factory.game']
+        tags:
+            - { name: command_handler, handles: Deck\Application\Game\CreateGameCommand }
