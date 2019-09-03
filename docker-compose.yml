@@ -14,7 +14,24 @@ services:
       - .:/var/www/deck
     working_dir: /var/www/deck
     links:
-      - database
+      - deck_database
+    environment:
+      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
+      PHP_IDE_CONFIG: 'serverName=Dev'
+      XDEBUG_REMOTE_HOST: 'docker.for.mac.host.internal'
+    networks:
+      - network
+
+  php_test:
+    build:
+      dockerfile: docker/dev/php/Dockerfile
+      context: .
+    container_name: deck-php-test
+    volumes:
+      - .:/var/www/deck
+    working_dir: /var/www/deck
+    links:
+      - deck_database
     environment:
       AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
       PHP_IDE_CONFIG: 'serverName=Test'
@@ -22,7 +39,7 @@ services:
     networks:
       - network
 
-  database:
+  deck_database:
     image: postgres:9.6.6
     container_name: deck-database
     expose:

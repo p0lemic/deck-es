@@ -9,6 +9,6 @@ Deck\Domain\Game\Game:
             type: uuid
     fields:
         deck:
-            type: string
+            type: json_array
         players:
-            type: string
+            type: json_array

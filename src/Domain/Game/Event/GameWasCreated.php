@@ -2,33 +2,34 @@
 
 declare(strict_types=1);
 
-namespace Deck\Domain\Deck\Event;
+namespace Deck\Domain\Game\Event;
 
 use DateTimeImmutable;
 use DateTimeInterface;
 use Deck\Domain\Aggregate\AggregateId;
-use Deck\Domain\Deck\Card;
 use Deck\Domain\Deck\Deck;
 use Deck\Domain\Event\DomainEvent;
+use Deck\Domain\User\Player;
 
-final class CardWasDrawn implements DomainEvent
+final class GameWasCreated implements DomainEvent
 {
     /** @var AggregateId */
     private $aggregateId;
-    /** @var Card */
-    private $card;
     /** @var Deck */
     private $deck;
+    /** @var Player[] */
+    private $players;
     /** @var DateTimeInterface */
     private $occurredOn;
 
     public function __construct(
+        AggregateId $id,
         Deck $deck,
-        Card $card
+        array $players
     ) {
+        $this->aggregateId = $id;
         $this->deck = $deck;
-        $this->card = $card;
-        $this->aggregateId = $deck->id();
+        $this->players = $players;
         $this->occurredOn = new DateTimeImmutable();
     }
 
@@ -37,9 +38,9 @@ final class CardWasDrawn implements DomainEvent
         return $this->deck;
     }
 
-    public function card(): Card
+    public function players(): array
     {
-        return $this->card;
+        return $this->players;
     }
 
     public function getAggregateId(): AggregateId
@@ -54,6 +55,6 @@ final class CardWasDrawn implements DomainEvent
 
     public function __toString(): string
     {
-        return $this->deck()->id()->value()->toString();
+        return $this->getAggregateId()->value()->toString();
     }
 }

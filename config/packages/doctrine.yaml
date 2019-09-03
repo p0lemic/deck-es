@@ -7,11 +7,11 @@ parameters:
 
 doctrine:
     dbal:
-        driver: 'pdo_pgsql'
-        server_version: '9.6.6'
-        charset: UTF8
+        driver: 'pdo_postgresql'
+        server_version: '10.5'
+        charset: utf8
         default_table_options:
-            charset: UTF8
+            charset: utf8
         schema_filter: ~^(?!deck.sessions)~ #ignore those tables when generating migrations
 
         url: '%env(DATABASE_DB_TYPE)%://%env(DATABASE_USER)%:%env(DATABASE_PASSWORD)%@%env(DATABASE_DB_HOST)%:%env(DATABASE_PORT)%/%env(DATABASE_DB)%'

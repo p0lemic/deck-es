@@ -11,7 +11,7 @@ abstract class Aggregate implements AggregateRoot
     /** @var DomainEvent[] */
     private $recordedEvents = [];
 
-    public function getAggregateId(): AggregateId
+    public function id(): AggregateId
     {
         return $this->id;
     }
@@ -41,10 +41,9 @@ abstract class Aggregate implements AggregateRoot
         // TODO: Implement hasChanges() method.
     }
 
-    protected function applyAndRecordThat(DomainEvent $aDomainEvent): void
+    protected function recordThatAndApply(DomainEvent $aDomainEvent): void
     {
         $this->recordThat($aDomainEvent);
-
         $this->apply($aDomainEvent);
     }
 
@@ -55,5 +54,9 @@ abstract class Aggregate implements AggregateRoot
 
     private function apply($anEvent): void
     {
+        $classParts = explode('\\', get_class($anEvent));
+        $method = 'apply'.end($classParts);
+
+        $this->$method($anEvent);
     }
 }

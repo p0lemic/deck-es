@@ -26,9 +26,12 @@ class DeckTest extends TestCase
     {
         $deck = new Deck(DeckId::create());
 
+        $this->assertCount(40, $deck->cards());
+        $deck->draw();
+        $this->assertCount(39, $deck->cards());
+
         $totalCards = count($deck->cards());
         $deck->draw();
-
         $this->assertCount($totalCards - 1, $deck->cards());
     }
 }

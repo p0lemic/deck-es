@@ -11,6 +11,7 @@ services:
     _defaults:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+        public: false
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -21,7 +22,7 @@ services:
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class
     Deck\Infrastructure\Ui\Http\Controller\:
-        resource: '../src/Infrastructure/Ui/Http/Controller'
+        resource: '../src/Infrastructure/Ui/Http/Controller/*'
         tags: ['controller.service_arguments']
 
 
@@ -31,3 +32,16 @@ services:
         arguments:
             - '%env(DATABASE_DB_TYPE)%:host=%env(DATABASE_DB_HOST)%;port=%env(DATABASE_PORT)%;dbname=%env(DATABASE_DB)%'
             - { db_username: '%env(DATABASE_USER)%', db_password: '%env(DATABASE_PASSWORD)%', db_table: 'deck.sessions' }
+
+    #FACTORIES
+#    game.factory.deck:
+#        class: Deck\Domain\Deck\DeckFactory
+#
+#    game.factory.game:
+#        class: Deck\Domain\Game\GameFactory
+#        arguments: ['@game.factory.deck']
+#
+    deck.game.create_new_game_handler:
+        class: Deck\Application\Game\CreateGameHandler
+        tags:
+            - { name: command_handler, handles: Deck\Application\Game\CreateGameCommand }

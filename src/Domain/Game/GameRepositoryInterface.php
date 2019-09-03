@@ -8,13 +8,13 @@ interface GameRepositoryInterface
      * @param int $gameID
      * @return Game
      */
-    public function findByGameId(int $gameID) : Game;
+    public function findByGameId(string $gameID): ?Game;
 
     /**
      * @param int $tableId
      * @return Game
      */
-    public function findByTableId(int $tableId) : Game;
+    public function findByTableId(string $tableId): ?Game;
 
     /**
      * @param Game $game

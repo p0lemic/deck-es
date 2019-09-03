@@ -3,46 +3,53 @@
 namespace Deck\Infrastructure\Ui\Http\Controller\Game;
 
 use Deck\Application\Game\CreateGameCommand;
-use Deck\Application\Game\CreateGameHandler;
-use function print_r;
+use Deck\Domain\Game\GameId;
+use Deck\Domain\Game\GameRepositoryInterface;
+use Deck\Infrastructure\Events\MessageBus;
+use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Throwable;
-use function var_dump;
 
 class HomeController extends AbstractController
 {
-    /** @var CreateGameHandler */
-    private $createDeckService;
+    /** @var CommandBus */
+    private $commandBus;
+    /** @var GameRepositoryInterface */
+    private $gameRepository;
 
-    public function __construct(CreateGameHandler $createDeckService)
-    {
-        $this->createDeckService = $createDeckService;
+    public function __construct(
+        MessageBus $commandBus,
+        GameRepositoryInterface $gameRepository
+    ) {
+        $this->commandBus = $commandBus;
+        $this->gameRepository = $gameRepository;
     }
 
     public function index(Request $request): Response
     {
         //try {
-            $createGameRequest = new CreateGameCommand(
-                [
-                    'Player 1',
-                    'Player 2'
-                ]
-            );
+        $gameId = GameId::create();
+        $this->commandBus->handle(
+            new CreateGameCommand($gameId->value()->toString(), ['Player 1', 'CPU'])
+        );
 
-            $game = $this->createDeckService->handle($createGameRequest);
-
-            return $this->render(
-                '@DeckTwigTemplates/game/deck.html.twig',
-                [
-                    'game' => $game
-                ]
-            );
-        //} catch (Throwable $e) {
-            //$this->addFlash('error', $e->getMessage());
-
-            //return $this->redirect($request->getUri());
-        //}
+        $game = $this->gameRepository->findByGameId($gameId->value()->toString());
+        return $this->render(
+            '@DeckTwigTemplates/game/deck.html.twig',
+            [
+                'game' => $game,
+            ]
+        );
+        /*
+    } catch (Throwable $e) {
+        return $this->render(
+            '@DeckTwigTemplates/error/index.html.twig',
+            [
+                'error' => $e->getMessage(),
+            ]
+        );
+    }
+        */
     }
 }

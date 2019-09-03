@@ -34,11 +34,6 @@ class Deck extends Aggregate
         shuffle($this->cards);
     }
 
-    public function id(): DeckId
-    {
-        return $this->id;
-    }
-
     public function cards(): array
     {
         return $this->cards;
@@ -50,5 +45,16 @@ class Deck extends Aggregate
         $this->recordThat(new CardWasDrawn($this, $card));
 
         return $card;
+    }
+
+    public function __toString(): string
+    {
+        $deckString = '';
+        
+        foreach($this->cards() as $card) {
+            $deckString .= $card->__toString();
+        }
+
+        return $deckString;
     }
 }

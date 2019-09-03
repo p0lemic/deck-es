@@ -25,8 +25,8 @@ class Card
         return $this->rank;
     }
 
-    public function toString(): string
+    public function __toString(): string
     {
-        return '[' . $this->rank->value() . ' - ' . $this->suite->value() . ']';
+        return $this->rank->value() . ' => ' . $this->suite->value();
     }
 }

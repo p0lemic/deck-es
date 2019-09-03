@@ -5,7 +5,6 @@ namespace Deck\Tests\unit\Domain\Game;
 use Deck\Domain\Deck\DeckFactory;
 use Deck\Domain\Game\GameFactory;
 use Deck\Domain\User\Player;
-use Deck\Domain\User\PlayerId;
 use PHPUnit\Framework\TestCase;
 
 class GameFactoryTest extends TestCase
@@ -15,17 +14,11 @@ class GameFactoryTest extends TestCase
     {
         $deckFactory = new DeckFactory();
 
-        /** @var PlayerId $aPlayerOneId */
-        $aPlayerOneId = $this->createMock(PlayerId::class);
-        $playerOne = new Player($aPlayerOneId, 'Player1');
-
-
-        /** @var PlayerId $aPlayerTwoId */
-        $aPlayerTwoId = $this->createMock(PlayerId::class);
-        $playerTwo = new Player($aPlayerTwoId, 'Player2');
+        $playerOne = Player::createPlayerFromUsername('Player1');
+        $playerTwo = Player::createPlayerFromUsername('Player2');
         $players = [
             $playerOne,
-            $playerTwo
+            $playerTwo,
         ];
 
         $gameFactory = new GameFactory($deckFactory);

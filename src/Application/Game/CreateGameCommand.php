@@ -4,19 +4,25 @@ declare(strict_types=1);
 
 namespace Deck\Application\Game;
 
-use Deck\Application\Game\Exception\InvalidPlayerNumber;
+use Deck\Domain\Game\GameId;
+use Deck\Domain\User\Player;
 
 final class CreateGameCommand
 {
+    /** @var Player[] */
     private $players;
+    /** @var GameId */
+    private $gameId;
 
-    public function __construct(array $players)
+    public function __construct(string $aGameId, array $players)
     {
-        if (count($players) < 0) {
-            throw InvalidPlayerNumber::biggerThanZero();
-        }
-
+        $this->gameId = GameId::fromString($aGameId);
         $this->players = $players;
+    }
+
+    public function gameId(): GameId
+    {
+        return $this->gameId;
     }
 
     public function players(): array

@@ -4,10 +4,16 @@ namespace Deck\Infrastructure\Persistence\Repository\Game;
 
 use Deck\Domain\Game\Game;
 use Deck\Domain\Game\GameRepositoryInterface;
-use Doctrine\ORM\EntityRepository;
+use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class DoctrineGameRepository extends EntityRepository implements GameRepositoryInterface
+class DoctrineGameRepository extends ServiceEntityRepository implements GameRepositoryInterface
 {
+    public function __construct(RegistryInterface $registry)
+    {
+        parent::__construct($registry, Game::class);
+    }
+
     public function save(Game $game): void
     {
         $this->_em->persist($game);
@@ -16,14 +22,10 @@ class DoctrineGameRepository extends EntityRepository implements GameRepositoryI
 
     public function clearMemory(): void
     {
-        $this->_em->clear(User::class);
+        $this->_em->clear(Game::class);
     }
 
-    /**
-     * @param int $gameID
-     * @return Game
-     */
-    public function findByGameId(int $gameID): Game
+    public function findByGameId(string $gameID): ?Game
     {
         return $this->findOneBy(
             [
@@ -32,11 +34,7 @@ class DoctrineGameRepository extends EntityRepository implements GameRepositoryI
         );
     }
 
-    /**
-     * @param int $tableId
-     * @return Game
-     */
-    public function findByTableId(int $tableId): Game
+    public function findByTableId(string $tableId): ?Game
     {
         return $this->findOneBy(
             [

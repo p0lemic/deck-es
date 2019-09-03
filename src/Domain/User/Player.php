@@ -12,7 +12,7 @@ class Player extends Aggregate
     /** @var array */
     private $hand;
 
-    public function __construct(
+    private function __construct(
         PlayerId $playerId,
         string $username
     ) {
@@ -21,9 +21,12 @@ class Player extends Aggregate
         $this->hand = [];
     }
 
-    public function id(): PlayerId
+    public static function createPlayerFromUsername(string $username): self
     {
-        return $this->id;
+        return new self(
+            PlayerId::create(),
+            $username
+        );
     }
 
     public function username(): string

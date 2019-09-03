@@ -1,21 +1,19 @@
 FROM php:7.3.5-apache
 
-RUN pecl install xdebug-2.7.2 \
-    && docker-php-ext-enable xdebug
-
 RUN apt-get update && apt-get install -y libpq-dev \
-    && docker-php-ext-install pdo_pgsql
-
-RUN apt-get update \
-    && apt-get install -y \
-        librabbitmq-dev \
-        libssh-dev \
-        git \
-    && docker-php-ext-install \
-        bcmath \
-        sockets \
-    && pecl install amqp \
-    && docker-php-ext-enable amqp
+    && docker-php-source extract \
+    && pecl install xdebug redis \
+    && docker-php-ext-enable xdebug \
+    && docker-php-source delete \
+    && docker-php-ext-install pdo_pgsql \
+    && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_handler=dbgp" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_connect_back=1" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.idekey=PHPSTORM" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && echo "xdebug.remote_host=${XDEBUG_REMOTE_HOST}" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
+    && rm -rf /tmp/*
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
