@@ -27,3 +27,8 @@ doctrine:
                 dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Game"
                 prefix: Deck\Domain\Game
                 is_bundle: false
+            event:
+                type: yml
+                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Event"
+                prefix: Deck\Domain\Event
+                is_bundle: false

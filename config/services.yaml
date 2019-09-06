@@ -33,15 +33,12 @@ services:
             - '%env(DATABASE_DB_TYPE)%:host=%env(DATABASE_DB_HOST)%;port=%env(DATABASE_PORT)%;dbname=%env(DATABASE_DB)%'
             - { db_username: '%env(DATABASE_USER)%', db_password: '%env(DATABASE_PASSWORD)%', db_table: 'deck.sessions' }
 
-    #FACTORIES
-#    game.factory.deck:
-#        class: Deck\Domain\Deck\DeckFactory
-#
-#    game.factory.game:
-#        class: Deck\Domain\Game\GameFactory
-#        arguments: ['@game.factory.deck']
-#
     deck.game.create_new_game_handler:
         class: Deck\Application\Game\CreateGameHandler
         tags:
             - { name: command_handler, handles: Deck\Application\Game\CreateGameCommand }
+
+    persist_event_bus_middleware:
+        class: Deck\Domain\Event\PersistDomainEventMiddleware
+        tags:
+            - { name: event_bus_middleware, priority: 100 }

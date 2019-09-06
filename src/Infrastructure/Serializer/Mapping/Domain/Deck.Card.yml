@@ -1,0 +1,13 @@
+Deck\Domain\Deck\Card:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+      type: string
+    suite:
+      expose: true
+      type: string
+    rank:
+      expose: true
+      type: string
+

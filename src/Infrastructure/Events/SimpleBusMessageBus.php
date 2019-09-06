@@ -9,10 +9,6 @@ class SimpleBusMessageBus implements MessageBus
     /** @var CommandBus */
     private $commandBus;
 
-    /**
-     * EventDispatcher constructor.
-     * @param CommandBus $commandBus
-     */
     public function __construct(
         CommandBus $commandBus
     ) {

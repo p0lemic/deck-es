@@ -1,11 +1,11 @@
 FROM php:7.3.5-apache
 
-RUN apt-get update && apt-get install -y libpq-dev \
+RUN apt-get update && apt-get install -y libpq-dev git zip unzip \
     && docker-php-source extract \
     && pecl install xdebug redis \
     && docker-php-ext-enable xdebug \
     && docker-php-source delete \
-    && docker-php-ext-install pdo_pgsql \
+    && docker-php-ext-install pdo_pgsql bcmath sockets \
     && echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_autostart=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_port=9000" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \

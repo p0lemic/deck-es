@@ -1,0 +1,9 @@
+Deck\Domain\Deck\Deck:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+      type: string
+    cards:
+      expose: true
+      type: array<Deck\Domain\Deck\Card>

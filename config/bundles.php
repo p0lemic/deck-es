@@ -11,4 +11,5 @@ return [
     SimpleBus\SymfonyBridge\SimpleBusEventBusBundle::class => ['all' => true],
     SimpleBus\SymfonyBridge\DoctrineOrmBridgeBundle::class => ['all' => true],
     Symfony\Bundle\MakerBundle\MakerBundle::class => ['dev' => true],
+    JMS\SerializerBundle\JMSSerializerBundle::class => ['all' => true],
 ];

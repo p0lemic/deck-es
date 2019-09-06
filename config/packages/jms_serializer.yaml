@@ -1,0 +1,10 @@
+jms_serializer:
+    visitors:
+        xml_serialization:
+            format_output: '%kernel.debug%'
+    metadata:
+        auto_detection: false
+        directories:
+            Domain:
+                namespace_prefix: "Deck\\Domain"
+                path: "%kernel.root_dir%/Infrastructure/Serializer/Mapping/Domain"

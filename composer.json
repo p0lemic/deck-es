@@ -5,6 +5,7 @@
         "php": "^7.2.13",
         "ext-ctype": "*",
         "ext-iconv": "*",
+        "jms/serializer-bundle": "^3.4",
         "ramsey/uuid": "^3.8",
         "ramsey/uuid-doctrine": "^1.5",
         "simple-bus/doctrine-dbal-bridge": "^2.0",

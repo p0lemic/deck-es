@@ -16,6 +16,6 @@ class CardTest extends TestCase
 
         $this->assertEquals('spades', $card->suite()->value());
         $this->assertEquals('J', $card->rank()->value());
-        $this->assertEquals('[J - spades]', $card->__toString());
+        $this->assertEquals('J => spades', $card->__toString());
     }
 }
