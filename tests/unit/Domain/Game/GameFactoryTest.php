@@ -14,8 +14,8 @@ class GameFactoryTest extends TestCase
     {
         $deckFactory = new DeckFactory();
 
-        $playerOne = Player::createPlayerFromUsername('Player1');
-        $playerTwo = Player::createPlayerFromUsername('Player2');
+        $playerOne = Player::create('Player1');
+        $playerTwo = Player::create('Player2');
         $players = [
             $playerOne,
             $playerTwo,

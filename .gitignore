@@ -5,6 +5,7 @@
 /public/bundles/
 /var/
 /vendor/
+/public/vendor/
 ###< symfony/framework-bundle ###
 
 ###> symfony/phpunit-bridge ###
@@ -14,3 +15,5 @@
 
 /volumes
 /volumes/*
+
+node_modules

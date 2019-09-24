@@ -17,6 +17,11 @@ RUN apt-get update && apt-get install -y libpq-dev git zip unzip \
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
+RUN curl --silent --location https://deb.nodesource.com/setup_12.x | bash
+RUN apt-get install --yes nodejs
+RUN npm install -g gulp
+RUN apt-get install --yes build-essential
+
 ENV APACHE_DOCUMENT_ROOT /var/www/deck/public
 
 RUN sed -ri -e 's!/var/www/html!${APACHE_DOCUMENT_ROOT}!g' /etc/apache2/sites-available/*.conf

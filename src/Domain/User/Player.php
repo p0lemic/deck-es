@@ -4,34 +4,25 @@ namespace Deck\Domain\User;
 
 use Deck\Domain\Aggregate\Aggregate;
 use Deck\Domain\Deck\Card;
+use Deck\Domain\User\Events\UserWasCreated;
+use Deck\Domain\User\ValueObject\Auth\Credentials;
 
 class Player extends Aggregate
 {
-    /** @var string */
-    private $username;
     /** @var array */
     private $hand;
 
-    private function __construct(
-        PlayerId $playerId,
-        string $username
-    ) {
-        $this->id = $playerId;
-        $this->username = $username;
+    private function __construct()
+    {
         $this->hand = [];
     }
 
-    public static function createPlayerFromUsername(string $username): self
-    {
-        return new self(
-            PlayerId::create(),
-            $username
-        );
-    }
+    public static function create(Credentials $credentials): self {
+        $user = new self();
 
-    public function username(): string
-    {
-        return $this->username;
+        $user->apply(new UserWasCreated(PlayerId::create(), $credentials));
+
+        return $user;
     }
 
     public function hand(): array

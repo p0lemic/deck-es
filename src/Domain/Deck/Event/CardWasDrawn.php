@@ -32,6 +32,11 @@ final class CardWasDrawn implements DomainEvent
         $this->occurredOn = new DateTimeImmutable();
     }
 
+    public function aggregateId(): AggregateId
+    {
+        return $this->aggregateId;
+    }
+
     public function deck(): Deck
     {
         return $this->deck;
@@ -40,11 +45,6 @@ final class CardWasDrawn implements DomainEvent
     public function card(): Card
     {
         return $this->card;
-    }
-
-    public function getAggregateId(): AggregateId
-    {
-        return $this->aggregateId;
     }
 
     public function occurredOn(): DateTimeInterface

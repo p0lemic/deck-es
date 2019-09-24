@@ -70,7 +70,7 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-master",
-        "symfony/phpunit-bridge": "4.2.*",
+        "symfony/phpunit-bridge": "^4.3",
         "symfony/test-pack": "^1.0"
     }
 }

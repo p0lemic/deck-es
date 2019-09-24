@@ -52,7 +52,7 @@ abstract class Aggregate implements AggregateRoot
         //DomainEventPublisher::instance()->publish($domainEvent);
     }
 
-    private function apply($anEvent): void
+    protected function apply($anEvent): void
     {
         $classParts = explode('\\', get_class($anEvent));
         $method = 'apply'.end($classParts);

@@ -11,8 +11,8 @@ class GameTest extends TestCase
 {
     public function testNewDeckShouldHas40Cards(): void
     {
-        $playerOne = Player::createPlayerFromUsername('Player1');
-        $playerTwo = Player::createPlayerFromUsername('Player2');
+        $playerOne = Player::create('Player1');
+        $playerTwo = Player::create('Player2');
         $players = [
             $playerOne,
             $playerTwo,

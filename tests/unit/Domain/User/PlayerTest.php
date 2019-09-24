@@ -11,7 +11,7 @@ final class PlayerTest extends TestCase
 {
     public function testCreateNewPlayer(): void
     {
-        $sut = Player::createPlayerFromUsername('username');
+        $sut = Player::create('username');
 
         $this->assertEquals('username', $sut->username());
         $this->assertCount(0, $sut->hand());

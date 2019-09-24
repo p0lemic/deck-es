@@ -9,6 +9,6 @@ use Deck\Domain\Aggregate\AggregateId;
 
 interface DomainEvent
 {
-    public function getAggregateId(): AggregateId;
+    public function aggregateId(): AggregateId;
     public function occurredOn(): DateTimeInterface;
 }
