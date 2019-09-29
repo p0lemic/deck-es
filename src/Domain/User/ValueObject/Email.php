@@ -8,8 +8,16 @@ use Assert\Assertion;
 
 class Email
 {
+    /** @var string */
+    private $email;
+
+    public function __construct()
+    {
+    }
+
     /**
-     * @throws \Assert\AssertionFailedException
+     * @param string $email
+     * @return Email
      */
     public static function fromString(string $email): self
     {
@@ -31,11 +39,4 @@ class Email
     {
         return $this->email;
     }
-
-    private function __construct()
-    {
-    }
-
-    /** @var string */
-    private $email;
 }

@@ -1,6 +1,4 @@
 twig:
-    paths:
-        '%kernel.project_dir%/src/Infrastructure/Resources/views': DeckTwigTemplates
+    paths: ['%kernel.project_dir%/src/Infrastructure/Resources/views']
     debug: '%kernel.debug%'
     strict_variables: '%kernel.debug%'
-    form_themes: ['bootstrap_4_layout.html.twig']

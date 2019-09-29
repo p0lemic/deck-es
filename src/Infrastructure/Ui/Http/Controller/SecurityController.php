@@ -1,31 +1,48 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\Security\Core\Exception\AuthenticationException;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
+use Twig\Error\LoaderError;
+use Twig\Error\RuntimeError;
+use Twig\Error\SyntaxError;
 
-class SecurityController extends AbstractController
+class SecurityController extends AbstractRenderController
 {
-    public function signIn(Request $request): Response
+    /**
+     * @Route(
+     *     "/sign-in",
+     *     name="login",
+     *     methods={"GET", "POST"}
+     * )
+     *
+     * @param AuthenticationUtils $authUtils
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function login(AuthenticationUtils $authUtils): Response
     {
-        return $this->render(
-            '@DeckTwigTemplates/home/index.html.twig'
-        );
+        return $this->render('signin/login.html.twig', [
+            'last_username' => $authUtils->getLastUsername(),
+            'error'         => $authUtils->getLastAuthenticationError(),
+        ]);
     }
 
-    public function signUp(Request $request): Response
+    /**
+     * @Route(
+     *     "/logout",
+     *     name="logout"
+     * )
+     */
+    public function logout(): void
     {
-        return $this->render(
-            '@DeckTwigTemplates/home/index.html.twig'
-        );
-    }
-
-    public function logout(Request $request): Response
-    {
-        return $this->render(
-            '@DeckTwigTemplates/home/index.html.twig'
-        );
+        throw new AuthenticationException('I shouldn\'t be here..');
     }
 }

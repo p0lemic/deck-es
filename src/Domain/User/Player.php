@@ -4,7 +4,8 @@ namespace Deck\Domain\User;
 
 use Deck\Domain\Aggregate\Aggregate;
 use Deck\Domain\Deck\Card;
-use Deck\Domain\User\Events\UserWasCreated;
+use Deck\Domain\User\Event\UserWasCreated;
+use Deck\Domain\User\Specification\UniqueEmailSpecificationInterface;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
 
 class Player extends Aggregate
@@ -17,7 +18,19 @@ class Player extends Aggregate
         $this->hand = [];
     }
 
-    public static function create(Credentials $credentials): self {
+    /**
+     * @param Credentials $credentials
+     * @param UniqueEmailSpecificationInterface $uniqueEmailSpecification
+     *
+     * @return static
+     *
+     * @throws Exception\EmailAlreadyExistException
+     */
+    public static function create(
+        Credentials $credentials,
+        UniqueEmailSpecificationInterface $uniqueEmailSpecification
+    ): self {
+        $uniqueEmailSpecification->isUnique($credentials->email());
         $user = new self();
 
         $user->apply(new UserWasCreated(PlayerId::create(), $credentials));

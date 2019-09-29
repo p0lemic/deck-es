@@ -1,15 +1,3 @@
-index:
-    path: /
-    controller: Deck\Infrastructure\Ui\Http\Controller\HomeController::index
-
-sign-in:
-    path: /sign-in
-    controller: Deck\Infrastructure\Ui\Http\Controller\SecurityController:signIn
-
-sign-up:
-    path: /sign-up
-    controller:  Deck\Infrastructure\Ui\Http\Controller\SecurityController:signUp
-
-logout:
-    path: /logout
-    controller:  Deck\Infrastructure\Ui\Http\Controller\SecurityController:logout
+controllers:
+    resource: '../src/Infrastructure/Ui/Http/Controller/'
+    type: annotation

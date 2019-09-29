@@ -5,14 +5,16 @@ declare(strict_types=1);
 namespace Deck\Domain\User\ValueObject\Auth;
 
 use Assert\Assertion;
-use Assert\AssertionFailedException;
 
 final class HashedPassword
 {
+    public const COST = 12;
+    /** @var string */
+    private $hashedPassword;
+
     /**
      * @param string $plainPassword
      * @return HashedPassword
-     * @throws AssertionFailedException
      */
     public static function encode(string $plainPassword): self
     {
@@ -37,10 +39,6 @@ final class HashedPassword
         return password_verify($plainPassword, $this->hashedPassword);
     }
 
-    /**
-     * @param string $plainPassword
-     * @throws AssertionFailedException
-     */
     private function hash(string $plainPassword): void
     {
         $this->validate($plainPassword);
@@ -64,20 +62,8 @@ final class HashedPassword
         return $this->hashedPassword;
     }
 
-    /**
-     * @param string $raw
-     */
     private function validate(string $raw): void
     {
         Assertion::minLength($raw, 6, 'Min 6 characters password');
     }
-
-    private function __construct()
-    {
-    }
-
-    /** @var string */
-    private $hashedPassword;
-
-    public const COST = 12;
 }

@@ -38,6 +38,11 @@ services:
         tags:
             - { name: command_handler, handles: Deck\Application\Game\CreateGameCommand }
 
+    deck.usser.sign_up_handler:
+        class: Deck\Application\User\SignUpHandler
+        tags:
+            - { name: command_handler, handles: Deck\Application\User\SignUpCommand }
+
     persist_event_bus_middleware:
         class: Deck\Domain\Event\PersistDomainEventMiddleware
         tags:
