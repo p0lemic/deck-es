@@ -2,24 +2,20 @@
 
 namespace Deck\Domain\User;
 
-use App\Domain\User\Event\UserSignedIn;
 use DateTime;
 use DateTimeInterface;
 use Deck\Domain\Aggregate\Aggregate;
 use Deck\Domain\Deck\Card;
+use Deck\Domain\User\Event\UserSignedIn;
 use Deck\Domain\User\Event\UserWasCreated;
 use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Specification\UniqueEmailSpecificationInterface;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
-use Deck\Domain\User\ValueObject\Auth\HashedPassword;
-use Deck\Domain\User\ValueObject\Email;
 
 class Player extends Aggregate
 {
-    /** @var Email */
-    private $email;
-    /** @var HashedPassword */
-    private $hashedPassword;
+    /** @var Credentials */
+    private $credentials;
     /** @var DateTime */
     private $createdAt;
     /** @var DateTime|null */
@@ -47,7 +43,7 @@ class Player extends Aggregate
         $uniqueEmailSpecification->isUnique($credentials->email());
         $user = new self();
 
-        $user->apply(new UserWasCreated(PlayerId::create(), $credentials));
+        $user->recordThatAndApply(new UserWasCreated(PlayerId::create(), $credentials));
 
         return $user;
     }
@@ -68,31 +64,26 @@ class Player extends Aggregate
      */
     public function signIn(string $plainPassword): void
     {
-        $match = $this->hashedPassword->match($plainPassword);
+        $match = $this->credentials->password()->match($plainPassword);
 
         if (!$match) {
             throw InvalidCredentialsException::invalid();
         }
 
-        $this->apply(new UserSignedIn($this->id, $this->email));
+        $this->recordThatAndApply(new UserSignedIn($this->id, $this->credentials->email()));
     }
 
     protected function applyUserWasCreated(UserWasCreated $event): void
     {
-        $this->id = $event->aggregateId();
-        $this->setEmail($event->credentials()->email());
-        $this->setHashedPassword($event->credentials()->password());
+        $this->setAggregateId($event->aggregateId());
+        $this->setCredentials($event->credentials());
         $this->setCreatedAt($event->occurredOn());
+        $this->setUpdatedAt($event->occurredOn());
     }
 
-    private function setEmail(Email $email): void
+    private function setCredentials(Credentials $credentials): void
     {
-        $this->email = $email;
-    }
-
-    private function setHashedPassword(HashedPassword $hashedPassword): void
-    {
-        $this->hashedPassword = $hashedPassword;
+        $this->credentials = $credentials;
     }
 
     private function setCreatedAt(DateTimeInterface $createdAt): void
@@ -113,10 +104,5 @@ class Player extends Aggregate
     public function updatedAt(): ?DateTime
     {
         return $this->updatedAt;
-    }
-
-    public function email(): string
-    {
-        return $this->email->toString();
     }
 }

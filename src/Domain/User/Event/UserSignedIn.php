@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Domain\User\Event;
+namespace Deck\Domain\User\Event;
 
 use DateTimeImmutable;
 use DateTimeInterface;

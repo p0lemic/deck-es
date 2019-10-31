@@ -3,10 +3,16 @@ Deck\Domain\User\Player:
   repositoryClass: Deck\Infrastructure\Persistence\Repository\User\DoctrinePlayerRepository
   table: players
   schema: deck
+  embedded:
+    credentials:
+      class: Deck\Domain\User\ValueObject\Auth\Credentials
   id:
     id:
       id: true
       type: uuid
   fields:
-    hand:
-      type: json_arrays
+    createdAt:
+      type: datetime
+    updatedAt:
+      type: datetime
+      columnDefinition: TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL
