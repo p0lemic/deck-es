@@ -5,10 +5,10 @@ namespace Deck\Domain\User;
 interface PlayerRepositoryInterface
 {
     /**
-     * @param string $playerId
+     * @param PlayerId $playerId
      * @return Player
      */
-    public function findById(string $playerId): ?Player;
+    public function findById(PlayerId $playerId): ?Player;
 
     /**
      * @param Player $player

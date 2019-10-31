@@ -1,0 +1,12 @@
+Deck\Domain\User\Player:
+  type: entity
+  repositoryClass: Deck\Infrastructure\Persistence\Repository\User\DoctrinePlayerRepository
+  table: players
+  schema: deck
+  id:
+    id:
+      id: true
+      type: uuid
+  fields:
+    hand:
+      type: json_arrays

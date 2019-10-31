@@ -87,7 +87,7 @@ class Game extends Aggregate
 
     public function applyGameWasCreated(GameWasCreated $event): void
     {
-        $this->id = $event->getAggregateId();
+        $this->id = $event->aggregateId();
         $this->deck = $event->deck();
         $this->players = $event->players();
     }

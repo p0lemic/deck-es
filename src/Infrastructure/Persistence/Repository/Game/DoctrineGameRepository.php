@@ -5,6 +5,8 @@ namespace Deck\Infrastructure\Persistence\Repository\Game;
 use Deck\Domain\Game\Game;
 use Deck\Domain\Game\GameRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\ORM\OptimisticLockException;
+use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrineGameRepository extends ServiceEntityRepository implements GameRepositoryInterface
@@ -14,6 +16,14 @@ class DoctrineGameRepository extends ServiceEntityRepository implements GameRepo
         parent::__construct($registry, Game::class);
     }
 
+    /**
+     * @param Game $game
+     *
+     * @return void
+     *
+     * @throws ORMException
+     * @throws OptimisticLockException
+     */
     public function save(Game $game): void
     {
         $this->_em->persist($game);
