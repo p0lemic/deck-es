@@ -9,12 +9,17 @@ use Deck\Domain\User\ValueObject\Email;
 class SignUpCommand
 {
     /** @var Credentials */
-    public $credentials;
+    private $credentials;
 
     public function __construct(
         string $email,
         string $plainPassword
     ) {
         $this->credentials = new Credentials(Email::fromString($email), HashedPassword::encode($plainPassword));
+    }
+
+    public function credentials(): Credentials
+    {
+        return $this->credentials;
     }
 }

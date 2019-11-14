@@ -6,20 +6,16 @@ namespace Deck\Infrastructure\User;
 
 use DateTime;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
-use Deck\Domain\User\ValueObject\Email;
 use Ramsey\Uuid\UuidInterface;
 
 class PlayerProjection
 {
     /** @var UuidInterface */
     private $uuid;
-
     /** @var Credentials */
     private $credentials;
-
     /** @var DateTime */
     private $createdAt;
-
     /** @var DateTime */
     private $updatedAt;
 
@@ -30,7 +26,7 @@ class PlayerProjection
 
     public function email(): string
     {
-        return (string) $this->credentials->email();
+        return (string)$this->credentials->email();
     }
 
     public function changeUpdatedAt(DateTime $updatedAt): void
@@ -40,7 +36,7 @@ class PlayerProjection
 
     public function hashedPassword(): string
     {
-        return (string) $this->credentials->password();
+        return (string)$this->credentials->password();
     }
 
     public function getId(): string

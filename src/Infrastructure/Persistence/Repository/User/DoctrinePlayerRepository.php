@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Persistence\Repository\User;
 
+use Deck\Domain\User\Exception\UserNotFoundException;
 use Deck\Domain\User\Player;
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\PlayerRepositoryInterface;
@@ -30,7 +31,36 @@ class DoctrinePlayerRepository extends ServiceEntityRepository implements Player
      */
     public function findById(PlayerId $playerId): ?Player
     {
-        return $this->findOneBy(['id' => $playerId]);
+        /** @var Player $player */
+        $player = $this->findOneBy(['id' => $playerId]);
+
+        return $player;
+    }
+
+    public function findByIdOrFail(PlayerId $playerId): Player
+    {
+        /** @var Player $user */
+        $user = $this->findById($playerId);
+
+        if (null === $user) {
+            throw UserNotFoundException::idNotFound($playerId);
+        }
+
+        return $user;
+    }
+
+    public function findByEmailOrFail(Email $email): Player
+    {
+        /** @var Player $user */
+        $user = $this->createQueryBuilder('user')
+            ->where('user.credentials.email = :email')
+            ->setParameter('email', $email->toString());
+
+        if (null === $user) {
+            throw UserNotFoundException::emailNorFound($email);
+        }
+
+        return $user;
     }
 
     /**
@@ -46,10 +76,25 @@ class DoctrinePlayerRepository extends ServiceEntityRepository implements Player
             ->setParameter('email', (string) $email)
             ->getQuery()
             ->setHydrationMode(AbstractQuery::HYDRATE_ARRAY)
-            ->getOneOrNullResult()
-        ;
+            ->getOneOrNullResult();
 
         return $userId['uuid'] ?? null;
+    }
+
+    /**
+     * @param Email $email
+     * @return array
+     * @throws UserNotFoundException
+     */
+    public function getCredentialsByEmail(Email $email): array
+    {
+        $user = $this->findByEmailOrFail($email);
+
+        return [
+            $user->id(),
+            $user->email(),
+            $user->hashedPassword(),
+        ];
     }
 
     /**

@@ -30,7 +30,7 @@ class SignUpHandler
 
     public function handle(SignUpCommand $command): void
     {
-        $user = Player::create($command->credentials, $this->uniqueEmailSpecification);
+        $user = Player::create($command->credentials(), $this->uniqueEmailSpecification);
 
         $this->playerRepository->save($user);
 

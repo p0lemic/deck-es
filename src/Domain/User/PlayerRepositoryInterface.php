@@ -2,6 +2,9 @@
 
 namespace Deck\Domain\User;
 
+use Deck\Domain\User\ValueObject\Email;
+use Ramsey\Uuid\UuidInterface;
+
 interface PlayerRepositoryInterface
 {
     /**
@@ -9,6 +12,14 @@ interface PlayerRepositoryInterface
      * @return Player
      */
     public function findById(PlayerId $playerId): ?Player;
+
+    public function findByIdOrFail(PlayerId $playerId): Player;
+
+    public function findByEmailOrFail(Email $email): Player;
+
+    public function existsEmail(Email $email): ?UuidInterface;
+
+    public function getCredentialsByEmail(Email $email): array;
 
     /**
      * @param Player $player
