@@ -4,12 +4,12 @@ declare(strict_types=1);
 
 namespace Deck\Application\User;
 
+use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Player;
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\PlayerRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
-use Ramsey\Uuid\UuidInterface;
 
 class SignInHandler
 {
@@ -28,24 +28,24 @@ class SignInHandler
      */
     public function __invoke(SignInCommand $command): void
     {
-        $uuid = $this->uuidFromEmail($command->email());
+        $aggregateId = $this->uuidFromEmail($command->email());
 
         /** @var Player $user */
-        $user = $this->userStore->findByIdOrFail(PlayerId::fromString($uuid->toString()));
+        $user = $this->userStore->findByIdOrFail(PlayerId::fromString($aggregateId->value()->toString()));
 
         $user->signIn($command->plainPassword());
 
         $this->userStore->save($user);
     }
 
-    private function uuidFromEmail(Email $email): UuidInterface
+    private function uuidFromEmail(Email $email): AggregateId
     {
-        $uuid = $this->userStore->existsEmail($email);
+        $aggregateId = $this->userStore->existsEmail($email);
 
-        if (null === $uuid) {
+        if (null === $aggregateId) {
             throw InvalidCredentialsException::invalid();
         }
 
-        return $uuid;
+        return $aggregateId;
     }
 }

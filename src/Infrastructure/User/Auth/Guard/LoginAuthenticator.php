@@ -8,6 +8,7 @@ use Deck\Application\User\SignInCommand;
 use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Player;
 use Deck\Domain\User\PlayerRepositoryInterface;
+use Deck\Domain\User\ValueObject\Email;
 use Deck\Infrastructure\User\Auth\Auth;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Component\HttpFoundation\RedirectResponse;
@@ -108,7 +109,7 @@ final class LoginAuthenticator extends AbstractFormLoginAuthenticator
             $this->bus->handle($query);
 
             /** @var Player $user */
-            $user = $this->playerRepository->findByEmailOrFail($email);
+            $user = $this->playerRepository->findByEmailOrFail(Email::fromString($email));
 
             return Auth::create(
                 $user->id(),

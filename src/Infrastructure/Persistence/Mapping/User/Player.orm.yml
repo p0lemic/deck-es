@@ -9,7 +9,7 @@ Deck\Domain\User\Player:
   id:
     id:
       id: true
-      type: uuid
+      type: aggregate_id
   fields:
     createdAt:
       type: datetime

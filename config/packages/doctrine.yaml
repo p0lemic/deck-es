@@ -13,10 +13,12 @@ doctrine:
         default_table_options:
             charset: utf8
         schema_filter: ~^(?!deck.sessions)~ #ignore those tables when generating migrations
-
         url: '%env(DATABASE_DB_TYPE)%://%env(DATABASE_USER)%:%env(DATABASE_PASSWORD)%@%env(DATABASE_DB_HOST)%:%env(DATABASE_PORT)%/%env(DATABASE_DB)%'
-
         types:
+            email: Deck\Infrastructure\Persistence\Type\User\DoctrineEmailType
+            hashed_password: Deck\Infrastructure\Persistence\Type\User\DoctrineHashedPasswordType
+            aggregate_id: Deck\Infrastructure\Persistence\Type\User\DoctrineAggregateIdType
+
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Persistence\Repository\User;
 
+use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\User\Exception\UserNotFoundException;
 use Deck\Domain\User\Player;
 use Deck\Domain\User\PlayerId;
@@ -54,7 +55,9 @@ class DoctrinePlayerRepository extends ServiceEntityRepository implements Player
         /** @var Player $user */
         $user = $this->createQueryBuilder('user')
             ->where('user.credentials.email = :email')
-            ->setParameter('email', $email->toString());
+            ->setParameter('email', $email)
+            ->getQuery()
+            ->getOneOrNullResult();
 
         if (null === $user) {
             throw UserNotFoundException::emailNorFound($email);
@@ -68,17 +71,17 @@ class DoctrinePlayerRepository extends ServiceEntityRepository implements Player
      * @return UuidInterface|null
      * @throws NonUniqueResultException
      */
-    public function existsEmail(Email $email): ?UuidInterface
+    public function existsEmail(Email $email): ?AggregateId
     {
         $userId = $this->createQueryBuilder('user')
             ->select('user.id')
             ->where('user.credentials.email = :email')
-            ->setParameter('email', (string) $email)
+            ->setParameter('email', $email)
             ->getQuery()
             ->setHydrationMode(AbstractQuery::HYDRATE_ARRAY)
             ->getOneOrNullResult();
 
-        return $userId['uuid'] ?? null;
+        return $userId['id'] ?? null;
     }
 
     /**

@@ -55,12 +55,12 @@ class Player extends Aggregate
 
     public function email(): string
     {
-        return (string) $this->credentials->email();
+        return (string)$this->credentials->email();
     }
 
     public function hashedPassword(): string
     {
-        return (string) $this->credentials->password();
+        return (string)$this->credentials->password();
     }
 
     public function hand(): array
@@ -93,6 +93,11 @@ class Player extends Aggregate
         $this->setAggregateId($event->aggregateId());
         $this->setCredentials($event->credentials());
         $this->setCreatedAt($event->occurredOn());
+        $this->setUpdatedAt($event->occurredOn());
+    }
+
+    protected function applyUserSignedIn(UserSignedIn $event): void
+    {
         $this->setUpdatedAt($event->occurredOn());
     }
 

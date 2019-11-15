@@ -2,8 +2,8 @@
 
 namespace Deck\Domain\User;
 
+use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\User\ValueObject\Email;
-use Ramsey\Uuid\UuidInterface;
 
 interface PlayerRepositoryInterface
 {
@@ -17,14 +17,14 @@ interface PlayerRepositoryInterface
 
     public function findByEmailOrFail(Email $email): Player;
 
-    public function existsEmail(Email $email): ?UuidInterface;
+    public function existsEmail(Email $email): ?AggregateId;
 
     public function getCredentialsByEmail(Email $email): array;
 
     /**
      * @param Player $player
      */
-    public function save(Player $player) : void;
+    public function save(Player $player): void;
 
     /**
      * @return void

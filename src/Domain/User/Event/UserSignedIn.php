@@ -25,6 +25,7 @@ class UserSignedIn implements DomainEvent
     ) {
         $this->aggregateId = $id;
         $this->email = $email;
+        $this->occurredOn = new DateTimeImmutable();
     }
 
     public function aggregateId(): AggregateId
