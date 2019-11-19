@@ -9,25 +9,26 @@ use DateTimeInterface;
 use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Deck\Card;
 use Deck\Domain\Deck\Deck;
+use Deck\Domain\Deck\DeckId;
 use Deck\Domain\Event\DomainEvent;
 
-class CardWasDrawn
+class DeckWasCreated
 {
-    /** @var Card */
-    private $card;
+    /** @var DeckId */
+    private $deckId;
     /** @var DateTimeInterface */
     private $occurredOn;
 
     public function __construct(
-        Card $card
+        DeckId $deckId
     ) {
-        $this->card = $card;
+        $this->deckId = $deckId;
         $this->occurredOn = new DateTimeImmutable();
     }
 
-    public function card(): Card
+    public function deckId(): DeckId
     {
-        return $this->card;
+        return $this->deckId;
     }
 
     public function occurredOn(): DateTimeInterface

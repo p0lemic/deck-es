@@ -2,24 +2,33 @@
 
 namespace Deck\Domain\Deck;
 
-use Deck\Domain\Aggregate\Aggregate;
+use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Domain\Deck\Event\CardWasDrawn;
+use Deck\Domain\Deck\Event\DeckWasCreated;
 use Deck\Domain\Deck\Exception\DeckCardsNumberException;
+use function array_pop;
 
-class Deck extends Aggregate
+class Deck extends EventSourcedAggregateRoot
 {
     public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
 
+    /** @var DeckId */
+    private $deckId;
     /** @var Card[] */
     private $cards = [];
 
-    /**
-     * @param DeckId $aDeckId
-     * @throws DeckCardsNumberException
-     */
-    public function __construct(DeckId $aDeckId)
+    public static function create(DeckId $aDeckId): self
     {
-        $this->id = $aDeckId;
+        $deck = new self();
+
+        $deck->apply(new DeckWasCreated($aDeckId));
+
+        return $deck;
+    }
+
+    public function applyDeckWasCreated(DeckWasCreated $event): void
+    {
+        $this->deckId = $event->deckId();
 
         foreach (Suite::AVAILABLE_SUITES as $suite) {
             foreach (Rank::AVAILABLE_RANKS as $rank => $rankName) {
@@ -34,27 +43,31 @@ class Deck extends Aggregate
         shuffle($this->cards);
     }
 
-    public function cards(): array
+    protected function getChildEntities(): array
     {
         return $this->cards;
     }
 
     public function draw(): Card
     {
-        $card = array_pop($this->cards);
-        $this->recordThat(new CardWasDrawn($this, $card));
+        $card = reset($this->cards);
+        $this->apply(new CardWasDrawn($card));
 
         return $card;
     }
 
-    public function __toString(): string
+    public function applyCardWasDrawn(CardWasDrawn $event): void
     {
-        $deckString = '';
-        
-        foreach($this->cards() as $card) {
-            $deckString .= $card->__toString();
-        }
+        array_pop($this->cards);
+    }
 
-        return $deckString;
+    public function getAggregateRootId(): string
+    {
+        return $this->deckId->value();
+    }
+
+    public function cards(): array
+    {
+        return $this->cards;
     }
 }

@@ -10,15 +10,21 @@ use Deck\Domain\User\Player;
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\PlayerRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
+use Deck\Infrastructure\Events\EventBus;
 
 class SignInHandler
 {
     /** @var PlayerRepositoryInterface */
     private $userStore;
+    /** @var EventBus */
+    private $eventBus;
 
-    public function __construct(PlayerRepositoryInterface $userStore)
-    {
+    public function __construct(
+        PlayerRepositoryInterface $userStore,
+        EventBus $eventBus
+    ) {
         $this->userStore = $userStore;
+        $this->eventBus = $eventBus;
     }
 
     /**
@@ -36,6 +42,8 @@ class SignInHandler
         $user->signIn($command->plainPassword());
 
         $this->userStore->save($user);
+
+        $this->eventBus->publishEvents($user->getRecordedEvents());
     }
 
     private function uuidFromEmail(Email $email): AggregateId

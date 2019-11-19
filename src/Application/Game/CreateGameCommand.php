@@ -9,7 +9,7 @@ use Deck\Domain\User\Player;
 
 final class CreateGameCommand
 {
-    /** @var Player[] */
+    /** @var array */
     private $players;
     /** @var GameId */
     private $gameId;

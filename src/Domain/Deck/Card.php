@@ -2,7 +2,9 @@
 
 namespace Deck\Domain\Deck;
 
-class Card
+use Broadway\EventSourcing\SimpleEventSourcedEntity;
+
+class Card extends SimpleEventSourcedEntity
 {
     /** @var Rank */
     public $rank;
@@ -23,10 +25,5 @@ class Card
     public function rank(): Rank
     {
         return $this->rank;
-    }
-
-    public function __toString(): string
-    {
-        return $this->rank->value() . ' => ' . $this->suite->value();
     }
 }

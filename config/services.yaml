@@ -48,6 +48,11 @@ services:
         tags:
             - { name: command_handler, handles: Deck\Application\User\SignInCommand }
 
+#    deck.deck.create_handler:
+#        class: Deck\Application\Deck\CreateDeckCommandHandler
+#        tags:
+#            - { name: command_handler, handles: Deck\Application\Deck\CreateDeck }
+
     persist_event_bus_middleware:
         class: Deck\Domain\Event\PersistDomainEventMiddleware
         tags:
