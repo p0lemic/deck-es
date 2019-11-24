@@ -35,7 +35,7 @@ class GameController extends AbstractRenderController
 
         $players = [
             $user ? $user->getUsername() : null,
-            'CPU'
+            'cpu@gmail.com'
         ];
         $this->execute(new CreateGameCommand(GameId::create()->value()->toString(), $players));
 

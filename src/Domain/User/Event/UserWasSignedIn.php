@@ -9,26 +9,24 @@ use Broadway\Serializer\Serializable;
 use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
-use Deck\Domain\User\ValueObject\Auth\Credentials;
-use Deck\Domain\User\ValueObject\Auth\HashedPassword;
 use Deck\Domain\User\ValueObject\Email;
 
-class UserWasCreated implements Serializable
+class UserWasSignedIn implements Serializable
 {
     /** @var AggregateId */
     private $aggregateId;
-    /** @var Credentials */
-    private $credentials;
+    /** @var Email */
+    private $email;
     /** @var DateTime */
     private $occurredOn;
 
     public function __construct(
         AggregateId $id,
-        Credentials $credentials,
+        Email $email,
         DateTime $occurredOn
     ) {
         $this->aggregateId = $id;
-        $this->credentials = $credentials;
+        $this->email = $email;
         $this->occurredOn = $occurredOn;
     }
 
@@ -37,9 +35,9 @@ class UserWasCreated implements Serializable
         return $this->aggregateId;
     }
 
-    public function credentials(): Credentials
+    public function email(): Email
     {
-        return $this->credentials;
+        return $this->email;
     }
 
     public function occurredOn(): DateTime
@@ -49,20 +47,17 @@ class UserWasCreated implements Serializable
 
     /**
      * @param array $data
-     * @return UserWasCreated
+     * @return UserWasSignedIn
      * @throws DateTimeException
      */
     public static function deserialize(array $data): self
     {
         Assertion::keyExists($data, 'uuid');
-        Assertion::keyExists($data, 'credentials');
+        Assertion::keyExists($data, 'email');
 
         return new self(
             AggregateId::fromString($data['aggregate_id']),
-            new Credentials(
-                Email::fromString($data['credentials']['email']),
-                HashedPassword::fromHash($data['credentials']['password'])
-            ),
+            Email::fromString($data['email']),
             DateTime::fromString($data['occurred_on'])
         );
     }
@@ -71,10 +66,7 @@ class UserWasCreated implements Serializable
     {
         return [
             'uuid' => $this->aggregateId->value()->toString(),
-            'credentials' => [
-                'email' => $this->credentials->email()->toString(),
-                'password' => $this->credentials->password()->toString(),
-            ],
+            'email' => $this->email->toString(),
             'created_at' => $this->occurredOn()->toString(),
         ];
     }

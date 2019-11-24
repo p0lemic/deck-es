@@ -15,6 +15,11 @@ class GameFactory
         $this->deckFactory = $deckFactory;
     }
 
+    /**
+     * @param Player[] $players
+     * @return Game
+     * @throws InvalidPlayerNumber
+     */
     public function createNewGame(array $players) : Game
     {
         $totalPlayers = count($players);

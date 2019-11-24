@@ -6,9 +6,9 @@ namespace Deck\Infrastructure\Persistence\Repository\User;
 
 use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\User\Exception\UserNotFoundException;
-use Deck\Domain\User\Player;
 use Deck\Domain\User\PlayerId;
-use Deck\Domain\User\PlayerRepositoryInterface;
+use Deck\Domain\User\PlayerReadModel;
+use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\Mapping\MappingException;
@@ -19,28 +19,28 @@ use Doctrine\ORM\ORMException;
 use Ramsey\Uuid\UuidInterface;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class DoctrinePlayerRepository extends ServiceEntityRepository implements PlayerRepositoryInterface
+class DoctrinePlayerRepository extends ServiceEntityRepository implements PlayerReadModelRepositoryInterface
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Player::class);
+        parent::__construct($registry, PlayerReadModel::class);
     }
 
     /**
      * @param PlayerId $playerId
-     * @return Player
+     * @return PlayerReadModel
      */
-    public function findById(PlayerId $playerId): ?Player
+    public function findById(PlayerId $playerId): ?PlayerReadModel
     {
-        /** @var Player $player */
+        /** @var PlayerReadModel $player */
         $player = $this->findOneBy(['id' => $playerId]);
 
         return $player;
     }
 
-    public function findByIdOrFail(PlayerId $playerId): Player
+    public function findByIdOrFail(PlayerId $playerId): PlayerReadModel
     {
-        /** @var Player $user */
+        /** @var PlayerReadModel $user */
         $user = $this->findById($playerId);
 
         if (null === $user) {
@@ -50,9 +50,9 @@ class DoctrinePlayerRepository extends ServiceEntityRepository implements Player
         return $user;
     }
 
-    public function findByEmailOrFail(Email $email): Player
+    public function findByEmailOrFail(Email $email): PlayerReadModel
     {
-        /** @var Player $user */
+        /** @var PlayerReadModel $user */
         $user = $this->createQueryBuilder('user')
             ->where('user.credentials.email = :email')
             ->setParameter('email', $email)
@@ -101,11 +101,11 @@ class DoctrinePlayerRepository extends ServiceEntityRepository implements Player
     }
 
     /**
-     * @param Player $player
+     * @param PlayerReadModel $player
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function save(Player $player): void
+    public function save(PlayerReadModel $player): void
     {
         $this->_em->persist($player);
         $this->_em->flush($player);
@@ -117,6 +117,6 @@ class DoctrinePlayerRepository extends ServiceEntityRepository implements Player
      */
     public function clearMemory(): void
     {
-        $this->_em->clear(Player::class);
+        $this->_em->clear(PlayerReadModel::class);
     }
 }

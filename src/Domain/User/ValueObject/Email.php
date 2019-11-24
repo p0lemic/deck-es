@@ -9,11 +9,7 @@ use Assert\Assertion;
 class Email
 {
     /** @var string */
-    private $email;
-
-    public function __construct()
-    {
-    }
+    private $value;
 
     /**
      * @param string $email
@@ -25,18 +21,18 @@ class Email
 
         $mail = new self();
 
-        $mail->email = $email;
+        $mail->value = $email;
 
         return $mail;
     }
 
     public function toString(): string
     {
-        return $this->email;
+        return $this->value;
     }
 
     public function __toString(): string
     {
-        return $this->email;
+        return $this->value;
     }
 }

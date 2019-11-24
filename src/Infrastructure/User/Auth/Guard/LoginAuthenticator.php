@@ -7,7 +7,7 @@ namespace Deck\Infrastructure\User\Auth\Guard;
 use Deck\Application\User\SignInCommand;
 use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Player;
-use Deck\Domain\User\PlayerRepositoryInterface;
+use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
 use Deck\Infrastructure\User\Auth\Auth;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
@@ -20,24 +20,22 @@ use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticator;
-use function var_dump;
 
 final class LoginAuthenticator extends AbstractFormLoginAuthenticator
 {
     private const LOGIN = 'login';
     private const SUCCESS_REDIRECT = 'profile';
-
     /** @var CommandBus */
     private $bus;
     /** @var UrlGeneratorInterface */
     private $router;
-    /** @var PlayerRepositoryInterface */
+    /** @var PlayerReadModelRepositoryInterface */
     private $playerRepository;
 
     public function __construct(
         CommandBus $commandBus,
         UrlGeneratorInterface $router,
-        PlayerRepositoryInterface $playerRepository
+        PlayerReadModelRepositoryInterface $playerRepository
     ) {
         $this->bus = $commandBus;
         $this->router = $router;
@@ -81,6 +79,7 @@ final class LoginAuthenticator extends AbstractFormLoginAuthenticator
             'password' => $request->request->get('_password'),
         ];
     }
+
     /**
      * Return a UserInterface object based on the credentials.
      *
@@ -163,7 +162,7 @@ final class LoginAuthenticator extends AbstractFormLoginAuthenticator
         Request $request,
         TokenInterface $token,
         $providerKey
-    ) {
+    ): ?Response {
         return new RedirectResponse($this->router->generate(self::SUCCESS_REDIRECT));
     }
 }

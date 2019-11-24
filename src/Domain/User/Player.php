@@ -2,18 +2,21 @@
 
 namespace Deck\Domain\User;
 
-use DateTime;
-use DateTimeInterface;
-use Deck\Domain\Aggregate\Aggregate;
+use Broadway\EventSourcing\EventSourcedAggregateRoot;
+use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Deck\Card;
-use Deck\Domain\User\Event\UserSignedIn;
+use Deck\Domain\Shared\Exception\DateTimeException;
+use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\Event\UserWasCreated;
+use Deck\Domain\User\Event\UserWasSignedIn;
 use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Specification\UniqueEmailSpecificationInterface;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
 
-class Player extends Aggregate
+class Player extends EventSourcedAggregateRoot
 {
+    /** @var AggregateId */
+    private $id;
     /** @var Credentials */
     private $credentials;
     /** @var DateTime */
@@ -35,6 +38,7 @@ class Player extends Aggregate
      * @return static
      *
      * @throws Exception\EmailAlreadyExistException
+     * @throws DateTimeException
      */
     public static function create(
         Credentials $credentials,
@@ -43,9 +47,14 @@ class Player extends Aggregate
         $uniqueEmailSpecification->isUnique($credentials->email());
         $user = new self();
 
-        $user->recordThatAndApply(new UserWasCreated(PlayerId::create(), $credentials));
+        $user->apply(new UserWasCreated(PlayerId::create(), $credentials, DateTime::now()));
 
         return $user;
+    }
+
+    public function getAggregateRootId(): string
+    {
+        return $this->id->value()->toString();
     }
 
     public function credentials(): Credentials
@@ -76,6 +85,7 @@ class Player extends Aggregate
     /**
      * @param string $plainPassword
      * @throws InvalidCredentialsException
+     * @throws DateTimeException
      */
     public function signIn(string $plainPassword): void
     {
@@ -85,18 +95,18 @@ class Player extends Aggregate
             throw InvalidCredentialsException::invalid();
         }
 
-        $this->recordThatAndApply(new UserSignedIn($this->id, $this->credentials->email()));
+        $this->apply(new UserWasSignedIn($this->id, $this->credentials->email(), DateTime::now()));
     }
 
     protected function applyUserWasCreated(UserWasCreated $event): void
     {
-        $this->setAggregateId($event->aggregateId());
+        $this->id = $event->aggregateId();
         $this->setCredentials($event->credentials());
         $this->setCreatedAt($event->occurredOn());
         $this->setUpdatedAt($event->occurredOn());
     }
 
-    protected function applyUserSignedIn(UserSignedIn $event): void
+    protected function applyUserWasSignedIn(UserWasSignedIn $event): void
     {
         $this->setUpdatedAt($event->occurredOn());
     }
@@ -106,12 +116,12 @@ class Player extends Aggregate
         $this->credentials = $credentials;
     }
 
-    private function setCreatedAt(DateTimeInterface $createdAt): void
+    private function setCreatedAt(DateTime $createdAt): void
     {
         $this->createdAt = $createdAt;
     }
 
-    private function setUpdatedAt(DateTimeInterface $updatedAt): void
+    private function setUpdatedAt(DateTime $updatedAt): void
     {
         $this->updatedAt = $updatedAt;
     }

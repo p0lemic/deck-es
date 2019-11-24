@@ -5,7 +5,7 @@ RUN a2enmod rewrite
 RUN apt-get update && apt-get install -y libpq-dev git zip unzip \
     && docker-php-source extract \
     && pecl install xdebug redis \
-    && docker-php-ext-enable xdebug \
+    #&& docker-php-ext-enable xdebug \
     && docker-php-source delete \
     && docker-php-ext-install pdo_pgsql bcmath sockets \
     && rm -rf /tmp/*

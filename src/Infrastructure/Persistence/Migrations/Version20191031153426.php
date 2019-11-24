@@ -25,6 +25,8 @@ final class Version20191031153426 extends AbstractMigration
         $this->addSql('CREATE TABLE deck.players (id UUID NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, credentials_email VARCHAR(255) NOT NULL, credentials_password VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_C23AE7D4299C9369 ON deck.players (credentials_email)');
         $this->addSql('COMMENT ON COLUMN deck.players.id IS \'(DC2Type:uuid)\'');
+        $this->addSql('COMMENT ON COLUMN deck.players.credentials_email IS \'(DC2Type:email)\'');
+        $this->addSql('COMMENT ON COLUMN deck.players.credentials_password IS \'(DC2Type:hashed_password)\'');
     }
 
     public function down(Schema $schema) : void
@@ -32,7 +34,8 @@ final class Version20191031153426 extends AbstractMigration
         // this down() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE SCHEMA public');
+        $this->addSql('COMMENT ON COLUMN deck.players.credentials_email IS NULL');
+        $this->addSql('COMMENT ON COLUMN deck.players.credentials_password IS NULL');
         $this->addSql('DROP TABLE deck.players');
     }
 }

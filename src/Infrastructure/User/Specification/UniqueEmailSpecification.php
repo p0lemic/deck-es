@@ -6,17 +6,17 @@ namespace Deck\Infrastructure\User\Specification;
 
 use Deck\Domain\AbstractSpecification;
 use Deck\Domain\User\Exception\EmailAlreadyExistException;
-use Deck\Domain\User\PlayerRepositoryInterface;
+use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\Specification\UniqueEmailSpecificationInterface;
 use Deck\Domain\User\ValueObject\Email;
 use Doctrine\ORM\NonUniqueResultException;
 
 final class UniqueEmailSpecification extends AbstractSpecification implements UniqueEmailSpecificationInterface
 {
-    /** @var PlayerRepositoryInterface */
+    /** @var PlayerReadModelRepositoryInterface */
     private $playerRepository;
 
-    public function __construct(PlayerRepositoryInterface $playerRepository)
+    public function __construct(PlayerReadModelRepositoryInterface $playerRepository)
     {
         $this->playerRepository = $playerRepository;
     }

@@ -12,6 +12,16 @@ services:
         autowire: true      # Automatically injects dependencies in your services.
         autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
         public: false
+        bind:
+            $commandBus: '@simple_bus.command_bus'
+            $eventBus: '@broadway.event_handling.event_bus'
+            $eventStore: '@Broadway\EventStore\Dbal\DBALEventStore'
+
+    _instanceof:
+        Broadway\EventHandling\EventListener:
+            public: true
+            tags:
+                - { name: broadway.domain.event_listener }
 
     # makes classes in src/ available to be used as services
     # this creates a service per class whose id is the fully-qualified class name
@@ -33,18 +43,15 @@ services:
             - '%env(DATABASE_DB_TYPE)%:host=%env(DATABASE_DB_HOST)%;port=%env(DATABASE_PORT)%;dbname=%env(DATABASE_DB)%'
             - { db_username: '%env(DATABASE_USER)%', db_password: '%env(DATABASE_PASSWORD)%', db_table: 'deck.sessions' }
 
-    deck.game.create_new_game_handler:
-        class: Deck\Application\Game\CreateGameHandler
+    Deck\Application\Game\CreateGameHandler:
         tags:
             - { name: command_handler, handles: Deck\Application\Game\CreateGameCommand }
 
-    deck.user.sign_up_handler:
-        class: Deck\Application\User\SignUpHandler
+    Deck\Application\User\SignUpHandler:
         tags:
             - { name: command_handler, handles: Deck\Application\User\SignUpCommand }
 
-    deck.user.sign_in_handler:
-        class: Deck\Application\User\SignInHandler
+    Deck\Application\User\SignInHandler:
         tags:
             - { name: command_handler, handles: Deck\Application\User\SignInCommand }
 
@@ -53,7 +60,3 @@ services:
 #        tags:
 #            - { name: command_handler, handles: Deck\Application\Deck\CreateDeck }
 
-    persist_event_bus_middleware:
-        class: Deck\Domain\Event\PersistDomainEventMiddleware
-        tags:
-            - { name: event_bus_middleware, priority: 100 }

@@ -6,6 +6,8 @@
         "ext-ctype": "*",
         "ext-iconv": "*",
         "broadway/broadway": "^2.1",
+        "broadway/broadway-bundle": "^0.4.2",
+        "broadway/event-store-dbal": "^0.3.0",
         "jms/serializer-bundle": "^3.4",
         "lexik/jwt-authentication-bundle": "^2.6",
         "nelmio/api-doc-bundle": "^3.4",

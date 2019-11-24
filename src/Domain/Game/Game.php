@@ -25,7 +25,7 @@ class Game extends Aggregate
 {
     /** @var Deck */
     private $deck;
-    /** @var array */
+    /** @var Player[] */
     private $players;
 
     public function __construct(
@@ -44,7 +44,7 @@ class Game extends Aggregate
     }
 
     /**
-     * @return array
+     * @return Player[]
      */
     public function players(): array
     {

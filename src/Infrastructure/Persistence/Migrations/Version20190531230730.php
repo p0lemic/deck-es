@@ -31,7 +31,6 @@ final class Version20190531230730 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-
         $this->addSql('DROP TABLE deck.sessions;');
     }
 }

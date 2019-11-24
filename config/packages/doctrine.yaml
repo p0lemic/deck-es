@@ -18,6 +18,7 @@ doctrine:
             email: Deck\Infrastructure\Persistence\Type\User\DoctrineEmailType
             hashed_password: Deck\Infrastructure\Persistence\Type\User\DoctrineHashedPasswordType
             aggregate_id: Deck\Infrastructure\Persistence\Type\User\DoctrineAggregateIdType
+            datetime: Deck\Infrastructure\Persistence\Type\Shared\DoctrineDateTimeType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\User\Auth;
 
-use Deck\Domain\User\PlayerRepositoryInterface;
+use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
 use Symfony\Component\Security\Core\User\UserInterface;
@@ -12,10 +12,10 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface
 {
-    /** @var PlayerRepositoryInterface */
+    /** @var PlayerReadModelRepositoryInterface */
     private $playerRepository;
 
-    public function __construct(PlayerRepositoryInterface $playerRepository)
+    public function __construct(PlayerReadModelRepositoryInterface $playerRepository)
     {
         $this->playerRepository = $playerRepository;
     }
