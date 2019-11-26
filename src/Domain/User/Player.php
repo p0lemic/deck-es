@@ -26,11 +26,6 @@ class Player extends EventSourcedAggregateRoot
     /** @var array */
     private $hand;
 
-    private function __construct()
-    {
-        $this->hand = [];
-    }
-
     /**
      * @param Credentials $credentials
      * @param UniqueEmailSpecificationInterface $uniqueEmailSpecification

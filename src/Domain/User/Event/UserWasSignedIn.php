@@ -9,11 +9,12 @@ use Broadway\Serializer\Serializable;
 use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
+use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\ValueObject\Email;
 
 class UserWasSignedIn implements Serializable
 {
-    /** @var AggregateId */
+    /** @var PlayerId */
     private $aggregateId;
     /** @var Email */
     private $email;
@@ -21,7 +22,7 @@ class UserWasSignedIn implements Serializable
     private $occurredOn;
 
     public function __construct(
-        AggregateId $id,
+        PlayerId $id,
         Email $email,
         DateTime $occurredOn
     ) {
@@ -30,7 +31,7 @@ class UserWasSignedIn implements Serializable
         $this->occurredOn = $occurredOn;
     }
 
-    public function aggregateId(): AggregateId
+    public function aggregateId(): PlayerId
     {
         return $this->aggregateId;
     }
@@ -52,11 +53,11 @@ class UserWasSignedIn implements Serializable
      */
     public static function deserialize(array $data): self
     {
-        Assertion::keyExists($data, 'uuid');
+        Assertion::keyExists($data, 'aggregate_id');
         Assertion::keyExists($data, 'email');
 
         return new self(
-            AggregateId::fromString($data['aggregate_id']),
+            PlayerId::fromString($data['aggregate_id']),
             Email::fromString($data['email']),
             DateTime::fromString($data['occurred_on'])
         );
@@ -65,9 +66,9 @@ class UserWasSignedIn implements Serializable
     public function serialize(): array
     {
         return [
-            'uuid' => $this->aggregateId->value()->toString(),
+            'aggregate_id' => $this->aggregateId->value()->toString(),
             'email' => $this->email->toString(),
-            'created_at' => $this->occurredOn()->toString(),
+            'occurred_on' => $this->occurredOn()->toString(),
         ];
     }
 }

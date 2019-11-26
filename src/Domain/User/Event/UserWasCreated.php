@@ -9,13 +9,14 @@ use Broadway\Serializer\Serializable;
 use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
+use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
 use Deck\Domain\User\ValueObject\Auth\HashedPassword;
 use Deck\Domain\User\ValueObject\Email;
 
 class UserWasCreated implements Serializable
 {
-    /** @var AggregateId */
+    /** @var PlayerId */
     private $aggregateId;
     /** @var Credentials */
     private $credentials;
@@ -23,7 +24,7 @@ class UserWasCreated implements Serializable
     private $occurredOn;
 
     public function __construct(
-        AggregateId $id,
+        PlayerId $id,
         Credentials $credentials,
         DateTime $occurredOn
     ) {
@@ -32,7 +33,7 @@ class UserWasCreated implements Serializable
         $this->occurredOn = $occurredOn;
     }
 
-    public function aggregateId(): AggregateId
+    public function aggregateId(): PlayerId
     {
         return $this->aggregateId;
     }
@@ -54,11 +55,11 @@ class UserWasCreated implements Serializable
      */
     public static function deserialize(array $data): self
     {
-        Assertion::keyExists($data, 'uuid');
+        Assertion::keyExists($data, 'aggregate_id');
         Assertion::keyExists($data, 'credentials');
 
         return new self(
-            AggregateId::fromString($data['aggregate_id']),
+            PlayerId::fromString($data['aggregate_id']),
             new Credentials(
                 Email::fromString($data['credentials']['email']),
                 HashedPassword::fromHash($data['credentials']['password'])
@@ -70,12 +71,12 @@ class UserWasCreated implements Serializable
     public function serialize(): array
     {
         return [
-            'uuid' => $this->aggregateId->value()->toString(),
+            'aggregate_id' => $this->aggregateId->value()->toString(),
             'credentials' => [
                 'email' => $this->credentials->email()->toString(),
                 'password' => $this->credentials->password()->toString(),
             ],
-            'created_at' => $this->occurredOn()->toString(),
+            'occurred_on' => $this->occurredOn()->toString(),
         ];
     }
 }
