@@ -1,11 +1,11 @@
 <?php
 
-namespace Deck\Domain\Deck;
+namespace Deck\Domain\Game;
 
 class DeckFactory
 {
     public function createNew() : Deck
     {
-        return new Deck(DeckId::create());
+        return Deck::create(DeckId::create());
     }
 }

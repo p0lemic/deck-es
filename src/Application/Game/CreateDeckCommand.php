@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Deck\Application\Deck;
+namespace Deck\Application\Game;
 
-use Deck\Domain\Deck\DeckId;
+use Deck\Domain\Game\DeckId;
 
 class CreateDeckCommand
 {

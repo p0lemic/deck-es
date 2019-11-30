@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\User\Auth;
 
-use Deck\Domain\Aggregate\AggregateId;
+use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\User\ValueObject\Auth\HashedPassword;
 use Deck\Domain\User\ValueObject\Email;
 use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;

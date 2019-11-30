@@ -1,0 +1,5 @@
+Deck\Domain\Game\GameId:
+  exclusion_policy: ALL
+  properties:
+    value:
+      type: string

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deck\Domain\Aggregate;
+namespace Deck\Domain\Shared;
 
 use Exception;
 use Ramsey\Uuid\Uuid;

@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace Deck\Application\Deck;
+namespace Deck\Application\Game;
 
 use Broadway\EventSourcing\EventSourcingRepository;
-use Deck\Domain\Deck\Deck;
+use Deck\Domain\Game\Deck;
 
 class CreateDeckCommandHandler
 {

@@ -34,11 +34,10 @@ class GameController extends AbstractRenderController
         $user = $security->getUser();
 
         $players = [
-            $user ? $user->getUsername() : null,
-            'cpu@gmail.com'
+            $user ? $user->getUsername() : null
         ];
         $this->execute(new CreateGameCommand(GameId::create()->value()->toString(), $players));
 
-        return $this->render('profile/index.html.twig');
+        return $this->render('game/index.html.twig');
     }
 }

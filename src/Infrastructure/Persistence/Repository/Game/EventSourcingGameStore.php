@@ -2,17 +2,18 @@
 
 declare(strict_types=1);
 
-namespace Deck\Infrastructure\Persistence\Repository\User;
+namespace Deck\Infrastructure\Persistence\Repository\Game;
 
 use Broadway\EventHandling\EventBus;
 use Broadway\EventSourcing\AggregateFactory\PublicConstructorAggregateFactory;
 use Broadway\EventSourcing\EventSourcingRepository;
 use Broadway\EventStore\EventStore;
+use Deck\Domain\Game\Game;
+use Deck\Domain\Game\GameRepositoryInterface;
 use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\User\Player;
-use Deck\Domain\User\PlayerRepositoryInterface;
 
-final class EventSourcingPlayerStore extends EventSourcingRepository implements PlayerRepositoryInterface
+final class EventSourcingGameStore extends EventSourcingRepository implements GameRepositoryInterface
 {
     public function __construct(
         EventStore $eventStore,
@@ -22,22 +23,22 @@ final class EventSourcingPlayerStore extends EventSourcingRepository implements 
         parent::__construct(
             $eventStore,
             $eventBus,
-            Player::class,
+            Game::class,
             new PublicConstructorAggregateFactory(),
             $eventStreamDecorators
         );
     }
 
-    public function store(Player $player): void
+    public function store(Game $game): void
     {
-        $this->save($player);
+        $this->save($game);
     }
 
-    public function get(AggregateId $id): Player
+    public function get(AggregateId $id): Game
     {
-        /** @var Player $player */
-        $player = $this->load($id->value()->toString());
+        /** @var Game $game */
+        $game = $this->load($id->value()->toString());
 
-        return $player;
+        return $game;
     }
 }

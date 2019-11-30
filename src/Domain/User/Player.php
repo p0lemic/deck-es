@@ -3,8 +3,6 @@
 namespace Deck\Domain\User;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
-use Deck\Domain\Aggregate\AggregateId;
-use Deck\Domain\Deck\Card;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\Event\UserWasCreated;
@@ -15,7 +13,7 @@ use Deck\Domain\User\ValueObject\Auth\Credentials;
 
 class Player extends EventSourcedAggregateRoot
 {
-    /** @var AggregateId */
+    /** @var PlayerId */
     private $id;
     /** @var Credentials */
     private $credentials;
@@ -23,8 +21,6 @@ class Player extends EventSourcedAggregateRoot
     private $createdAt;
     /** @var DateTime|null */
     private $updatedAt;
-    /** @var array */
-    private $hand;
 
     /**
      * @param Credentials $credentials
@@ -65,16 +61,6 @@ class Player extends EventSourcedAggregateRoot
     public function hashedPassword(): string
     {
         return (string)$this->credentials->password();
-    }
-
-    public function hand(): array
-    {
-        return $this->hand;
-    }
-
-    public function addCardToPlayersHand(Card $card): void
-    {
-        $this->hand[] = $card;
     }
 
     /**

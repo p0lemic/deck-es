@@ -2,11 +2,13 @@
 
 namespace Deck\Domain\Game;
 
-use Deck\Domain\Aggregate\Aggregate;
-use Deck\Domain\Deck\Deck;
+use Broadway\EventSourcing\EventSourcedAggregateRoot;
+use Deck\Application\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Game\Event\GameWasCreated;
+use Deck\Domain\Game\Event\GameWasJoined;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
-use Deck\Domain\User\Player;
+use Deck\Domain\Shared\ValueObject\DateTime;
+use function count;
 
 /**
  * Aggregate Root
@@ -21,21 +23,23 @@ use Deck\Domain\User\Player;
  * Invariant 1. The deck, and the players all together must have 52 unique cards
  *
  */
-class Game extends Aggregate
+class Game extends EventSourcedAggregateRoot
 {
+    /** @var GameId */
+    private $id;
     /** @var Deck */
     private $deck;
     /** @var Player[] */
     private $players;
 
-    public function __construct(
+    public static function create(
         Deck $deck,
         array $players
-    ) {
-        $gameWasCreatedEvent = new GameWasCreated(GameId::create(), $deck, $players);
+    ): self {
+        $game = new self();
+        $game->apply(new GameWasCreated(GameId::create(), $players, $deck, DateTime::now()));
 
-        $this->recordThat($gameWasCreatedEvent);
-        $this->applyGameWasCreated($gameWasCreatedEvent);
+        return $game;
     }
 
     public function deck(): Deck
@@ -43,12 +47,15 @@ class Game extends Aggregate
         return $this->deck;
     }
 
-    /**
-     * @return Player[]
-     */
+    /** @return Player[] */
     public function players(): array
     {
         return $this->players;
+    }
+
+    public function join(Player $player): void
+    {
+        $this->apply(new GameWasJoined($this->id, $player, DateTime::now()));
     }
 
     /**
@@ -61,6 +68,7 @@ class Game extends Aggregate
         $this->assertTotalCardsInGameAreConsistency();
 
         $card = $this->deck->draw();
+
         $player->addCardToPlayersHand($card);
     }
 
@@ -88,7 +96,23 @@ class Game extends Aggregate
     public function applyGameWasCreated(GameWasCreated $event): void
     {
         $this->id = $event->aggregateId();
-        $this->deck = $event->deck();
+        //$this->deck = $event->deck();
         $this->players = $event->players();
+    }
+
+    public function applyGameWasJoined(GameWasJoined $gameWasJoined): void
+    {
+        $totalPlayers = count($this->players());
+
+        if ($totalPlayers >= 2) {
+            throw InvalidPlayerNumber::gameIsFull();
+        }
+
+        $this->players[] = $gameWasJoined->player();
+    }
+    
+    public function getAggregateRootId(): string
+    {
+        return $this->id->value()->toString();
     }
 }

@@ -2,15 +2,15 @@
 
 declare(strict_types=1);
 
-namespace Deck\Infrastructure\Persistence\Type\User;
+namespace Deck\Infrastructure\Persistence\Type\Game;
 
-use Deck\Domain\Aggregate\AggregateId;
+use Deck\Domain\Game\GameId;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 
-final class DoctrineAggregateIdType extends Type
+final class DoctrineGameIdType extends Type
 {
-    public const NAME = 'aggregate_id';
+    public const NAME = 'game_id';
 
     /**
      * Gets the SQL declaration snippet for a field of this type.
@@ -39,7 +39,7 @@ final class DoctrineAggregateIdType extends Type
     }
 
     /**
-     * @param AggregateId $value
+     * @param GameId $value
      * @param AbstractPlatform $platform
      * @return string
      */
@@ -53,12 +53,12 @@ final class DoctrineAggregateIdType extends Type
     /**
      * @param string $value
      * @param AbstractPlatform $platform
-     * @return AggregateId
+     * @return GameId
      */
     public function convertToPHPValue(
         $value,
         AbstractPlatform $platform
-    ): AggregateId {
-        return AggregateId::fromString($value);
+    ): GameId {
+        return GameId::fromString($value);
     }
 }

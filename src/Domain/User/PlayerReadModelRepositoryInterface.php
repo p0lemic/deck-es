@@ -2,7 +2,7 @@
 
 namespace Deck\Domain\User;
 
-use Deck\Domain\Aggregate\AggregateId;
+use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\User\ValueObject\Email;
 
 interface PlayerReadModelRepositoryInterface

@@ -2,33 +2,32 @@
 
 declare(strict_types=1);
 
-namespace Deck\Domain\Deck\Event;
+namespace Deck\Domain\Game\Event;
 
 use DateTimeImmutable;
 use DateTimeInterface;
 use Deck\Domain\Aggregate\AggregateId;
-use Deck\Domain\Deck\Card;
-use Deck\Domain\Deck\Deck;
-use Deck\Domain\Deck\DeckId;
+use Deck\Domain\Game\Card;
+use Deck\Domain\Game\Deck;
 use Deck\Domain\Event\DomainEvent;
 
-class DeckWasCreated
+class CardWasDrawn
 {
-    /** @var DeckId */
-    private $deckId;
+    /** @var Card */
+    private $card;
     /** @var DateTimeInterface */
     private $occurredOn;
 
     public function __construct(
-        DeckId $deckId
+        Card $card
     ) {
-        $this->deckId = $deckId;
+        $this->card = $card;
         $this->occurredOn = new DateTimeImmutable();
     }
 
-    public function deckId(): DeckId
+    public function card(): Card
     {
-        return $this->deckId;
+        return $this->card;
     }
 
     public function occurredOn(): DateTimeInterface

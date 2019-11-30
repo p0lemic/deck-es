@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Deck\Domain\User;
 
-use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
 
 class PlayerReadModel
 {
-    /** @var AggregateId */
+    /** @var PlayerId */
     private $id;
     /** @var Credentials */
     private $credentials;
@@ -20,7 +19,7 @@ class PlayerReadModel
     private $updatedAt;
 
     public function __construct(
-        AggregateId $id,
+        PlayerId $id,
         Credentials $credentials,
         DateTime $occurredOn
     ) {
@@ -30,7 +29,7 @@ class PlayerReadModel
         $this->updatedAt = $occurredOn;
     }
 
-    public function id(): AggregateId
+    public function id(): PlayerId
     {
         return $this->id;
     }

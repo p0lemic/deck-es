@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Persistence\Repository\User;
 
-use Deck\Domain\Aggregate\AggregateId;
+use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\User\Exception\UserNotFoundException;
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\PlayerReadModel;

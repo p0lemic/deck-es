@@ -3,7 +3,6 @@
 namespace Deck\Domain\Game;
 
 use Deck\Application\Game\Exception\InvalidPlayerNumber;
-use Deck\Domain\Deck\DeckFactory;
 
 class GameFactory
 {
@@ -20,7 +19,7 @@ class GameFactory
      * @return Game
      * @throws InvalidPlayerNumber
      */
-    public function createNewGame(array $players) : Game
+    public function createNewGame(array $players): Game
     {
         $totalPlayers = count($players);
 
@@ -28,10 +27,10 @@ class GameFactory
             throw InvalidPlayerNumber::biggerThanZero();
         }
 
-        if ($totalPlayers !== 2) {
-            throw InvalidPlayerNumber::equalsToTwo();
-        }
+//        if ($totalPlayers !== 2) {
+//            throw InvalidPlayerNumber::equalsToTwo();
+//        }
 
-        return new Game($this->deckFactory->createNew(), $players);
+        return Game::create($this->deckFactory->createNew(), $players);
     }
 }

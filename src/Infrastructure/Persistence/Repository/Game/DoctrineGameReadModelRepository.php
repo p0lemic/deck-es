@@ -3,28 +3,29 @@
 namespace Deck\Infrastructure\Persistence\Repository\Game;
 
 use Deck\Domain\Game\Game;
-use Deck\Domain\Game\GameRepositoryInterface;
+use Deck\Domain\Game\GameReadModel;
+use Deck\Domain\Game\GameReadModelRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Symfony\Bridge\Doctrine\RegistryInterface;
 
-class DoctrineGameRepository extends ServiceEntityRepository implements GameRepositoryInterface
+class DoctrineGameReadModelRepository extends ServiceEntityRepository implements GameReadModelRepositoryInterface
 {
     public function __construct(RegistryInterface $registry)
     {
-        parent::__construct($registry, Game::class);
+        parent::__construct($registry, GameReadModel::class);
     }
 
     /**
-     * @param Game $game
+     * @param GameReadModel $game
      *
      * @return void
      *
      * @throws ORMException
      * @throws OptimisticLockException
      */
-    public function save(Game $game): void
+    public function save(GameReadModel $game): void
     {
         $this->_em->persist($game);
         $this->_em->flush($game);
@@ -32,10 +33,10 @@ class DoctrineGameRepository extends ServiceEntityRepository implements GameRepo
 
     public function clearMemory(): void
     {
-        $this->_em->clear(Game::class);
+        $this->_em->clear(GameReadModel::class);
     }
 
-    public function findByGameId(string $gameID): ?Game
+    public function findByGameId(string $gameID): ?GameReadModel
     {
         return $this->findOneBy(
             [
@@ -44,7 +45,7 @@ class DoctrineGameRepository extends ServiceEntityRepository implements GameRepo
         );
     }
 
-    public function findByTableId(string $tableId): ?Game
+    public function findByTableId(string $tableId): ?GameReadModel
     {
         return $this->findOneBy(
             [

@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Application\User;
 
-use Deck\Domain\Aggregate\AggregateId;
+use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\Exception\InvalidCredentialsException;

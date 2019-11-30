@@ -1,6 +1,6 @@
 <?php
 
-namespace Deck\Domain\Deck;
+namespace Deck\Domain\Game;
 
 use Deck\Domain\Deck\Exception\InvalidSuiteException;
 

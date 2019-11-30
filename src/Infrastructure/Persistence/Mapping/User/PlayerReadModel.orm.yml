@@ -9,7 +9,7 @@ Deck\Domain\User\PlayerReadModel:
   id:
     id:
       id: true
-      type: aggregate_id
+      type: player_id
   fields:
     createdAt:
       type: datetime

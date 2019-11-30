@@ -4,30 +4,26 @@ namespace Deck\Application\Game;
 
 use Deck\Domain\Game\GameFactory;
 use Deck\Domain\Game\GameRepositoryInterface;
+use Deck\Domain\Game\Player;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
-use Deck\Infrastructure\Events\EventBus;
 
 class CreateGameHandler
 {
     /** @var GameFactory */
     private $gameFactory;
     /** @var GameRepositoryInterface */
-    private $gameRepository;
-    /** @var EventBus */
-    private $eventBus;
+    private $gameStore;
     /** @var PlayerReadModelRepositoryInterface */
     private $playerRepository;
 
     public function __construct(
         GameFactory $gameFactory,
-        GameRepositoryInterface $gameRepository,
-        PlayerReadModelRepositoryInterface $playerRepository,
-        EventBus $eventBus
+        GameRepositoryInterface $gameStore,
+        PlayerReadModelRepositoryInterface $playerRepository
     ) {
         $this->gameFactory = $gameFactory;
-        $this->gameRepository = $gameRepository;
-        $this->eventBus = $eventBus;
+        $this->gameStore = $gameStore;
         $this->playerRepository = $playerRepository;
     }
 
@@ -35,13 +31,12 @@ class CreateGameHandler
     {
         $players = [];
         foreach ($createGameRequest->players() as $playerId) {
-            $players[] = $this->playerRepository->findByEmailOrFail(Email::fromString($playerId));
+            $player = $this->playerRepository->findByEmailOrFail(Email::fromString($playerId));
+
+            $players[] = Player::create($player->id());
         }
         $game = $this->gameFactory->createNewGame($players);
 
-        $this->gameRepository->save($game);
-
-        $this->eventBus->publishEvents($game->getRecordedEvents());
-        $this->eventBus->publishEvents($game->deck()->getUncommittedEvents());
+        $this->gameStore->store($game);
     }
 }

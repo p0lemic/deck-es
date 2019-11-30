@@ -2,9 +2,9 @@
 
 declare(strict_types=1);
 
-namespace Deck\Domain\Deck;
+namespace Deck\Domain\Game;
 
-use Deck\Domain\Aggregate\AggregateId;
+use Deck\Domain\Shared\AggregateId;
 
 class DeckId extends AggregateId
 {

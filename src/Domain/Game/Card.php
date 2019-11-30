@@ -1,6 +1,6 @@
 <?php
 
-namespace Deck\Domain\Deck;
+namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\SimpleEventSourcedEntity;
 
@@ -25,5 +25,10 @@ class Card extends SimpleEventSourcedEntity
     public function rank(): Rank
     {
         return $this->rank;
+    }
+
+    public function points(): int
+    {
+        return 1;
     }
 }

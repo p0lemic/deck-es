@@ -4,38 +4,32 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Game\Event;
 
-use DateTimeImmutable;
-use DateTimeInterface;
-use Deck\Domain\Aggregate\AggregateId;
-use Deck\Domain\Deck\Deck;
-use Deck\Domain\Event\DomainEvent;
-use Deck\Domain\User\Player;
+use Deck\Domain\Game\Deck;
+use Deck\Domain\Game\GameId;
+use Deck\Domain\Game\Player;
+use Deck\Domain\Shared\ValueObject\DateTime;
 
-class GameWasCreated implements DomainEvent
+class GameWasCreated
 {
-    /** @var AggregateId */
+    /** @var GameId */
     private $aggregateId;
-    /** @var Deck */
-    private $deck;
     /** @var Player[] */
     private $players;
-    /** @var DateTimeInterface */
+    /** @var Deck */
+    private $deck;
+    /** @var DateTime */
     private $occurredOn;
 
     public function __construct(
-        AggregateId $id,
+        GameId $id,
+        array $players,
         Deck $deck,
-        array $players
+        DateTime $occurredOn
     ) {
         $this->aggregateId = $id;
-        $this->deck = $deck;
         $this->players = $players;
-        $this->occurredOn = new DateTimeImmutable();
-    }
-
-    public function deck(): Deck
-    {
-        return $this->deck;
+        $this->deck = $deck;
+        $this->occurredOn = $occurredOn;
     }
 
     public function players(): array
@@ -43,12 +37,17 @@ class GameWasCreated implements DomainEvent
         return $this->players;
     }
 
-    public function aggregateId(): AggregateId
+    public function deck(): Deck
+    {
+        return $this->deck;
+    }
+
+    public function aggregateId(): GameId
     {
         return $this->aggregateId;
     }
 
-    public function occurredOn(): DateTimeInterface
+    public function occurredOn(): DateTime
     {
         return $this->occurredOn;
     }
