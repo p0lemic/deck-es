@@ -30,7 +30,6 @@ class GameProjector extends Projector
     {
         $gameReadModel = new GameReadModel(
             $gameWasCreated->aggregateId(),
-            $gameWasCreated->deck(),
             $gameWasCreated->players()
         );
 

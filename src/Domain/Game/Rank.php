@@ -2,8 +2,7 @@
 
 namespace Deck\Domain\Game;
 
-use Deck\Domain\Deck\Exception\InvalidRankException;
-use InvalidArgumentException;
+use Deck\Domain\Game\Exception\InvalidRankException;
 
 class Rank
 {
@@ -17,9 +16,8 @@ class Rank
         '7' => '7',
         'J' => 'J',
         'Q' => 'Q',
-        'K' => 'K'
+        'K' => 'K',
     ];
-
     /** @var string */
     private $value;
 

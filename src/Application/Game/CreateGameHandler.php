@@ -36,6 +36,7 @@ class CreateGameHandler
             $players[] = Player::create($player->id());
         }
         $game = $this->gameFactory->createNewGame($players);
+        $game->initGame();
 
         $this->gameStore->store($game);
     }

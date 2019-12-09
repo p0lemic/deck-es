@@ -4,28 +4,28 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Game\Event;
 
-use DateTimeImmutable;
-use Deck\Domain\Game\DeckId;
+use DateTimeInterface;
+use Deck\Domain\Game\Card;
 use Deck\Domain\Shared\ValueObject\DateTime;
 
-class DeckWasCreated
+class CardWasAddedToDeck
 {
-    /** @var DeckId */
-    private $aggregateId;
-    /** @var DateTime */
+    /** @var Card */
+    private $card;
+    /** @var DateTimeInterface */
     private $occurredOn;
 
     public function __construct(
-        DeckId $deckId,
+        Card $card,
         DateTime $occurredOn
     ) {
-        $this->aggregateId = $deckId;
+        $this->card = $card;
         $this->occurredOn = $occurredOn;
     }
 
-    public function deckId(): DeckId
+    public function card(): Card
     {
-        return $this->aggregateId;
+        return $this->card;
     }
 
     public function occurredOn(): DateTime

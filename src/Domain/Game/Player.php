@@ -6,12 +6,13 @@ namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\SimpleEventSourcedEntity;
 use Deck\Domain\Game\Event\CardWasDeal;
+use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 
 class Player extends SimpleEventSourcedEntity
 {
     /** @var PlayerId */
-    private $playerId;
+    private $id;
     /** @var Card[] */
     private $hand;
     /** @var Card[] */
@@ -21,7 +22,7 @@ class Player extends SimpleEventSourcedEntity
         PlayerId $playerId,
         array $hand
     ) {
-        $this->playerId = $playerId;
+        $this->id = $playerId;
         $this->hand = $hand;
         $this->wonCards = [];
     }
@@ -33,7 +34,7 @@ class Player extends SimpleEventSourcedEntity
 
     public function playerId(): PlayerId
     {
-        return $this->playerId;
+        return $this->id;
     }
 
     public function hand(): array
@@ -43,7 +44,7 @@ class Player extends SimpleEventSourcedEntity
 
     public function addCardToPlayersHand(Card $card): void
     {
-        $this->apply(new CardWasDeal($this->playerId(), $card));
+        $this->apply(new CardWasDeal($this->playerId(), $card, DateTime::now()));
     }
 
     public function applyCardWasDeal(CardWasDeal $cardWasDeal): void

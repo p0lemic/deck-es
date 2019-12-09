@@ -47,7 +47,7 @@ final class DoctrineGameIdType extends Type
         $value,
         AbstractPlatform $platform
     ): string {
-        return $value->value()->toString();
+        return $value->value();
     }
 
     /**

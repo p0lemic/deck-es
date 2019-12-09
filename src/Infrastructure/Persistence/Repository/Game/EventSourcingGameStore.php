@@ -11,7 +11,6 @@ use Broadway\EventStore\EventStore;
 use Deck\Domain\Game\Game;
 use Deck\Domain\Game\GameRepositoryInterface;
 use Deck\Domain\Shared\AggregateId;
-use Deck\Domain\User\Player;
 
 final class EventSourcingGameStore extends EventSourcingRepository implements GameRepositoryInterface
 {
@@ -37,7 +36,7 @@ final class EventSourcingGameStore extends EventSourcingRepository implements Ga
     public function get(AggregateId $id): Game
     {
         /** @var Game $game */
-        $game = $this->load($id->value()->toString());
+        $game = $this->load($id->value());
 
         return $game;
     }

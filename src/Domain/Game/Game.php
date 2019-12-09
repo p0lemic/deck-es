@@ -5,6 +5,7 @@ namespace Deck\Domain\Game;
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Application\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Game\Event\GameWasCreated;
+use Deck\Domain\Game\Event\GameWasInit;
 use Deck\Domain\Game\Event\GameWasJoined;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
 use Deck\Domain\Shared\ValueObject\DateTime;
@@ -33,11 +34,10 @@ class Game extends EventSourcedAggregateRoot
     private $players;
 
     public static function create(
-        Deck $deck,
         array $players
     ): self {
         $game = new self();
-        $game->apply(new GameWasCreated(GameId::create(), $players, $deck, DateTime::now()));
+        $game->apply(new GameWasCreated(GameId::create(), $players, DateTime::now()));
 
         return $game;
     }
@@ -56,6 +56,11 @@ class Game extends EventSourcedAggregateRoot
     public function join(Player $player): void
     {
         $this->apply(new GameWasJoined($this->id, $player, DateTime::now()));
+    }
+
+    public function initGame(): void
+    {
+        $this->deck->shuffleCards();
     }
 
     /**
@@ -96,8 +101,8 @@ class Game extends EventSourcedAggregateRoot
     public function applyGameWasCreated(GameWasCreated $event): void
     {
         $this->id = $event->aggregateId();
-        //$this->deck = $event->deck();
         $this->players = $event->players();
+        $this->deck = Deck::create(DeckId::create(), $this->id);
     }
 
     public function applyGameWasJoined(GameWasJoined $gameWasJoined): void
@@ -110,9 +115,18 @@ class Game extends EventSourcedAggregateRoot
 
         $this->players[] = $gameWasJoined->player();
     }
-    
+
     public function getAggregateRootId(): string
     {
-        return $this->id->value()->toString();
+        return $this->id->value();
+    }
+
+    protected function getChildEntities(): array
+    {
+        // Since the aggregate root always handles the events first we can rely
+        // on $this->manufacturer being set by the time the child entities are
+        // requested *provided* PartWasManufacturedEvent is the first event in
+        // the event stream.
+        return [$this->deck];
     }
 }

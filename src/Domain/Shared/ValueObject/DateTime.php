@@ -55,6 +55,11 @@ class DateTime
         return $this->dateTime->format(self::FORMAT);
     }
 
+    public function __toString(): string
+    {
+        return $this->toString();
+    }
+
     public function toNative(): DateTimeImmutable
     {
         return $this->dateTime;

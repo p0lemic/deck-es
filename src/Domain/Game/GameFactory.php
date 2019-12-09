@@ -27,10 +27,6 @@ class GameFactory
             throw InvalidPlayerNumber::biggerThanZero();
         }
 
-//        if ($totalPlayers !== 2) {
-//            throw InvalidPlayerNumber::equalsToTwo();
-//        }
-
-        return Game::create($this->deckFactory->createNew(), $players);
+        return Game::create($players);
     }
 }

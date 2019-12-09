@@ -11,7 +11,7 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 
 class GameWasJoined
 {
-    /** @var DateTimeInterface */
+    /** @var DateTime */
     private $occurredOn;
     /** @var Player */
     private $player;
@@ -38,7 +38,7 @@ class GameWasJoined
         return $this->player;
     }
 
-    public function occurredOn(): DateTimeInterface
+    public function occurredOn(): DateTime
     {
         return $this->occurredOn;
     }

@@ -45,7 +45,7 @@ class Player extends EventSourcedAggregateRoot
 
     public function getAggregateRootId(): string
     {
-        return $this->id->value()->toString();
+        return $this->id->value();
     }
 
     public function credentials(): Credentials

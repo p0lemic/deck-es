@@ -1,0 +1,15 @@
+Deck\Domain\Game\Event\GameWasCreated:
+  exclusion_policy: ALL
+  properties:
+    aggregateId:
+      expose: true
+      type: Deck\Domain\Game\GameId
+    players:
+      expose: true
+      type: array<Deck\Domain\Game\Player>
+    deck:
+      expose: true
+      type: Deck\Domain\Game\Deck
+    occurredOn:
+      expose: true
+      type: Deck\Domain\Shared\ValueObject\DateTime

@@ -2,7 +2,7 @@
 
 namespace Deck\Domain\Game;
 
-use Deck\Domain\Deck\Exception\InvalidSuiteException;
+use Deck\Domain\Game\Exception\InvalidSuiteException;
 
 class Suite
 {

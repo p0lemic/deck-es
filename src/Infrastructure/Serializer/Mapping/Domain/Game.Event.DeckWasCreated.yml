@@ -1,0 +1,9 @@
+Deck\Domain\Game\Event\DeckWasCreated:
+  exclusion_policy: ALL
+  properties:
+    aggregateId:
+      expose: true
+      type: Deck\Domain\Game\DeckId
+    occurredOn:
+      expose: true
+      type: Deck\Domain\Shared\ValueObject\DateTime

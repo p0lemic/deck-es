@@ -10,7 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 
 class AggregateId
 {
-    /** @var UuidInterface */
+    /** @var string */
     private $value;
 
     /**
@@ -22,10 +22,10 @@ class AggregateId
         if ($uuid === null) {
             $uuid = Uuid::uuid4();
         }
-        $this->value = $uuid;
+        $this->value = $uuid->toString();
     }
 
-    public static function fromString($string)
+    public static function fromString($string): self
     {
         return new static(Uuid::fromString($string));
     }
@@ -35,14 +35,14 @@ class AggregateId
         return new static();
     }
 
-    public function value(): UuidInterface
+    public function value(): string
     {
         return $this->value;
     }
 
     public function __toString()
     {
-        return (string)$this->value;
+        return $this->value;
     }
 
     public function equals(AggregateId $aggregateId): bool

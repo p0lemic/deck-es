@@ -1,0 +1,12 @@
+Deck\Domain\User\Event\UserWasSignedIn:
+  exclusion_policy: ALL
+  properties:
+    aggregateId:
+      expose: true
+      type: Deck\Domain\User\PlayerId
+    email:
+      expose: true
+      type: Deck\Domain\User\ValueObject\Email
+    occurredOn:
+      expose: true
+      type: Deck\Domain\Shared\ValueObject\DateTime

@@ -36,7 +36,7 @@ final class EventSourcingPlayerStore extends EventSourcingRepository implements 
     public function get(AggregateId $id): Player
     {
         /** @var Player $player */
-        $player = $this->load($id->value()->toString());
+        $player = $this->load($id->value());
 
         return $player;
     }

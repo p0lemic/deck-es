@@ -39,7 +39,7 @@ class SignInHandler
         $aggregateId = $this->uuidFromEmail($command->email());
 
         /** @var Player $user */
-        $user = $this->userStore->get(PlayerId::fromString($aggregateId->value()->toString()));
+        $user = $this->userStore->get(PlayerId::fromString($aggregateId->value()));
 
         $user->signIn($command->plainPassword());
 

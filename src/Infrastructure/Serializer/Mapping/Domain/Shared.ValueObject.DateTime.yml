@@ -1,0 +1,6 @@
+Deck\Domain\Shared\ValueObject\DateTime:
+  exclusion_policy: ALL
+  properties:
+    dateTime:
+      expose: true
+      type: DateTimeImmutable<'Y-m-d H:i:s'>

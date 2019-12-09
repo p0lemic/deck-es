@@ -2,27 +2,43 @@
 
 namespace Deck\Domain\Game;
 
-use Broadway\EventSourcing\EventSourcedAggregateRoot;
+use Broadway\EventSourcing\SimpleEventSourcedEntity;
+use Deck\Domain\Game\Event\CardWasAddedToDeck;
 use Deck\Domain\Game\Event\CardWasDrawn;
-use Deck\Domain\Game\Event\DeckWasCreated;
 use Deck\Domain\Game\Exception\DeckCardsNumberException;
+use Deck\Domain\Shared\ValueObject\DateTime;
 use function array_pop;
 use function count;
 use function shuffle;
 
-class Deck extends EventSourcedAggregateRoot
+class Deck extends SimpleEventSourcedEntity
 {
     public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
-
     /** @var DeckId */
-    private $deckId;
+    private $id;
+    /** @var GameId */
+    private $gameId;
     /** @var Card[] */
-    private $cards = [];
+    private $cards;
 
-    public static function create(DeckId $aDeckId): self
+    public function __construct(
+        DeckId $aDeckId,
+        GameId $gameId
+    ) {
+        $this->id = $aDeckId;
+        $this->gameId = $gameId;
+        $this->cards = [];
+    }
+
+    public static function create(
+        DeckId $aDeckId,
+        GameId $gameId
+    ): self {
+        return new self($aDeckId, $gameId);
+    }
+
+    public function shuffleCards(): void
     {
-        $deck = new self();
-
         $cards = [];
 
         foreach (Suite::AVAILABLE_SUITES as $suite) {
@@ -37,23 +53,14 @@ class Deck extends EventSourcedAggregateRoot
 
         shuffle($cards);
 
-        $deck->apply(new DeckWasCreated($aDeckId, $cards));
-
-        return $deck;
+        foreach ($cards as $card) {
+            $this->apply(new CardWasAddedToDeck($card, DateTime::now()));
+        }
     }
 
-    public static function createWithCards(DeckId $aDeckId, array $cards): self
+    public function applyCardWasAddedToDeck(CardWasAddedToDeck $event): void
     {
-        $deck = new self();
-        $deck->cards = $deck;
-
-        return $deck;
-    }
-
-    public function applyDeckWasCreated(DeckWasCreated $event): void
-    {
-        $this->deckId = $event->deckId();
-        $this->cards = $event->cards();
+        $this->cards[] = $event->card();
     }
 
     protected function getChildEntities(): array
@@ -76,7 +83,12 @@ class Deck extends EventSourcedAggregateRoot
 
     public function getAggregateRootId(): string
     {
-        return $this->deckId->value();
+        return $this->id->value();
+    }
+
+    public function gameId(): GameId
+    {
+        return $this->gameId;
     }
 
     public function cards(): array

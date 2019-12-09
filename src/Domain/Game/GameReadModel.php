@@ -13,12 +13,14 @@ class GameReadModel
 
     public function __construct(
         GameId $gameId,
-        Deck $deck,
         array $players
     ) {
         $this->id = $gameId;
-        $this->deck = $deck;
-        $this->players = $players;
+
+        /** @var Player $player */
+        foreach ($players as $player) {
+            $this->players[] = $player->playerId()->value();
+        }
     }
 
     public function id(): GameId
@@ -39,6 +41,6 @@ class GameReadModel
 
     public function joinPlayer(Player $player): void
     {
-        $this->players[] = $player;
+        $this->players[] = $player->playerId()->value();
     }
 }

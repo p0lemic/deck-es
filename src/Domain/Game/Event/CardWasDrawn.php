@@ -6,10 +6,8 @@ namespace Deck\Domain\Game\Event;
 
 use DateTimeImmutable;
 use DateTimeInterface;
-use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Game\Card;
-use Deck\Domain\Game\Deck;
-use Deck\Domain\Event\DomainEvent;
+use Deck\Domain\Shared\ValueObject\DateTime;
 
 class CardWasDrawn
 {
@@ -30,7 +28,7 @@ class CardWasDrawn
         return $this->card;
     }
 
-    public function occurredOn(): DateTimeInterface
+    public function occurredOn(): DateTime
     {
         return $this->occurredOn;
     }

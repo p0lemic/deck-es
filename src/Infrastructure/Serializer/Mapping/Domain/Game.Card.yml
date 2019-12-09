@@ -1,9 +1,10 @@
-Deck\Domain\Deck\Deck:
+Deck\Domain\Game\Card:
   exclusion_policy: ALL
   properties:
-    id:
+    suite:
       expose: true
       type: string
-    cards:
+    rank:
       expose: true
-      type: array<Deck\Domain\Deck\Card>
+      type: string
+
