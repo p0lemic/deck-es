@@ -2,17 +2,16 @@
 
 namespace Deck\Infrastructure\Persistence\Repository\Game;
 
-use Deck\Domain\Game\Game;
 use Deck\Domain\Game\GameReadModel;
 use Deck\Domain\Game\GameReadModelRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrineGameReadModelRepository extends ServiceEntityRepository implements GameReadModelRepositoryInterface
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, GameReadModel::class);
     }

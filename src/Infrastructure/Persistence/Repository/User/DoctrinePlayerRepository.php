@@ -11,17 +11,17 @@ use Deck\Domain\User\PlayerReadModel;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
+use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\Common\Persistence\Mapping\MappingException;
 use Doctrine\ORM\AbstractQuery;
 use Doctrine\ORM\NonUniqueResultException;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Ramsey\Uuid\UuidInterface;
-use Symfony\Bridge\Doctrine\RegistryInterface;
 
 class DoctrinePlayerRepository extends ServiceEntityRepository implements PlayerReadModelRepositoryInterface
 {
-    public function __construct(RegistryInterface $registry)
+    public function __construct(ManagerRegistry $registry)
     {
         parent::__construct($registry, PlayerReadModel::class);
     }
