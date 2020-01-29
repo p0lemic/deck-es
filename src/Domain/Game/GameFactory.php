@@ -6,14 +6,6 @@ use Deck\Application\Game\Exception\InvalidPlayerNumber;
 
 class GameFactory
 {
-    /** @var DeckFactory */
-    private $deckFactory;
-
-    public function __construct(DeckFactory $deckFactory)
-    {
-        $this->deckFactory = $deckFactory;
-    }
-
     /**
      * @param Player[] $players
      * @return Game

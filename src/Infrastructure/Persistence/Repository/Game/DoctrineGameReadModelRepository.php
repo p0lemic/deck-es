@@ -44,12 +44,8 @@ class DoctrineGameReadModelRepository extends ServiceEntityRepository implements
         );
     }
 
-    public function findByTableId(string $tableId): ?GameReadModel
+    public function all(): array
     {
-        return $this->findOneBy(
-            [
-                'table_id' => $tableId,
-            ]
-        );
+        return $this->findAll();
     }
 }

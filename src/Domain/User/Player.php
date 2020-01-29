@@ -10,6 +10,7 @@ use Deck\Domain\User\Event\UserWasSignedIn;
 use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Specification\UniqueEmailSpecificationInterface;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
+use function var_dump;
 
 class Player extends EventSourcedAggregateRoot
 {

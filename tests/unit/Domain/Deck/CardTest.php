@@ -2,9 +2,9 @@
 
 namespace Deck\Tests\unit\Domain\Deck;
 
-use Deck\Domain\Deck\Suite;
-use Deck\Domain\Deck\Rank;
-use Deck\Domain\Deck\Card;
+use Deck\Domain\Game\Card;
+use Deck\Domain\Game\Rank;
+use Deck\Domain\Game\Suite;
 use PHPUnit\Framework\TestCase;
 
 class CardTest extends TestCase
@@ -16,6 +16,5 @@ class CardTest extends TestCase
 
         $this->assertEquals('spades', $card->suite()->value());
         $this->assertEquals('J', $card->rank()->value());
-        $this->assertEquals('J => spades', $card->__toString());
     }
 }

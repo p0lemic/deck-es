@@ -2,8 +2,8 @@
 
 namespace Deck\Tests\unit\Domain\Deck;
 
-use Deck\Domain\Deck\Exception\InvalidSuiteException;
-use Deck\Domain\Deck\Suite;
+use Deck\Domain\Game\Exception\InvalidSuiteException;
+use Deck\Domain\Game\Suite;
 use PHPUnit\Framework\TestCase;
 
 class SuiteTest extends TestCase

@@ -5,7 +5,6 @@ namespace Deck\Domain\Game;
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Application\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Game\Event\GameWasCreated;
-use Deck\Domain\Game\Event\GameWasInit;
 use Deck\Domain\Game\Event\GameWasJoined;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
 use Deck\Domain\Shared\ValueObject\DateTime;
@@ -123,10 +122,14 @@ class Game extends EventSourcedAggregateRoot
 
     protected function getChildEntities(): array
     {
-        // Since the aggregate root always handles the events first we can rely
-        // on $this->manufacturer being set by the time the child entities are
-        // requested *provided* PartWasManufacturedEvent is the first event in
-        // the event stream.
-        return [$this->deck];
+        $children = [];
+
+        foreach ($this->players() as $player) {
+            $children[] = $player;
+        }
+
+        $children[] = $this->deck;
+
+        return $children;
     }
 }

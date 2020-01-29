@@ -10,11 +10,7 @@ interface GameReadModelRepositoryInterface
      */
     public function findByGameId(string $gameID): ?GameReadModel;
 
-    /**
-     * @param string $tableId
-     * @return GameReadModel
-     */
-    public function findByTableId(string $tableId): ?GameReadModel;
+    public function all(): array;
 
     /**
      * @param GameReadModel $game

@@ -2,8 +2,8 @@
 
 namespace Deck\Tests\unit\Domain\Deck;
 
-use Deck\Domain\Deck\Exception\InvalidRankException;
-use Deck\Domain\Deck\Rank;
+use Deck\Domain\Game\Exception\InvalidRankException;
+use Deck\Domain\Game\Rank;
 use PHPUnit\Framework\TestCase;
 
 class RankTest extends TestCase

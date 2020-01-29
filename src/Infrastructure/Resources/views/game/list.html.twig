@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="card-deck mb-3 text-center features-icons">
+            {% for game in games %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Number of players: {{ game.players|length }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title"><small>{{ game.id }}</small></h1>
+                        <button type="button" class="btn btn-lg btn-block btn-outline-primary">
+                            <a href="{{ path('game-play', {id: game.id}) }}">Join game</a>
+                        </button>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}

@@ -7,24 +7,17 @@
             {% if error is defined %}
                 <div class="notification is-danger">{{ error }}</div>
             {% endif %}
-            <form name="signUp" action="{{ path('sign-up') }}" method="post">
-                <div class="field">
-                    <label for="email">Email</label>
-                    <div class="control">
-                        <input class="input" name="email" type="email" placeholder="asd@as.as" id="email">
-                    </div>
-                </div>
-                <div class="field">
-                    <label for="password">Password</label>
-                    <div class="control">
-                        <input class="input" name="password" type="password" placeholder="******" id="password">
-                    </div>
-                </div>
-                <div class="field">
-                    <div class="control">
-                        <input class="button is-link" type="submit" value="Send">
-                    </div>
-                </div>
+            <form class="form-signin" name="signUp" action="{{ path('sign-up') }}" method="post">
+                <img class="mb-4" src="/docs/4.4/assets/brand/bootstrap-solid.svg" alt="" width="72" height="72">
+                <h1 class="h3 mb-3 font-weight-normal">Register</h1>
+                {% if error is defined %}
+                    <div>{{ error }}</div>
+                {% endif %}
+                <label for="inputEmail" class="sr-only">Email address</label>
+                <input type="email" id="email" class="form-control" placeholder="Email address" required="true" autofocus="" name="email">
+                <label for="inputPassword" class="sr-only">Password</label>
+                <input type="password" id="password" class="form-control" placeholder="Password" required="true" name="password">
+                <button class="btn btn-lg btn-primary btn-block" type="submit" value="Send">Sign up</button>
             </form>
         </div>
     </div>

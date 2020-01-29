@@ -2,29 +2,27 @@
 
 namespace Deck\Tests\unit\Domain\Deck;
 
-use Deck\Domain\Deck\Deck;
-use Deck\Domain\Deck\Exception\DeckCardsNumberException;
-use Deck\Domain\Deck\DeckId;
+use Deck\Domain\Game\Deck;
+use Deck\Domain\Game\DeckId;
+use Deck\Domain\Game\GameId;
 use PHPUnit\Framework\TestCase;
 
 class DeckTest extends TestCase
 {
-    /** @test
-     * @throws DeckCardsNumberException
-     */
+    /** @test */
     public function newDeckShouldHas40Cards(): void
     {
-        $deck = new Deck(DeckId::create());
+        $deck = Deck::create(DeckId::create(), GameId::create());
+        $deck->shuffleCards();
 
         $this->assertCount(40, $deck->cards());
     }
 
-    /** @test
-     * @throws DeckCardsNumberException
-     */
+    /** @test */
     public function whenPlayerDrawCardDeckShouldHaveOneLessCard(): void
     {
-        $deck = new Deck(DeckId::create());
+        $deck = new Deck(DeckId::create(), GameId::create());
+        $deck->shuffleCards();
 
         $this->assertCount(40, $deck->cards());
         $deck->draw();

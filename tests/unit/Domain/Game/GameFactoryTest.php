@@ -2,9 +2,9 @@
 
 namespace Deck\Tests\unit\Domain\Game;
 
-use Deck\Domain\Deck\DeckFactory;
 use Deck\Domain\Game\GameFactory;
-use Deck\Domain\User\Player;
+use Deck\Domain\Game\Player;
+use Deck\Domain\User\PlayerId;
 use PHPUnit\Framework\TestCase;
 
 class GameFactoryTest extends TestCase
@@ -12,17 +12,16 @@ class GameFactoryTest extends TestCase
     /** @test */
     public function newDeckShouldHas40Cards(): void
     {
-        $deckFactory = new DeckFactory();
-
-        $playerOne = Player::create('Player1');
-        $playerTwo = Player::create('Player2');
+        $playerOne = Player::create(PlayerId::create());
+        $playerTwo = Player::create(PlayerId::create());
         $players = [
             $playerOne,
             $playerTwo,
         ];
 
-        $gameFactory = new GameFactory($deckFactory);
+        $gameFactory = new GameFactory();
         $game = $gameFactory->createNewGame($players);
+        $game->initGame();
 
         $this->assertCount(40, $game->deck()->cards());
 

@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
 use Deck\Application\Game\CreateGameCommand;
+use Deck\Application\Game\ListGames;
 use Deck\Application\Game\LoadGame;
 use Deck\Application\Game\LoadGameRequest;
 use Deck\Domain\Game\GameId;
-use Deck\Domain\User\Cpu;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -16,10 +16,34 @@ use Symfony\Component\Security\Core\Security;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
-use function var_dump;
 
 class GameController extends AbstractRenderController
 {
+    /**
+     * @Route(
+     *     "/game/list",
+     *     name="game-list",
+     *     methods={"GET"}
+     * )
+     *
+     * @param ListGames $listGames
+     * @return Response
+     * @throws LoaderError
+     * @throws RuntimeError
+     * @throws SyntaxError
+     */
+    public function list(ListGames $listGames): Response
+    {
+        $games = $listGames->execute();
+
+        return $this->render(
+            'game/list.html.twig',
+            [
+                'games' => $games,
+            ]
+        );
+    }
+
     /**
      * @Route(
      *     "/game/create",
@@ -33,12 +57,12 @@ class GameController extends AbstractRenderController
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function game(Security $security): Response
+    public function create(Security $security): Response
     {
         $user = $security->getUser();
 
         $players = [
-            $user ? $user->getUsername() : null
+            $user ? $user->getUsername() : null,
         ];
         $this->execute(new CreateGameCommand(GameId::create()->value(), $players));
 
@@ -47,28 +71,28 @@ class GameController extends AbstractRenderController
 
     /**
      * @Route(
-     *     "/game/play",
+     *     "/game/play/{id}",
      *     name="game-play",
      *     methods={"GET"}
      * )
      *
-     * @param Request $request
      * @param LoadGame $loadGame
+     * @param string $id
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function playGame(Request $request, LoadGame $loadGame): Response
-    {
-        $id = $request->query->get('id');
-
+    public function play(
+        LoadGame $loadGame,
+        string $id
+    ): Response {
         $game = $loadGame->execute(new LoadGameRequest($id));
 
         return $this->render(
             'game/deck.html.twig',
             [
-                'deck' => $game->deck()
+                'deck' => $game->deck(),
             ]
         );
     }
