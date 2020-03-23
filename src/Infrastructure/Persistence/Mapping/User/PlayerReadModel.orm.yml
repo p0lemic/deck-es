@@ -1,6 +1,6 @@
 Deck\Domain\User\PlayerReadModel:
   type: entity
-  repositoryClass: Deck\Infrastructure\Persistence\Repository\User\DoctrinePlayerRepository
+  repositoryClass: Deck\Infrastructure\Persistence\Repository\User\DoctrinePlayerReadModelRepository
   table: players
   schema: deck
   embedded:

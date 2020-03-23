@@ -19,7 +19,7 @@ use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
 use Ramsey\Uuid\UuidInterface;
 
-class DoctrinePlayerRepository extends ServiceEntityRepository implements PlayerReadModelRepositoryInterface
+class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implements PlayerReadModelRepositoryInterface
 {
     public function __construct(ManagerRegistry $registry)
     {

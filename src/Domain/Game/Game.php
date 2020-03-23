@@ -3,10 +3,10 @@
 namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
-use Deck\Application\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Game\Event\GameWasCreated;
 use Deck\Domain\Game\Event\GameWasJoined;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
+use Deck\Domain\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use function count;
 

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
 use Deck\Application\Game\CreateGameCommand;
-use Deck\Application\Game\ListGames;
+use Deck\Application\Game\GamesListQuery;
 use Deck\Application\Game\LoadGame;
 use Deck\Application\Game\LoadGameRequest;
 use Deck\Domain\Game\GameId;
@@ -26,13 +26,13 @@ class GameController extends AbstractRenderController
      *     methods={"GET"}
      * )
      *
-     * @param ListGames $listGames
+     * @param GamesListQuery $listGames
      * @return Response
      * @throws LoaderError
      * @throws RuntimeError
      * @throws SyntaxError
      */
-    public function list(ListGames $listGames): Response
+    public function list(GamesListQuery $listGames): Response
     {
         $games = $listGames->execute();
 

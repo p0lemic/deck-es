@@ -2,6 +2,7 @@
 
 namespace Deck\Infrastructure\Persistence\Repository\Game;
 
+use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\GameReadModel;
 use Deck\Domain\Game\GameReadModelRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
@@ -35,13 +36,16 @@ class DoctrineGameReadModelRepository extends ServiceEntityRepository implements
         $this->_em->clear(GameReadModel::class);
     }
 
-    public function findByGameId(string $gameID): ?GameReadModel
+    public function findByGameId(GameId $gameID): ?GameReadModel
     {
-        return $this->findOneBy(
+        /** @var GameReadModel $game */
+        $game = $this->findOneBy(
             [
                 'id' => $gameID,
             ]
         );
+
+        return $game;
     }
 
     public function all(): array

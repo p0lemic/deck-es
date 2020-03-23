@@ -21,23 +21,29 @@ doctrine:
             aggregate_id: Deck\Infrastructure\Persistence\Type\Shared\DoctrineAggregateIdType
             player_id: Deck\Infrastructure\Persistence\Type\User\DoctrinePlayerIdType
             game_id: Deck\Infrastructure\Persistence\Type\Game\DoctrineGameIdType
+            table_id: Deck\Infrastructure\Persistence\Type\Table\DoctrineTableIdType
             datetime: Deck\Infrastructure\Persistence\Type\Shared\DoctrineDateTimeType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: false
+        auto_mapping: true
         mappings:
             game:
                 type: yml
                 dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Game"
                 prefix: Deck\Domain\Game
                 is_bundle: false
-            event:
+            table:
                 type: yml
-                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Event"
-                prefix: Deck\Domain\Event
+                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Table"
+                prefix: Deck\Domain\Table
                 is_bundle: false
+#            event:
+#                type: yml
+#                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Event"
+#                prefix: Deck\Domain\Event
+#                is_bundle: false
             user:
                 type: yml
                 dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/User"

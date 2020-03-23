@@ -2,7 +2,7 @@
 
 namespace Deck\Domain\Game;
 
-use Deck\Application\Game\Exception\InvalidPlayerNumber;
+use Deck\Domain\Game\Exception\InvalidPlayerNumber;
 
 class GameFactory
 {

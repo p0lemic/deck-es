@@ -5,10 +5,10 @@ namespace Deck\Domain\Game;
 interface GameReadModelRepositoryInterface
 {
     /**
-     * @param string $gameID
+     * @param GameId $gameId
      * @return GameReadModel
      */
-    public function findByGameId(string $gameID): ?GameReadModel;
+    public function findByGameId(GameId $gameId): ?GameReadModel;
 
     public function all(): array;
 

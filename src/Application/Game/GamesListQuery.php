@@ -6,7 +6,7 @@ use Deck\Domain\Game\Game;
 use Deck\Domain\Game\GameReadModelRepositoryInterface;
 use Deck\Domain\Game\GameRepositoryInterface;
 
-class ListGames
+class GamesListQuery
 {
     /** @var GameRepositoryInterface */
     private $gameRepository;
