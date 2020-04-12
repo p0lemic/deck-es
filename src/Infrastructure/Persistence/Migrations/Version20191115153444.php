@@ -4,70 +4,43 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Persistence\Migrations;
 
+use Broadway\EventStore\Dbal\DBALEventStore;
 use Doctrine\DBAL\DBALException;
 use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
 use Doctrine\DBAL\Schema\Table;
 use Doctrine\Migrations\AbstractMigration;
+use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;
-use Symfony\Component\DependencyInjection\ContainerAwareTrait;
-use function var_dump;
+use Symfony\Component\DependencyInjection\ContainerInterface;
 
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
 class Version20191115153444 extends AbstractMigration implements ContainerAwareInterface
 {
-    use ContainerAwareTrait;
+    /** @var DBALEventStore|object|null */
+    private $eventStore;
+    /** @var EntityManager */
+    private $em;
 
-    /**
-     * @param Schema $schema
-     *
-     * @throws DBALException
-     */
+    public function setContainer(ContainerInterface $container = null)
+    {
+        $this->eventStore = $container->get(DBALEventStore::class);
+        $this->em = $container->get('doctrine.orm.entity_manager');
+    }
+
     public function up(Schema $schema): void
     {
-        $platform = $this->getPlatform();
-        $table = $this->getTable();
-        $createFlags = AbstractPlatform::CREATE_INDEXES | AbstractPlatform::CREATE_FOREIGNKEYS;
-        $createTableSql = $platform->getCreateTableSQL($table, $createFlags);
+        $this->eventStore->configureSchema($schema);
 
-        foreach ($createTableSql as $statement) {
-            $this->addSql($statement);
-        }
+        $this->em->flush();
     }
 
-    /**
-     * @param Schema $schema
-     *
-     * @throws DBALException
-     */
     public function down(Schema $schema): void
     {
-        $platform = $this->getPlatform();
-        $table = $this->getTable();
-        $dropTableSql = $platform->getDropTableSQL($table);
-        $this->addSql($dropTableSql);
-    }
+        $schema->dropTable('deck.events');
 
-    /**
-     * @return Table
-     */
-    private function getTable(): Table
-    {
-        $eventStore = $this->container->get('broadway.event_store');
-        return $eventStore->configureTable();
-    }
-
-    /**
-     * @return AbstractPlatform
-     *
-     * @throws DBALException
-     * @throws DBALException
-     */
-    private function getPlatform(): AbstractPlatform
-    {
-        $connection = $this->container->get('database_connection');
-        return $connection->getDatabasePlatform();
+        $this->em->flush();
     }
 }

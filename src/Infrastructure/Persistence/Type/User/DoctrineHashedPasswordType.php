@@ -27,6 +27,11 @@ final class DoctrineHashedPasswordType extends Type
         return $platform->getVarcharTypeDeclarationSQL([]);
     }
 
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
+
     /**
      * Gets the name of this type.
      *

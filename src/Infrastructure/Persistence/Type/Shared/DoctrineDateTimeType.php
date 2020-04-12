@@ -30,6 +30,11 @@ final class DoctrineDateTimeType extends Type
         return $platform->getDateTimeTypeDeclarationSQL([]);
     }
 
+    public function requiresSQLCommentHint(AbstractPlatform $platform): bool
+    {
+        return true;
+    }
+
     /**
      * Gets the name of this type.
      *
