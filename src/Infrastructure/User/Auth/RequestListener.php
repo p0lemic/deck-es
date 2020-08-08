@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\User\Auth;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
 class RequestListener implements EventSubscriberInterface {
 
-    public function onKernelRequest(ResponseEvent $event)
+    public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();
 

@@ -1,4 +1,0 @@
-twig:
-    paths: ['%kernel.project_dir%/src/Infrastructure/Resources/views']
-    debug: '%kernel.debug%'
-    strict_variables: '%kernel.debug%'
