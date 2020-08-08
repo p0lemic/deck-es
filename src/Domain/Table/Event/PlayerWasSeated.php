@@ -10,12 +10,9 @@ use Deck\Domain\User\PlayerId;
 
 class PlayerWasSeated
 {
-    /** @var TableId */
-    private $aggregateId;
-    /** @var PlayerId */
-    private $playerId;
-    /** @var DateTime */
-    private $occurredOn;
+    private TableId $aggregateId;
+    private PlayerId $playerId;
+    private DateTime $occurredOn;
 
     public function __construct(
         TableId $id,

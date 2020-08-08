@@ -14,7 +14,7 @@ use function count;
 
 class GameProjector extends Projector
 {
-    private $repository;
+    private GameReadModelRepositoryInterface $repository;
 
     public function __construct(GameReadModelRepositoryInterface $repository)
     {

@@ -71,7 +71,7 @@ class Deck extends SimpleEventSourcedEntity
     public function draw(): Card
     {
         $card = reset($this->cards);
-        $this->apply(new CardWasDrawn($card));
+        $this->apply(new CardWasDrawn($card, DateTime::now()));
 
         return $card;
     }

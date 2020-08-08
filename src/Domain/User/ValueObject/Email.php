@@ -5,15 +5,17 @@ declare(strict_types=1);
 namespace Deck\Domain\User\ValueObject;
 
 use Assert\Assertion;
+use Assert\AssertionFailedException;
 
 class Email
 {
     /** @var string */
-    private $value;
+    private string $value;
 
     /**
      * @param string $email
      * @return Email
+     * @throws AssertionFailedException
      */
     public static function fromString(string $email): self
     {

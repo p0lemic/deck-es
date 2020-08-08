@@ -7,10 +7,8 @@ use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 
 class PlayerSitOnTableHandler
 {
-    /** @var TableRepositoryInterface */
-    private $tableRepository;
-    /** @var PlayerReadModelRepositoryInterface */
-    private $playerReadModelRepository;
+    private TableRepositoryInterface $tableRepository;
+    private PlayerReadModelRepositoryInterface $playerReadModelRepository;
 
     public function __construct(
         TableRepositoryInterface $tableRepository,
@@ -27,9 +25,5 @@ class PlayerSitOnTableHandler
 
         $table->playerSits($player->id());
         $this->tableRepository->store($table);
-
-        if ($table->isFull()) {
-
-        }
     }
 }

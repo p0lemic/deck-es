@@ -10,8 +10,7 @@ use Ramsey\Uuid\UuidInterface;
 
 class AggregateId
 {
-    /** @var string */
-    private $value;
+    private string $value;
 
     /**
      * @param UuidInterface|null $uuid

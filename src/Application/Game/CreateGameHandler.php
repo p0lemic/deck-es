@@ -10,12 +10,9 @@ use Deck\Domain\User\ValueObject\Email;
 
 class CreateGameHandler
 {
-    /** @var GameFactory */
-    private $gameFactory;
-    /** @var GameRepositoryInterface */
-    private $gameStore;
-    /** @var PlayerReadModelRepositoryInterface */
-    private $playerRepository;
+    private GameFactory $gameFactory;
+    private GameRepositoryInterface $gameStore;
+    private PlayerReadModelRepositoryInterface $playerRepository;
 
     public function __construct(
         GameFactory $gameFactory,

@@ -6,8 +6,7 @@ use SimpleBus\SymfonyBridge\Bus\EventBus as SimpleEventBus;
 
 class SimpleBusEventBus implements EventBus
 {
-    /** @var SimpleEventBus */
-    private $eventBus;
+    private SimpleEventBus $eventBus;
 
     public function __construct(
         SimpleEventBus $eventBus

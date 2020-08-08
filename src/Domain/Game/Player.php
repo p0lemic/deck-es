@@ -11,14 +11,12 @@ use Deck\Domain\User\PlayerId;
 
 class Player extends SimpleEventSourcedEntity
 {
-    /** @var PlayerId */
-    private $id;
-    /** @var string */
-    private $username;
+    private PlayerId $id;
+    private string $username;
     /** @var Card[] */
-    private $hand;
+    private array $hand;
     /** @var Card[] */
-    private $wonCards;
+    private array $wonCards;
 
     public function __construct(
         PlayerId $playerId,

@@ -13,7 +13,7 @@ use Deck\Domain\User\PlayerId;
 class CardWasDeal
 {
     /** @var Card */
-    private $card;
+    private Card $card;
     /** @var DateTime */
     private $occurredOn;
     /** @var PlayerId */
@@ -26,7 +26,7 @@ class CardWasDeal
     ) {
         $this->playerId = $playerId;
         $this->card = $card;
-        $this->occurredOn = new DateTimeImmutable();
+        $this->occurredOn = $occurredOn;
     }
 
     public function playerId(): AggregateId

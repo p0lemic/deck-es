@@ -17,10 +17,10 @@ use function in_array;
 class Table extends EventSourcedAggregateRoot
 {
     private const SIZE = 2;
-    /** @var TableId */
-    private $id;
+
+    private TableId $id;
     /** @var PlayerId[] */
-    private $players;
+    private array $players;
 
     public static function create(PlayerId $playerId): self
     {

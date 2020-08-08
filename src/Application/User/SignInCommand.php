@@ -8,10 +8,8 @@ use Deck\Domain\User\ValueObject\Email;
 
 class SignInCommand
 {
-    /** @var Email */
-    private $email;
-    /** @var string */
-    private $plainPassword;
+    private Email $email;
+    private string $plainPassword;
 
     public function __construct(string $email, string $plainPassword)
     {

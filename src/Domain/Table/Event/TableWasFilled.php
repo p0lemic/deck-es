@@ -10,12 +10,9 @@ use Deck\Domain\User\PlayerId;
 
 class TableWasFilled
 {
-    /** @var TableId */
-    private $aggregateId;
-    /** @var PlayerId[] */
-    private $players;
-    /** @var DateTime */
-    private $occurredOn;
+    private TableId $aggregateId;
+    private array $players;
+    private DateTime $occurredOn;
 
     public function __construct(
         TableId $id,

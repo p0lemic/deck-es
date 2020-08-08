@@ -9,10 +9,8 @@ use Deck\Domain\User\Player;
 
 final class CreateGameCommand
 {
-    /** @var array */
-    private $players;
-    /** @var GameId */
-    private $gameId;
+    private array $players;
+    private GameId $gameId;
 
     public function __construct(string $aGameId, array $players)
     {

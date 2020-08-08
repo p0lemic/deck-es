@@ -7,8 +7,7 @@ use Deck\Domain\Table\TableReadModelRepositoryInterface;
 
 class GetTablesQuery
 {
-    /** @var TableReadModelRepositoryInterface */
-    private $tableRepository;
+    private TableReadModelRepositoryInterface $tableRepository;
 
     public function __construct(
         TableReadModelRepositoryInterface $tableRepository

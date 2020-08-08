@@ -8,8 +8,7 @@ use Deck\Domain\Game\GameRepositoryInterface;
 
 class GamesListQuery
 {
-    /** @var GameRepositoryInterface */
-    private $gameRepository;
+    private GameReadModelRepositoryInterface $gameRepository;
 
     public function __construct(
         GameReadModelRepositoryInterface $gameRepository

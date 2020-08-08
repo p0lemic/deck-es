@@ -11,12 +11,9 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 
 class GameWasJoined
 {
-    /** @var DateTime */
-    private $occurredOn;
-    /** @var Player */
-    private $player;
-    /** @var GameId */
-    private $gameId;
+    private DateTime $occurredOn;
+    private Player $player;
+    private GameId $gameId;
 
     public function __construct(
         GameId $gameId,

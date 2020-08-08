@@ -25,12 +25,9 @@ use function count;
  */
 class Game extends EventSourcedAggregateRoot
 {
-    /** @var GameId */
-    private $id;
-    /** @var Deck */
-    private $deck;
-    /** @var Player[] */
-    private $players;
+    private GameId $id;
+    private Deck $deck;
+    private array $players;
 
     public static function create(
         array $players

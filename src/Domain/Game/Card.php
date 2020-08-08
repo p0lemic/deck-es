@@ -6,10 +6,8 @@ use Broadway\EventSourcing\SimpleEventSourcedEntity;
 
 class Card extends SimpleEventSourcedEntity
 {
-    /** @var Rank */
-    public $rank;
-    /** @var Suite */
-    public $suite;
+    public Rank $rank;
+    public Suite $suite;
 
     public function __construct(Suite $suite, Rank $rank)
     {

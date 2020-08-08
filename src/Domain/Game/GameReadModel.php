@@ -4,12 +4,10 @@ namespace Deck\Domain\Game;
 
 class GameReadModel
 {
-    /** @var GameId */
-    private $id;
-    /** @var Deck */
-    private $deck;
+    private GameId $id;
+    private Deck $deck;
     /** @var Player[] */
-    private $players;
+    private array $players;
 
     public function __construct(
         GameId $gameId,

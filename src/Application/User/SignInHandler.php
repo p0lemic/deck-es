@@ -15,10 +15,8 @@ use Deck\Domain\User\ValueObject\Email;
 
 class SignInHandler
 {
-    /** @var PlayerRepositoryInterface */
-    private $userStore;
-    /** @var PlayerReadModelRepositoryInterface */
-    private $playerRepository;
+    private PlayerRepositoryInterface $userStore;
+    private PlayerReadModelRepositoryInterface $playerRepository;
 
     public function __construct(
         PlayerRepositoryInterface $userStore,

@@ -8,10 +8,8 @@ use Deck\Domain\User\ValueObject\Email;
 
 class Credentials
 {
-    /** @var Email */
-    private $email;
-    /** @var HashedPassword */
-    private $password;
+    private Email $email;
+    private HashedPassword $password;
 
     public function __construct(Email $email, HashedPassword $password)
     {

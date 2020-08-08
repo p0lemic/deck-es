@@ -10,12 +10,9 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 
 class GameWasCreated
 {
-    /** @var GameId */
-    private $aggregateId;
-    /** @var Player[] */
-    private $players;
-    /** @var DateTime */
-    private $occurredOn;
+    private GameId $aggregateId;
+    private array $players;
+    private DateTime $occurredOn;
 
     public function __construct(
         GameId $id,
@@ -44,6 +41,6 @@ class GameWasCreated
 
     public function __toString(): string
     {
-        return $this->aggregateId()->value()->toString();
+        return $this->aggregateId()->value();
     }
 }

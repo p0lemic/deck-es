@@ -9,10 +9,8 @@ use Deck\Domain\User\PlayerId;
 
 final class PlayerSitOnTableCommand
 {
-    /** @var TableId */
-    private $tableId;
-    /** @var PlayerId */
-    private $playerId;
+    private TableId $tableId;
+    private PlayerId $playerId;
 
     public function __construct(
         string $aTableId,

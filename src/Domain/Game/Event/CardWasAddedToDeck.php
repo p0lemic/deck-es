@@ -4,16 +4,13 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Game\Event;
 
-use DateTimeInterface;
 use Deck\Domain\Game\Card;
 use Deck\Domain\Shared\ValueObject\DateTime;
 
 class CardWasAddedToDeck
 {
-    /** @var Card */
-    private $card;
-    /** @var DateTimeInterface */
-    private $occurredOn;
+    private Card $card;
+    private DateTime $occurredOn;
 
     public function __construct(
         Card $card,

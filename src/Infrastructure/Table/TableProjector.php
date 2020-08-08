@@ -14,7 +14,7 @@ use function var_dump;
 
 class TableProjector extends Projector
 {
-    private $repository;
+    private TableReadModelRepositoryInterface $repository;
 
     public function __construct(TableReadModelRepositoryInterface $repository)
     {

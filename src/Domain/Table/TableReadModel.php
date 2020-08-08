@@ -9,10 +9,9 @@ class TableReadModel
 {
     private const SIZE = 2;
 
-    /** @var TableId */
-    private $id;
+    private TableId $id;
     /** @var PlayerId[] */
-    private $players;
+    private array $players;
 
     public function __construct(
         TableId $tableId,

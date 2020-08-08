@@ -9,10 +9,8 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 
 class GameWasInit
 {
-    /** @var DateTime */
-    private $occurredOn;
-    /** @var Deck */
-    private $deck;
+    private DateTime $occurredOn;
+    private Deck $deck;
 
     public function __construct(
         Deck $deck,

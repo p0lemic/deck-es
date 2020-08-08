@@ -10,12 +10,9 @@ use Deck\Domain\User\ValueObject\Auth\Credentials;
 
 class UserWasCreated
 {
-    /** @var PlayerId */
-    private $aggregateId;
-    /** @var Credentials */
-    private $credentials;
-    /** @var DateTime */
-    private $occurredOn;
+    private PlayerId $aggregateId;
+    private Credentials $credentials;
+    private DateTime $occurredOn;
 
     public function __construct(
         PlayerId $id,

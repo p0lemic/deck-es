@@ -6,8 +6,7 @@ use SimpleBus\SymfonyBridge\Bus\CommandBus;
 
 class SimpleBusMessageBus implements MessageBus
 {
-    /** @var CommandBus */
-    private $commandBus;
+    private CommandBus $commandBus;
 
     public function __construct(
         CommandBus $commandBus

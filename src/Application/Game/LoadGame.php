@@ -7,8 +7,7 @@ use Deck\Domain\Game\GameRepositoryInterface;
 
 class LoadGame
 {
-    /** @var GameRepositoryInterface */
-    private $gameStore;
+    private GameRepositoryInterface $gameStore;
 
     public function __construct(
         GameRepositoryInterface $gameStore

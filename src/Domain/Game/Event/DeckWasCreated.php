@@ -10,10 +10,8 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 
 class DeckWasCreated
 {
-    /** @var DeckId */
-    private $aggregateId;
-    /** @var DateTime */
-    private $occurredOn;
+    private DeckId $aggregateId;
+    private DateTime $occurredOn;
 
     public function __construct(
         DeckId $deckId,

@@ -15,12 +15,9 @@ use Deck\Domain\User\ValueObject\Email;
 
 class UserWasSignedIn implements Serializable
 {
-    /** @var PlayerId */
-    private $aggregateId;
-    /** @var Email */
-    private $email;
-    /** @var DateTime */
-    private $occurredOn;
+    private PlayerId $aggregateId;
+    private Email $email;
+    private DateTime $occurredOn;
 
     public function __construct(
         PlayerId $id,

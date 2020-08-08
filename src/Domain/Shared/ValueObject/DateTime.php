@@ -11,8 +11,7 @@ class DateTime
 {
     private const FORMAT = 'Y-m-d\TH:i:s.uP';
 
-    /** @var DateTimeImmutable */
-    private $dateTime;
+    private DateTimeImmutable $dateTime;
 
     /**
      * @throws DateTimeException

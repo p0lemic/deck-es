@@ -9,14 +9,10 @@ use Deck\Domain\User\ValueObject\Auth\Credentials;
 
 class PlayerReadModel
 {
-    /** @var PlayerId */
-    private $id;
-    /** @var Credentials */
-    private $credentials;
-    /** @var DateTime */
-    private $createdAt;
-    /** @var DateTime */
-    private $updatedAt;
+    private PlayerId $id;
+    private Credentials $credentials;
+    private DateTime $createdAt;
+    private DateTime $updatedAt;
 
     public function __construct(
         PlayerId $id,

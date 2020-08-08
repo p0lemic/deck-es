@@ -8,8 +8,7 @@ use Deck\Domain\Game\GameId;
 
 class LoadGameRequest
 {
-    /** @var GameId */
-    private $gameId;
+    private GameId $gameId;
 
     public function __construct(string $aGameId)
     {

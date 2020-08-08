@@ -11,16 +11,15 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 
 class CardWasDrawn
 {
-    /** @var Card */
-    private $card;
-    /** @var DateTimeInterface */
-    private $occurredOn;
+    private Card $card;
+    private DateTime $occurredOn;
 
     public function __construct(
-        Card $card
+        Card $card,
+        DateTime $occurredOn
     ) {
         $this->card = $card;
-        $this->occurredOn = new DateTimeImmutable();
+        $this->occurredOn = $occurredOn;
     }
 
     public function card(): Card
