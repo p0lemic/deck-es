@@ -49,14 +49,14 @@
                 </a>
                 <div class="dropdown-menu dropdown-menu-right">
                     <a class="dropdown-item active" href="/">User profile</a>
-                    <a class="dropdown-item active" href="{{ path('logout') }}">Logout</a>
+                    <a class="dropdown-item active" href="{{ path('api.user.logout') }}">Logout</a>
                 </div>
             </li>
         {% endif %}
     </ul>
     {% if not is_granted('ROLE_USER') %}
-        <a class="btn btn-primary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="{{ path('login') }}">Login</a>
-        <a class="btn btn-info d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="{{ path('sign-up') }}">Sign Up</a>
+        <a class="btn btn-primary d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="{{ path('api.user.login') }}">Login</a>
+        <a class="btn btn-info d-none d-lg-inline-block mb-3 mb-md-0 ml-md-3" href="{{ path('api.user.signup') }}">Sign Up</a>
     {% endif %}
 </header>
 

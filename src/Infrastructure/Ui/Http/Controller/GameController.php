@@ -19,44 +19,13 @@ use Twig\Error\SyntaxError;
 
 class GameController extends AbstractRenderController
 {
-    /**
-     * @Route(
-     *     "/game/list",
-     *     name="game-list",
-     *     methods={"GET"}
-     * )
-     *
-     * @param GamesListQuery $listGames
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
     public function list(GamesListQuery $listGames): Response
     {
         $games = $listGames->execute();
 
-        return $this->render(
-            'game/list.html.twig',
-            [
-                'games' => $games,
-            ]
-        );
+        return $this->createApiResponse($games);
     }
 
-    /**
-     * @Route(
-     *     "/game/create",
-     *     name="game-create",
-     *     methods={"GET"}
-     * )
-     *
-     * @param Security $security
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
     public function create(Security $security): Response
     {
         $user = $security->getUser();
@@ -66,34 +35,15 @@ class GameController extends AbstractRenderController
         ];
         $this->execute(new CreateGameCommand(GameId::create()->value(), $players));
 
-        return $this->render('game/index.html.twig');
+        return $this->createApiResponse([], Response::HTTP_CREATED);
     }
 
-    /**
-     * @Route(
-     *     "/game/play/{id}",
-     *     name="game-play",
-     *     methods={"GET"}
-     * )
-     *
-     * @param LoadGame $loadGame
-     * @param string $id
-     * @return Response
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
     public function play(
         LoadGame $loadGame,
         string $id
     ): Response {
         $game = $loadGame->execute(new LoadGameRequest($id));
 
-        return $this->render(
-            'game/deck.html.twig',
-            [
-                'deck' => $game->deck(),
-            ]
-        );
+        return $this->createApiResponse($game->getAggregateRootId());
     }
 }

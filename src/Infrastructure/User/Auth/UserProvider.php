@@ -12,8 +12,7 @@ use Symfony\Component\Security\Core\User\UserProviderInterface;
 
 class UserProvider implements UserProviderInterface
 {
-    /** @var PlayerReadModelRepositoryInterface */
-    private $playerRepository;
+    private PlayerReadModelRepositoryInterface $playerRepository;
 
     public function __construct(PlayerReadModelRepositoryInterface $playerRepository)
     {

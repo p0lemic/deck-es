@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deck\Domain\User\Event;
 
 use Assert\Assertion;
+use Assert\AssertionFailedException;
 use Broadway\Serializer\Serializable;
 use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Shared\Exception\DateTimeException;
@@ -50,6 +51,7 @@ class UserWasSignedIn implements Serializable
      * @param array $data
      * @return UserWasSignedIn
      * @throws DateTimeException
+     * @throws AssertionFailedException
      */
     public static function deserialize(array $data): self
     {
@@ -66,7 +68,7 @@ class UserWasSignedIn implements Serializable
     public function serialize(): array
     {
         return [
-            'aggregate_id' => $this->aggregateId->value()->toString(),
+            'aggregate_id' => $this->aggregateId->value(),
             'email' => $this->email->toString(),
             'occurred_on' => $this->occurredOn()->toString(),
         ];

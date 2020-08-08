@@ -55,7 +55,11 @@ final class DoctrineDateTimeType extends Type
         $value,
         AbstractPlatform $platform
     ): string {
-        return $value->toString();
+        if ($value instanceof DateTime) {
+            return $value->toString();
+        }
+
+        return $value->format('Y-m-d H:i:s');
     }
 
     /**

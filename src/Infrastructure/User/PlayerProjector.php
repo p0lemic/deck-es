@@ -12,7 +12,7 @@ use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 
 class PlayerProjector extends Projector
 {
-    private $repository;
+    private PlayerReadModelRepositoryInterface $repository;
 
     public function __construct(PlayerReadModelRepositoryInterface $repository)
     {

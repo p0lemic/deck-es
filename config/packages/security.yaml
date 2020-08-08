@@ -14,22 +14,38 @@ security:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
-        secured_area:
-            provider: user_provider
-            anonymous: ~
+        api_doc:
+            pattern: ^/api/doc
+            stateless: true
+            anonymous: true
+
+        login:
+            pattern: ^/api/login
+            stateless: true
+            anonymous: true
+            json_login:
+                check_path: /api/login_check
+                success_handler: lexik_jwt_authentication.handler.authentication_success
+                failure_handler: lexik_jwt_authentication.handler.authentication_failure
+                require_previous_session: false
+
+        refresh:
+            pattern: ^/api/token/refresh
+            stateless: true
+            anonymous: true
+
+        api:
+            pattern: ^/api
+            stateless: true
             guard:
-                entry_point: 'Deck\Infrastructure\User\Auth\Guard\LoginAuthenticator'
                 authenticators:
-                    - 'Deck\Infrastructure\User\Auth\Guard\LoginAuthenticator'
-            form_login:
-                login_path: /sign-in
-                check_path: sign-in
-            logout:
-                path: /logout
-                target: /
-            logout_on_user_change: true
+                    - lexik_jwt_authentication.jwt_token_authenticator
+
+        main:
+            anonymous: true
 
     access_control:
-        - { path: ^/profile/*, roles: ROLE_USER }
-        - { path: ^/game/*, roles: ROLE_USER }
-        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/doc, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

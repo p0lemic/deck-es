@@ -1,0 +1,12 @@
+Deck\Domain\Table\Event\TableWasFilled:
+  exclusion_policy: ALL
+  properties:
+    aggregateId:
+      expose: true
+      type: Deck\Domain\Table\TableId
+    players:
+      expose: true
+      type: array<Deck\Domain\User\PlayerId>
+    occurredOn:
+      expose: true
+      type: Deck\Domain\Shared\ValueObject\DateTime

@@ -4,47 +4,52 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
+use JMS\Serializer\SerializationContext;
+use JMS\Serializer\SerializerInterface;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
-use Twig\Environment;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
 
-class AbstractRenderController
+class AbstractRenderController extends AbstractController
 {
-    /** @var CommandBus */
-    private $commandBus;
+    private CommandBus $commandBus;
+    private SerializerInterface $serializer;
 
-    /** @var Environment */
-    private $template;
-
-    public function __construct(Environment $template, CommandBus $commandBus)
-    {
-        $this->template = $template;
+    public function __construct(
+        CommandBus $commandBus,
+        SerializerInterface $serializer
+    ) {
         $this->commandBus = $commandBus;
-    }
-
-    /**
-     * @param string $view
-     * @param array $parameters
-     * @param int $code
-     *
-     * @return Response
-     *
-     * @throws LoaderError
-     * @throws RuntimeError
-     * @throws SyntaxError
-     */
-    protected function render(string $view, array $parameters = [], int $code = Response::HTTP_OK): Response
-    {
-        $content = $this->template->render($view, $parameters);
-
-        return new Response($content, $code);
+        $this->serializer = $serializer;
     }
 
     protected function execute($command): void
     {
         $this->commandBus->handle($command);
+    }
+
+    protected function createApiResponse(
+        $data,
+        $statusCode = Response::HTTP_OK
+    ): Response {
+        $json = $this->serialize($data);
+
+        return new Response(
+            $json, $statusCode, [
+            'Content-Type' => 'application/json',
+        ]
+        );
+    }
+
+    protected function serialize(
+        $data,
+        $format = 'json',
+        $groups = ['Default']
+    ): string {
+        $context = new SerializationContext();
+        $context->setSerializeNull(true);
+        $context->setGroups($groups);
+
+        return $this->serializer->serialize($data, $format, $context);
     }
 }

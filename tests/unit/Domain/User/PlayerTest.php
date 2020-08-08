@@ -18,7 +18,7 @@ final class PlayerTest extends TestCase
     /** @var MockObject|UniqueEmailSpecificationInterface */
     private $emailSpecification;
 
-    public function setUp()
+    public function setUp(): void
     {
         $this->credentials = $this->createMock(Credentials::class);
         $this->emailSpecification = $this->createMock(UniqueEmailSpecificationInterface::class);

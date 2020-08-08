@@ -1,0 +1,6 @@
+Deck\Domain\Table\TableId:
+  exclusion_policy: ALL
+  properties:
+    value:
+      expose: true
+      type: string

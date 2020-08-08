@@ -1,3 +1,51 @@
-controllers:
-    resource: '../src/Infrastructure/Ui/Http/Controller/'
-    type: annotation
+api.table.list:
+    path: /api/tables
+    methods: GET
+    controller: Deck\Infrastructure\Ui\Http\Controller\TableController::list
+
+api.table.create:
+    path: /api/tables
+    methods: POST
+    controller: Deck\Infrastructure\Ui\Http\Controller\TableController::create
+
+api.table.join:
+    path: /api/tables/join
+    methods: POST
+    controller: Deck\Infrastructure\Ui\Http\Controller\TableController::join
+
+api.game.list:
+    path: /api/games
+    methods: GET
+    controller: Deck\Infrastructure\Ui\Http\Controller\GameController::list
+
+api.game.create:
+    path: /api/games
+    methods: POST
+    controller: Deck\Infrastructure\Ui\Http\Controller\GameController::create
+
+api.game.play:
+    path: /api/games/play
+    methods: POST
+    controller: Deck\Infrastructure\Ui\Http\Controller\GameController::play
+
+api.user.login:
+    path: /api/user/login
+    methods: POST
+    controller: Deck\Infrastructure\Ui\Http\Controller\SecurityController:login
+
+api.user.logout:
+    path: /api/user/logout
+    methods: POST
+    controller: Deck\Infrastructure\Ui\Http\Controller\SecurityController:logout
+
+api.user.signup:
+    path: /api/user/signup
+    methods: POST
+    controller: Deck\Infrastructure\Ui\Http\Controller\SignUpController:signUp
+
+api_login_check:
+    path: /api/login_check
+
+gesdinet_jwt_refresh_token:
+    path: /api/token/refresh
+    controller: gesdinet.jwtrefreshtoken::refresh

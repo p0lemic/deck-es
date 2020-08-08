@@ -11,7 +11,7 @@ use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
 use Deck\Infrastructure\User\Auth\Auth;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
-use Symfony\Component\HttpFoundation\RedirectResponse;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
@@ -23,14 +23,11 @@ use Symfony\Component\Security\Guard\Authenticator\AbstractFormLoginAuthenticato
 
 final class LoginAuthenticator extends AbstractFormLoginAuthenticator
 {
-    private const LOGIN = 'login';
-    private const SUCCESS_REDIRECT = 'profile';
-    /** @var CommandBus */
-    private $bus;
-    /** @var UrlGeneratorInterface */
-    private $router;
-    /** @var PlayerReadModelRepositoryInterface */
-    private $playerRepository;
+    private const LOGIN = 'api.user.login';
+
+    private CommandBus $bus;
+    private UrlGeneratorInterface $router;
+    private PlayerReadModelRepositoryInterface $playerRepository;
 
     public function __construct(
         CommandBus $commandBus,
@@ -163,6 +160,6 @@ final class LoginAuthenticator extends AbstractFormLoginAuthenticator
         TokenInterface $token,
         $providerKey
     ): ?Response {
-        return new RedirectResponse($this->router->generate(self::SUCCESS_REDIRECT));
+        return new JsonResponse(true);
     }
 }

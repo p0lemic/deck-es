@@ -13,6 +13,8 @@ class Player extends SimpleEventSourcedEntity
 {
     /** @var PlayerId */
     private $id;
+    /** @var string */
+    private $username;
     /** @var Card[] */
     private $hand;
     /** @var Card[] */
@@ -20,21 +22,28 @@ class Player extends SimpleEventSourcedEntity
 
     public function __construct(
         PlayerId $playerId,
+        string $username,
         array $hand
     ) {
         $this->id = $playerId;
+        $this->username = $username;
         $this->hand = $hand;
         $this->wonCards = [];
     }
 
-    public static function create(PlayerId $playerId): self
+    public static function create(PlayerId $playerId, string $username): self
     {
-        return new self($playerId, []);
+        return new self($playerId, $username, []);
     }
 
     public function playerId(): PlayerId
     {
         return $this->id;
+    }
+
+    public function username(): string
+    {
+        return $this->username;
     }
 
     public function hand(): array

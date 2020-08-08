@@ -12,12 +12,9 @@ use Symfony\Component\Security\Core\User\UserInterface;
 
 class Auth implements UserInterface, EncoderAwareInterface
 {
-    /** @var AggregateId */
-    private $id;
-    /** @var Email */
-    private $email;
-    /** @var HashedPassword */
-    private $hashedPassword;
+    private AggregateId $id;
+    private Email $email;
+    private HashedPassword $hashedPassword;
 
     private function __construct(AggregateId $id, Email $email, HashedPassword $hashedPassword)
     {

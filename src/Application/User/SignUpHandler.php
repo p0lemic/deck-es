@@ -10,10 +10,8 @@ use Deck\Domain\User\Specification\UniqueEmailSpecificationInterface;
 
 class SignUpHandler
 {
-    /** @var PlayerRepositoryInterface */
-    private $userStore;
-    /** @var UniqueEmailSpecificationInterface */
-    private $uniqueEmailSpecification;
+    private PlayerRepositoryInterface $userStore;
+    private UniqueEmailSpecificationInterface $uniqueEmailSpecification;
 
     public function __construct(
         PlayerRepositoryInterface $userStore,
@@ -25,7 +23,7 @@ class SignUpHandler
 
     public function handle(SignUpCommand $command): void
     {
-        $user = Player::create($command->credentials(), $this->uniqueEmailSpecification);
+        $user = Player::create($command->id(), $command->credentials(), $this->uniqueEmailSpecification);
 
         $this->userStore->store($user);
     }

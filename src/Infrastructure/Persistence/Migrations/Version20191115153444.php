@@ -5,10 +5,7 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\Persistence\Migrations;
 
 use Broadway\EventStore\Dbal\DBALEventStore;
-use Doctrine\DBAL\DBALException;
-use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Schema\Schema;
-use Doctrine\DBAL\Schema\Table;
 use Doctrine\Migrations\AbstractMigration;
 use Doctrine\ORM\EntityManager;
 use Symfony\Component\DependencyInjection\ContainerAwareInterface;

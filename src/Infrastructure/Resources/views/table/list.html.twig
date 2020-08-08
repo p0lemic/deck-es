@@ -1,0 +1,29 @@
+{% extends 'base.html.twig' %}
+
+{% block body %}
+    <div class="container">
+        <div class="">
+            <a class="btn btn-lg btn-block btn-primary" href="{{ path('table-create') }}">Create table</a>
+        </div>
+        <div class="">
+            {% for table in tables %}
+                <div class="card mb-4 shadow-sm">
+                    <div class="card-header">
+                        <h4 class="my-0 font-weight-normal">Number of players: {{ table.players|length }}</h4>
+                    </div>
+                    <div class="card-body">
+                        <h1 class="card-title pricing-card-title"><small>{{ table.id }}</small></h1>
+                        <form method="post" action="{{ path('table-join') }}">
+                            <input type="hidden" id="id" name="id" value="{{ table.id }}" />
+                            <button  class="btn btn-lg btn-primary btn-block"
+                                     type="submit"
+                                     value="Send" {% if(table.isFull()) %}disabled="disabled"{% endif %}>
+                                Join table
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+{% endblock body %}

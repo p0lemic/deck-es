@@ -23,6 +23,7 @@ doctrine:
             game_id: Deck\Infrastructure\Persistence\Type\Game\DoctrineGameIdType
             table_id: Deck\Infrastructure\Persistence\Type\Table\DoctrineTableIdType
             datetime: Deck\Infrastructure\Persistence\Type\Shared\DoctrineDateTimeType
+            players_id_array: Deck\Infrastructure\Persistence\Type\User\DoctrinePlayerIdArrayType
 
     orm:
         auto_generate_proxy_classes: '%kernel.debug%'
@@ -31,21 +32,16 @@ doctrine:
         mappings:
             game:
                 type: yml
-                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Game"
+                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/Game"
                 prefix: Deck\Domain\Game
                 is_bundle: false
             table:
                 type: yml
-                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Table"
+                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/Table"
                 prefix: Deck\Domain\Table
                 is_bundle: false
-#            event:
-#                type: yml
-#                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/Event"
-#                prefix: Deck\Domain\Event
-#                is_bundle: false
             user:
                 type: yml
-                dir: "%kernel.root_dir%/../src/Infrastructure/Persistence/Mapping/User"
+                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/User"
                 prefix: Deck\Domain\User
                 is_bundle: false

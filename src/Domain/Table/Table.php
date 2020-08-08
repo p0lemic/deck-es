@@ -6,8 +6,8 @@ namespace Deck\Domain\Table;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Domain\Shared\ValueObject\DateTime;
-use Deck\Domain\Table\Event\PlayerWasLeavedEvent;
-use Deck\Domain\Table\Event\PlayerWasSeatedEvent;
+use Deck\Domain\Table\Event\PlayerWasLeaved;
+use Deck\Domain\Table\Event\PlayerWasSeated;
 use Deck\Domain\Table\Event\TableWasCreated;
 use Deck\Domain\Table\Event\TableWasFilled;
 use Deck\Domain\Table\Exception\PlayerAlreadyInTable;
@@ -22,10 +22,10 @@ class Table extends EventSourcedAggregateRoot
     /** @var PlayerId[] */
     private $players;
 
-    public static function create(): self
+    public static function create(PlayerId $playerId): self
     {
         $game = new self();
-        $game->apply(new TableWasCreated(TableId::create(), DateTime::now()));
+        $game->apply(new TableWasCreated(TableId::create(), $playerId, DateTime::now()));
 
         return $game;
     }
@@ -38,12 +38,12 @@ class Table extends EventSourcedAggregateRoot
 
     public function playerLeaves(PlayerId $playerId): void
     {
-        $this->apply(new PlayerWasLeavedEvent($this->id, $playerId, DateTime::now()));
+        $this->apply(new PlayerWasLeaved($this->id, $playerId, DateTime::now()));
     }
 
     public function playerSits(PlayerId $playerId): void
     {
-        $this->apply(new PlayerWasSeatedEvent($this->id, $playerId, DateTime::now()));
+        $this->apply(new PlayerWasSeated($this->id, $playerId, DateTime::now()));
 
         if ($this->isFull()) {
             $this->apply(new TableWasFilled($this->id, $this->players(), DateTime::now()));
@@ -53,10 +53,10 @@ class Table extends EventSourcedAggregateRoot
     public function applyTableWasCreated(TableWasCreated $event): void
     {
         $this->id = $event->aggregateId();
-        $this->players = [];
+        $this->players[] = $event->playerId();
     }
 
-    public function applyPlayerWasLeavedEvent(PlayerWasLeavedEvent $event): void
+    public function applyPlayerWasLeaved(PlayerWasLeaved $event): void
     {
         foreach ($this->players() as $key => $playerId) {
             if ($playerId === $event->playerId()) {
@@ -65,7 +65,7 @@ class Table extends EventSourcedAggregateRoot
         }
     }
 
-    public function applyPlayerWasSeatedEvent(PlayerWasSeatedEvent $event): void
+    public function applyPlayerWasSeated(PlayerWasSeated $event): void
     {
         if (in_array($event->playerId(), $this->players(), true)) {
             throw PlayerAlreadyInTable::alreadyInTable($event->playerId());

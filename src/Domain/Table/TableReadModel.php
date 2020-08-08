@@ -2,11 +2,13 @@
 
 namespace Deck\Domain\Table;
 
-use Deck\Domain\Game\Player;
 use Deck\Domain\User\PlayerId;
+use function count;
 
 class TableReadModel
 {
+    private const SIZE = 2;
+
     /** @var TableId */
     private $id;
     /** @var PlayerId[] */
@@ -14,14 +16,10 @@ class TableReadModel
 
     public function __construct(
         TableId $tableId,
-        array $players
+        PlayerId $playerId
     ) {
         $this->id = $tableId;
-
-        /** @var Player $player */
-        foreach ($players as $player) {
-            $this->players[] = $player->playerId();
-        }
+        $this->players[] = $playerId;
     }
 
     public function id(): TableId
@@ -47,5 +45,10 @@ class TableReadModel
                 unset($this->players[$key]);
             }
         }
+    }
+
+    public function isFull(): bool
+    {
+        return count($this->players) === self::SIZE;
     }
 }

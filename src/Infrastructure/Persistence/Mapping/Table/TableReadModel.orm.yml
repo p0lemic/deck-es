@@ -9,4 +9,4 @@ Deck\Domain\Table\TableReadModel:
             type: table_id
     fields:
         players:
-            type: json_array
+            type: players_id_array

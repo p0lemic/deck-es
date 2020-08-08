@@ -8,7 +8,7 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\Table\TableId;
 use Deck\Domain\User\PlayerId;
 
-class PlayerWasLeavedEvent
+class PlayerWasLeaved
 {
     /** @var TableId */
     private $aggregateId;

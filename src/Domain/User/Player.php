@@ -10,36 +10,33 @@ use Deck\Domain\User\Event\UserWasSignedIn;
 use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Specification\UniqueEmailSpecificationInterface;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
-use function var_dump;
 
 class Player extends EventSourcedAggregateRoot
 {
-    /** @var PlayerId */
-    private $id;
-    /** @var Credentials */
-    private $credentials;
-    /** @var DateTime */
-    private $createdAt;
-    /** @var DateTime|null */
-    private $updatedAt;
+    private PlayerId $id;
+    private Credentials $credentials;
+    private DateTime $createdAt;
+    private ?DateTime $updatedAt;
 
     /**
+     * @param PlayerId $id
      * @param Credentials $credentials
      * @param UniqueEmailSpecificationInterface $uniqueEmailSpecification
      *
      * @return static
      *
-     * @throws Exception\EmailAlreadyExistException
      * @throws DateTimeException
+     * @throws Exception\EmailAlreadyExistException
      */
     public static function create(
+        PlayerId $id,
         Credentials $credentials,
         UniqueEmailSpecificationInterface $uniqueEmailSpecification
     ): self {
         $uniqueEmailSpecification->isUnique($credentials->email());
         $user = new self();
 
-        $user->apply(new UserWasCreated(PlayerId::create(), $credentials, DateTime::now()));
+        $user->apply(new UserWasCreated($id, $credentials, DateTime::now()));
 
         return $user;
     }

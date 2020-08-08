@@ -1,4 +1,4 @@
-FROM php:7.3.5-apache
+FROM php:7.4.8-apache
 
 RUN a2enmod rewrite
 

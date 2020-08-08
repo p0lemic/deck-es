@@ -7,7 +7,7 @@ jms_serializer:
         directories:
             Domain:
                 namespace_prefix: "Deck\\Domain"
-                path: "%kernel.root_dir%/Infrastructure/Serializer/Mapping/Domain"
+                path: "%kernel.project_dir%/src/Infrastructure/Serializer/Mapping/Domain"
             Broadway:
                 namespace_prefix: "Broadway\\EventSourcing"
-                path: "%kernel.root_dir%/Infrastructure/Serializer/Mapping/Broadway"
+                path: "%kernel.project_dir%/src/Infrastructure/Serializer/Mapping/Broadway"

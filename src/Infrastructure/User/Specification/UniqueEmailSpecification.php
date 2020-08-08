@@ -13,8 +13,7 @@ use Doctrine\ORM\NonUniqueResultException;
 
 final class UniqueEmailSpecification extends AbstractSpecification implements UniqueEmailSpecificationInterface
 {
-    /** @var PlayerReadModelRepositoryInterface */
-    private $playerRepository;
+    private PlayerReadModelRepositoryInterface $playerRepository;
 
     public function __construct(PlayerReadModelRepositoryInterface $playerRepository)
     {

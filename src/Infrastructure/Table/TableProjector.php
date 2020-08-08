@@ -5,11 +5,12 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\Table;
 
 use Broadway\ReadModel\Projector;
-use Deck\Domain\Table\Event\PlayerWasLeavedEvent;
-use Deck\Domain\Table\Event\PlayerWasSeatedEvent;
+use Deck\Domain\Table\Event\PlayerWasLeaved;
+use Deck\Domain\Table\Event\PlayerWasSeated;
 use Deck\Domain\Table\Event\TableWasCreated;
 use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\Table\TableReadModelRepositoryInterface;
+use function var_dump;
 
 class TableProjector extends Projector
 {
@@ -29,13 +30,13 @@ class TableProjector extends Projector
     {
         $tableReadModel = new TableReadModel(
             $tableWasCreated->aggregateId(),
-            []
+            $tableWasCreated->playerId()
         );
 
         $this->repository->save($tableReadModel);
     }
 
-    public function applyPlayerWasLeavedEvent(PlayerWasLeavedEvent $event): void
+    public function applyPlayerWasLeaved(PlayerWasLeaved $event): void
     {
         /** @var TableReadModel $tableReadModel */
         $tableReadModel = $this->loadReadModel($event->aggregateId());
@@ -44,7 +45,7 @@ class TableProjector extends Projector
         $this->repository->save($tableReadModel);
     }
 
-    public function applyPlayerWasSeatedEvent(PlayerWasSeatedEvent $playerWasSeated): void
+    public function applyPlayerWasSeated(PlayerWasSeated $playerWasSeated): void
     {
         /** @var TableReadModel $tableReadModel */
         $tableReadModel = $this->loadReadModel($playerWasSeated->aggregateId());

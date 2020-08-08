@@ -1,9 +1,38 @@
 nelmio_api_doc:
     documentation:
         info:
-            title: My App
-            description: This is an awesome app!
+            title: Deck ES
+            description: Event sourcing deck
             version: 1.0.0
+        securityDefinitions:
+            Bearer:
+                type: apiKey
+                description: 'Value: Bearer {jwt}'
+                name: Authorization
+                in: header
+        security:
+            - Bearer: []
+        paths:
+            /api/login_check:
+                post:
+                    summary: Get jwt
+                    consumes:
+                        - application/json
+                    parameters:
+                        - in: body
+                          name: user
+                          description: User credentials
+                          schema:
+                              type: object
+                              required:
+                                  - userName
+                              properties:
+                                  username:
+                                      type: string
+                                  password:
+                                      type: string
+                    tags:
+                        - Security
     areas: # to filter documented areas
         path_patterns:
             - ^/api(?!/doc$) # Accepts routes under /api except /api/doc

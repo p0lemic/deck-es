@@ -1,0 +1,9 @@
+Deck\Domain\Table\TableReadModel:
+  exclusion_policy: ALL
+  properties:
+    id:
+      expose: true
+      type: Deck\Domain\Table\TableId
+    players:
+      expose: true
+      type: array<Deck\Domain\User\PlayerId>
