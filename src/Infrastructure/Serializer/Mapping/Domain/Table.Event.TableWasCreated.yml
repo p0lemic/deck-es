@@ -4,9 +4,6 @@ Deck\Domain\Table\Event\TableWasCreated:
     aggregateId:
       expose: true
       type: Deck\Domain\Table\TableId
-    playerId:
-      expose: true
-      type: Deck\Domain\User\PlayerId
     occurredOn:
       expose: true
       type: Deck\Domain\Shared\ValueObject\DateTime

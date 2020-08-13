@@ -9,7 +9,6 @@ use Doctrine\DBAL\Platforms\AbstractPlatform;
 use Doctrine\DBAL\Types\Type;
 use function json_decode;
 use function json_encode;
-use function var_dump;
 
 final class DoctrinePlayerIdArrayType extends Type
 {

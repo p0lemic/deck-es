@@ -2,11 +2,8 @@
 
 namespace Deck\Application\Table;
 
-use Deck\Domain\Table\Table;
 use Deck\Domain\Table\TableRepositoryInterface;
-use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
-use function var_dump;
 
 class JoinTableHandler
 {

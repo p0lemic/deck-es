@@ -10,7 +10,6 @@ use Deck\Domain\Table\Event\PlayerWasSeated;
 use Deck\Domain\Table\Event\TableWasCreated;
 use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\Table\TableReadModelRepositoryInterface;
-use function var_dump;
 
 class TableProjector extends Projector
 {
@@ -29,8 +28,7 @@ class TableProjector extends Projector
     public function applyTableWasCreated(TableWasCreated $tableWasCreated): void
     {
         $tableReadModel = new TableReadModel(
-            $tableWasCreated->aggregateId(),
-            $tableWasCreated->playerId()
+            $tableWasCreated->aggregateId()
         );
 
         $this->repository->save($tableReadModel);

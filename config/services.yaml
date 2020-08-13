@@ -43,9 +43,6 @@ services:
             - '%env(DATABASE_DB_TYPE)%:host=%env(DATABASE_DB_HOST)%;port=%env(DATABASE_PORT)%;dbname=%env(DATABASE_DB)%'
             - { db_username: '%env(DATABASE_USER)%', db_password: '%env(DATABASE_PASSWORD)%', db_table: 'deck.sessions' }
 
-    Deck\Application\Game\CreateGameHandler:
-        tags:
-            - { name: command_handler, handles: Deck\Application\Game\CreateGameCommand }
     Deck\Application\User\SignUpHandler:
         tags:
             - { name: command_handler, handles: Deck\Application\User\SignUpCommand }
@@ -58,6 +55,9 @@ services:
     Deck\Application\Table\JoinTableHandler:
         tags:
             - { name: command_handler, handles: Deck\Application\Table\JoinTableCommand }
+    Deck\Application\Game\CreateGameHandler:
+        tags:
+            - { name: command_handler, handles: Deck\Application\Game\CreateGameCommand }
 
     Deck\Infrastructure\User\Auth\AuthenticationSuccessListener:
         arguments: ['%lexik_jwt_authentication.token_ttl%']

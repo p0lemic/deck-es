@@ -34,6 +34,11 @@ security:
             stateless: true
             anonymous: true
 
+        register:
+            pattern: ^/api/user/signup
+            stateless: true
+            anonymous: true
+
         api:
             pattern: ^/api
             stateless: true
@@ -47,5 +52,6 @@ security:
     access_control:
         - { path: ^/api/doc, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/login, roles: IS_AUTHENTICATED_ANONYMOUSLY }
+        - { path: ^/api/user/signup, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api/token/refresh, roles: IS_AUTHENTICATED_ANONYMOUSLY }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }

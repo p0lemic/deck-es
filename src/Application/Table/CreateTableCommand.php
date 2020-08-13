@@ -4,20 +4,19 @@ declare(strict_types=1);
 
 namespace Deck\Application\Table;
 
-use Deck\Domain\User\PlayerId;
+use Deck\Domain\Table\TableId;
 
 final class CreateTableCommand
 {
-    private PlayerId $playerId;
+    private TableId $id;
 
-    public function __construct(
-        PlayerId $aPlayerId
-    ) {
-        $this->playerId = $aPlayerId;
+    public function __construct()
+    {
+        $this->id = TableId::create();
     }
 
-    public function playerId(): PlayerId
+    public function id(): TableId
     {
-        return $this->playerId;
+        return $this->id;
     }
 }

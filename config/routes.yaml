@@ -23,20 +23,10 @@ api.game.create:
     methods: POST
     controller: Deck\Infrastructure\Ui\Http\Controller\GameController::create
 
-api.game.play:
-    path: /api/games/play
+api.game.load:
+    path: /api/games/load
     methods: POST
-    controller: Deck\Infrastructure\Ui\Http\Controller\GameController::play
-
-api.user.login:
-    path: /api/user/login
-    methods: POST
-    controller: Deck\Infrastructure\Ui\Http\Controller\SecurityController:login
-
-api.user.logout:
-    path: /api/user/logout
-    methods: POST
-    controller: Deck\Infrastructure\Ui\Http\Controller\SecurityController:logout
+    controller: Deck\Infrastructure\Ui\Http\Controller\GameController::load
 
 api.user.signup:
     path: /api/user/signup

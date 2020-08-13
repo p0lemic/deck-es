@@ -14,11 +14,10 @@ class TableReadModel
     private array $players;
 
     public function __construct(
-        TableId $tableId,
-        PlayerId $playerId
+        TableId $tableId
     ) {
         $this->id = $tableId;
-        $this->players[] = $playerId;
+        $this->players = [];
     }
 
     public function id(): TableId
