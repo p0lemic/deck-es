@@ -7,10 +7,12 @@ namespace Deck\Domain\Game\Event;
 use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\Player;
 use Deck\Domain\Shared\ValueObject\DateTime;
+use Deck\Domain\User\PlayerId;
 
 class GameWasCreated
 {
     private GameId $aggregateId;
+    /** @var PlayerId[] */
     private array $players;
     private DateTime $occurredOn;
 

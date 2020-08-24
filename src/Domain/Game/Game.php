@@ -27,13 +27,15 @@ class Game extends EventSourcedAggregateRoot
 {
     private GameId $id;
     private Deck $deck;
+    /** @var Player[] */
     private array $players;
 
     public static function create(
+        GameId $gameId,
         array $players
     ): self {
         $game = new self();
-        $game->apply(new GameWasCreated(GameId::create(), $players, DateTime::now()));
+        $game->apply(new GameWasCreated($gameId, $players, DateTime::now()));
 
         return $game;
     }
@@ -97,7 +99,9 @@ class Game extends EventSourcedAggregateRoot
     public function applyGameWasCreated(GameWasCreated $event): void
     {
         $this->id = $event->aggregateId();
-        $this->players = $event->players();
+        foreach ($event->players() as $playerId) {
+            $this->players[] = Player::create($playerId);
+        }
         $this->deck = Deck::create(DeckId::create(), $this->id);
     }
 

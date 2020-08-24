@@ -6,7 +6,7 @@ Deck\Domain\Game\Event\GameWasCreated:
       type: Deck\Domain\Game\GameId
     players:
       expose: true
-      type: array<Deck\Domain\Game\Player>
+      type: array<Deck\Domain\User\PlayerId>
     deck:
       expose: true
       type: Deck\Domain\Game\Deck

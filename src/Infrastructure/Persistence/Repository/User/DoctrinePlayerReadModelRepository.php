@@ -60,7 +60,7 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
             ->getOneOrNullResult();
 
         if (null === $user) {
-            throw UserNotFoundException::emailNorFound($email);
+            throw UserNotFoundException::emailNotFound($email);
         }
 
         return $user;

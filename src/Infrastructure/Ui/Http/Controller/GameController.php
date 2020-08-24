@@ -4,20 +4,18 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
+use Assert\Assertion;
+use Assert\AssertionFailedException;
 use Deck\Application\Game\CreateGameCommand;
 use Deck\Application\Game\GamesListQuery;
 use Deck\Application\Game\LoadGame;
 use Deck\Application\Game\LoadGameRequest;
-use Deck\Application\Table\GetTablesQuery;
-use Deck\Domain\Game\GameId;
+use Deck\Domain\Game\Exception\InvalidPlayerNumber;
+use InvalidArgumentException;
 use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Routing\Annotation\Route;
-use Symfony\Component\Security\Core\Security;
-use Twig\Error\LoaderError;
-use Twig\Error\RuntimeError;
-use Twig\Error\SyntaxError;
+use function var_dump;
 
 class GameController extends AbstractRenderController
 {
@@ -42,28 +40,39 @@ class GameController extends AbstractRenderController
     }
 
     /**
-     * Create new game
+     * Create new game from an existing table id
      *
      * @SWG\Response(
      *     response=201,
      *     description="Game created successfully"
      * )
-     *
+     * @SWG\Parameter(
+     *     name="game",
+     *     type="object",
+     *     in="body",
+     *     schema=@SWG\Schema(type="object",
+     *         @SWG\Property(property="table_id", type="string")
+     *     )
+     * )
      * @SWG\Tag(name="Game")
      *
-     * @param Security $security
+     * @param Request $request
      * @return Response
      */
-    public function create(Security $security): Response
+    public function create(Request $request): Response
     {
-        $user = $security->getUser();
+        $tableId = $request->get('table_id');
 
-        $players = [
-            $user ? $user->getUsername() : null,
-        ];
-        $this->execute(new CreateGameCommand(GameId::create()->value(), $players));
+        try {
+            Assertion::notNull($tableId, 'Table Id can\'t be null');
 
-        return $this->createApiResponse([], Response::HTTP_CREATED);
+            $createGameCommand = new CreateGameCommand($tableId);
+            $this->execute($createGameCommand);
+
+            return $this->createApiResponse(['id' => $createGameCommand->gameId()->value()], Response::HTTP_CREATED);
+        } catch (InvalidArgumentException|AssertionFailedException|InvalidPlayerNumber $exception) {
+            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**

@@ -16,7 +16,7 @@ class UserNotFoundException extends Exception
         return new self(sprintf('User with id %s not found', $playerId->value()));
     }
 
-    public static function emailNorFound(Email $email): self
+    public static function emailNotFound(Email $email): self
     {
         return new self(sprintf('User with email %s not found', $email->toString()));
     }

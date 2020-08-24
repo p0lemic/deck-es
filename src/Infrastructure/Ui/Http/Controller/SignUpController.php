@@ -58,7 +58,7 @@ class SignUpController extends AbstractRenderController
 
             $this->execute($signUpCommand);
 
-            return $this->createApiResponse(['id' => $signUpCommand->id()], Response::HTTP_CREATED);
+            return $this->createApiResponse(['id' => $signUpCommand->id()->value()], Response::HTTP_CREATED);
         } catch (EmailAlreadyExistException $exception) {
             return $this->createApiResponse(['error' => 'Email already exists.'], Response::HTTP_CONFLICT);
         } catch (InvalidArgumentException|AssertionFailedException $exception) {

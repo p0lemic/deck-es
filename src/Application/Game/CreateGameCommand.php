@@ -5,26 +5,27 @@ declare(strict_types=1);
 namespace Deck\Application\Game;
 
 use Deck\Domain\Game\GameId;
+use Deck\Domain\Table\TableId;
 use Deck\Domain\User\Player;
 
 final class CreateGameCommand
 {
-    private array $players;
+    private TableId $tableId;
     private GameId $gameId;
 
-    public function __construct(string $aGameId, array $players)
+    public function __construct(string $aTableId)
     {
-        $this->gameId = GameId::fromString($aGameId);
-        $this->players = $players;
+        $this->tableId = TableId::fromString($aTableId);
+        $this->gameId = GameId::create();
+    }
+
+    public function tableId(): TableId
+    {
+        return $this->tableId;
     }
 
     public function gameId(): GameId
     {
         return $this->gameId;
-    }
-
-    public function players(): array
-    {
-        return $this->players;
     }
 }

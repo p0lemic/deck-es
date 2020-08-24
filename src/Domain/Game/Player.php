@@ -12,7 +12,6 @@ use Deck\Domain\User\PlayerId;
 class Player extends SimpleEventSourcedEntity
 {
     private PlayerId $id;
-    private string $username;
     /** @var Card[] */
     private array $hand;
     /** @var Card[] */
@@ -20,28 +19,21 @@ class Player extends SimpleEventSourcedEntity
 
     public function __construct(
         PlayerId $playerId,
-        string $username,
         array $hand
     ) {
         $this->id = $playerId;
-        $this->username = $username;
         $this->hand = $hand;
         $this->wonCards = [];
     }
 
-    public static function create(PlayerId $playerId, string $username): self
+    public static function create(PlayerId $playerId): self
     {
-        return new self($playerId, $username, []);
+        return new self($playerId, []);
     }
 
     public function playerId(): PlayerId
     {
         return $this->id;
-    }
-
-    public function username(): string
-    {
-        return $this->username;
     }
 
     public function hand(): array

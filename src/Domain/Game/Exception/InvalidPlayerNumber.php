@@ -17,10 +17,26 @@ class InvalidPlayerNumber extends Exception
 
     }
 
+    public static function equalsToTwo(): self
+    {
+        return new self(
+            sprintf('Players have to be two')
+        );
+
+    }
+
     public static function gameIsFull(): self
     {
         return new self(
             sprintf('The Game is full')
+        );
+
+    }
+
+    public static function gameTableIsNotFull(): self
+    {
+        return new self(
+            sprintf('The game table should be full')
         );
 
     }

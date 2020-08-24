@@ -2,37 +2,47 @@
 
 namespace Deck\Application\Game;
 
+use Deck\Domain\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Game\GameFactory;
 use Deck\Domain\Game\GameRepositoryInterface;
-use Deck\Domain\Game\Player;
+use Deck\Domain\Table\TableId;
+use Deck\Domain\Table\TableReadModelRepositoryInterface;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
-use Deck\Domain\User\ValueObject\Email;
 
 class CreateGameHandler
 {
     private GameFactory $gameFactory;
     private GameRepositoryInterface $gameStore;
     private PlayerReadModelRepositoryInterface $playerRepository;
+    private TableReadModelRepositoryInterface $tableRepository;
 
     public function __construct(
         GameFactory $gameFactory,
         GameRepositoryInterface $gameStore,
-        PlayerReadModelRepositoryInterface $playerRepository
+        PlayerReadModelRepositoryInterface $playerRepository,
+        TableReadModelRepositoryInterface $tableRepository
     ) {
         $this->gameFactory = $gameFactory;
         $this->gameStore = $gameStore;
         $this->playerRepository = $playerRepository;
+        $this->tableRepository = $tableRepository;
     }
 
-    public function handle(CreateGameCommand $createGameRequest): void
+    public function handle(CreateGameCommand $createGameCommand): void
     {
-        $players = [];
-        foreach ($createGameRequest->players() as $playerId) {
-            $player = $this->playerRepository->findByEmailOrFail(Email::fromString($playerId));
+        $table = $this->tableRepository->findByTableIdOrFail(TableId::fromString($createGameCommand->tableId()->value()));
 
-            $players[] = Player::create($player->id());
+        if (!$table->isFull()) {
+            throw InvalidPlayerNumber::gameTableIsNotFull();
         }
-        $game = $this->gameFactory->createNewGame($players);
+
+        $players = [];
+        foreach ($table->players() as $playerId) {
+            $player = $this->playerRepository->findByIdOrFail($playerId);
+
+            $players[] = $player->id();
+        }
+        $game = $this->gameFactory->createNewGame($createGameCommand->gameId(), $players);
         $game->initGame();
 
         $this->gameStore->store($game);

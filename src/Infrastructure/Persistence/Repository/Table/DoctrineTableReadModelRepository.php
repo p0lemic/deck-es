@@ -2,9 +2,11 @@
 
 namespace Deck\Infrastructure\Persistence\Repository\Table;
 
+use Deck\Domain\Table\Exception\TableNotFoundException;
 use Deck\Domain\Table\TableId;
 use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\Table\TableReadModelRepositoryInterface;
+use Deck\Domain\User\Exception\UserNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
 use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\OptimisticLockException;
@@ -44,6 +46,23 @@ class DoctrineTableReadModelRepository extends ServiceEntityRepository implement
                 'id' => $tableId,
             ]
         );
+
+        return $table;
+    }
+
+    public function findByTableIdOrFail(TableId $tableId): TableReadModel
+    {
+        /** @var TableReadModel $table */
+        $table = $this->findOneBy(
+            [
+                'id' => $tableId,
+            ]
+        );
+
+        if (null === $table) {
+            throw TableNotFoundException::idNotFound($tableId);
+        }
+
 
         return $table;
     }

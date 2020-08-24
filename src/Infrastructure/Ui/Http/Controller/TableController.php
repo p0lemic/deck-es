@@ -20,7 +20,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
-use function var_dump;
 
 class TableController extends AbstractRenderController
 {
@@ -84,12 +83,9 @@ class TableController extends AbstractRenderController
                 )
             );
 
-            return $this->createApiResponse(['id' => $createTableCommand->id()], Response::HTTP_CREATED);
+            return $this->createApiResponse(['id' => $createTableCommand->id()->value()], Response::HTTP_CREATED);
         } catch (PlayerAlreadyInTable $exception) {
             return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_CONFLICT);
-        } catch (\Throwable $exception) {
-            var_dump($exception->getTraceAsString());
-            throw $exception;
         }
     }
 

@@ -12,6 +12,8 @@ interface TableReadModelRepositoryInterface
      */
     public function findByTableId(TableId $tableId): ?TableReadModel;
 
+    public function findByTableIdOrFail(TableId $tableId): TableReadModel;
+
     public function all(): array;
 
     /**

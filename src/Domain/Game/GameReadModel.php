@@ -2,11 +2,13 @@
 
 namespace Deck\Domain\Game;
 
+use Deck\Domain\User\PlayerId;
+
 class GameReadModel
 {
     private GameId $id;
     private Deck $deck;
-    /** @var Player[] */
+    /** @var PlayerId[] */
     private array $players;
 
     public function __construct(
@@ -14,11 +16,7 @@ class GameReadModel
         array $players
     ) {
         $this->id = $gameId;
-
-        /** @var Player $player */
-        foreach ($players as $player) {
-            $this->players[] = $player->playerId()->value();
-        }
+        $this->players[] = $players;
     }
 
     public function id(): GameId
@@ -31,14 +29,9 @@ class GameReadModel
         return $this->deck;
     }
 
-    /** @return Player[] */
+    /** @return PlayerId[] */
     public function players(): array
     {
         return $this->players;
-    }
-
-    public function joinPlayer(Player $player): void
-    {
-        $this->players[] = $player->playerId()->value();
     }
 }
