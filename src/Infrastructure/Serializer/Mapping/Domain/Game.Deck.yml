@@ -4,3 +4,6 @@ Deck\Domain\Game\Deck:
     id:
       expose: true
       type: Deck\Domain\Game\DeckId
+    cards:
+      expose: true
+      type: array<Deck\Domain\Game\Card>

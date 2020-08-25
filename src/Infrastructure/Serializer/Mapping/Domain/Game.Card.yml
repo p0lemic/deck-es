@@ -3,8 +3,8 @@ Deck\Domain\Game\Card:
   properties:
     suite:
       expose: true
-      type: string
+      type: Deck\Domain\Game\Suite
     rank:
       expose: true
-      type: string
+      type: Deck\Domain\Game\Rank
 

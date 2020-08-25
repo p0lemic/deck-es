@@ -16,7 +16,7 @@ class GameReadModel
         array $players
     ) {
         $this->id = $gameId;
-        $this->players[] = $players;
+        $this->players = $players;
     }
 
     public function id(): GameId

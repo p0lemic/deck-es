@@ -14,12 +14,9 @@ use function shuffle;
 class Deck extends SimpleEventSourcedEntity
 {
     public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
-    /** @var DeckId */
-    private $id;
-    /** @var GameId */
-    private $gameId;
-    /** @var Card[] */
-    private $cards;
+    private DeckId $id;
+    private GameId $gameId;
+    private array $cards;
 
     public function __construct(
         DeckId $aDeckId,

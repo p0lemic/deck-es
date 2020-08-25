@@ -34,9 +34,14 @@ class GameController extends AbstractRenderController
      */
     public function list(GamesListQuery $listGames): Response
     {
-        $games = $listGames->execute();
+        try {
+            $games = $listGames->execute();
 
-        return $this->createApiResponse($games);
+            return $this->createApiResponse($games);
+        } catch (\Throwable $exception) {
+            var_dump($exception->getTraceAsString());
+            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 
     /**
@@ -99,15 +104,22 @@ class GameController extends AbstractRenderController
      * @SWG\Tag(name="Game")
      *
      * @param LoadGame $loadGame
-     * @param string $id
+     * @param Request $request
      * @return Response
      */
     public function load(
         LoadGame $loadGame,
-        string $id
+        Request $request
     ): Response {
-        $game = $loadGame->execute(new LoadGameRequest($id));
+        try {
+            $id = $request->get('id');
 
-        return $this->createApiResponse($game->getAggregateRootId());
+            $game = $loadGame->execute(new LoadGameRequest($id));
+
+            return $this->createApiResponse($game);
+        } catch (\Throwable $exception) {
+            var_dump($exception->getTraceAsString());
+            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        }
     }
 }
