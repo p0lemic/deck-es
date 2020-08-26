@@ -8,6 +8,7 @@ use Deck\Domain\Game\Event\GameWasJoined;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
 use Deck\Domain\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Shared\ValueObject\DateTime;
+use Deck\Domain\User\PlayerId;
 use function count;
 
 /**
@@ -27,7 +28,7 @@ class Game extends EventSourcedAggregateRoot
 {
     private GameId $id;
     private Deck $deck;
-    /** @var Player[] */
+    /** @var PlayerId[] */
     private array $players;
 
     public static function create(

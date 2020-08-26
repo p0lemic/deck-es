@@ -15,7 +15,7 @@ class DeckTest extends TestCase
         $deck = Deck::create(DeckId::create(), GameId::create());
         $deck->shuffleCards();
 
-        $this->assertCount(40, $deck->cards());
+        self::assertCount(40, $deck->cards());
     }
 
     /** @test */

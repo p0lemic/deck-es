@@ -3,6 +3,7 @@
 namespace Deck\Tests\unit\Domain\Game;
 
 use Deck\Domain\Game\Game;
+use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\Player;
 use Deck\Domain\User\PlayerId;
 use PHPUnit\Framework\TestCase;
@@ -11,15 +12,16 @@ class GameTest extends TestCase
 {
     public function testNewDeckShouldHas40Cards(): void
     {
-        $playerOne = Player::create(PlayerId::create());
-        $playerTwo = Player::create(PlayerId::create());
+        $playerOne = PlayerId::create();
+        $playerTwo = PlayerId::create();
         $players = [
             $playerOne,
             $playerTwo,
         ];
 
-        $game = Game::create($players);
+        $game = Game::create(GameId::create(), $players);
 
-        $this->assertCount(1, $game->getUncommittedEvents());
+        self::assertCount(1, $game->getUncommittedEvents());
+        self::assertCount(0, $game->deck()->cards());
     }
 }
