@@ -12,15 +12,12 @@ use Deck\Domain\User\PlayerId;
 
 class CardWasDeal
 {
-    /** @var Card */
     private Card $card;
-    /** @var DateTime */
-    private $occurredOn;
-    /** @var PlayerId */
-    private $playerId;
+    private DateTime $occurredOn;
+    private PlayerId $playerId;
 
     public function __construct(
-        AggregateId $playerId,
+        PlayerId $playerId,
         Card $card,
         DateTime $occurredOn
     ) {

@@ -1,9 +1,9 @@
-Deck\Domain\Game\Event\GameWasInit:
+Deck\Domain\Game\Event\CardWasDrawn:
   exclusion_policy: ALL
   properties:
-    deck:
+    card:
       expose: true
-      type: Deck\Domain\Game\Deck
+      type: Deck\Domain\Game\Card
     occurredOn:
       expose: true
       type: Deck\Domain\Shared\ValueObject\DateTime

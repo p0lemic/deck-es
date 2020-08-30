@@ -4,11 +4,9 @@ namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Domain\Game\Event\GameWasCreated;
-use Deck\Domain\Game\Event\GameWasJoined;
+use Deck\Domain\Game\Event\GameWasInitialized;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
-use Deck\Domain\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Shared\ValueObject\DateTime;
-use Deck\Domain\User\PlayerId;
 use function count;
 
 /**
@@ -28,15 +26,16 @@ class Game extends EventSourcedAggregateRoot
 {
     private GameId $id;
     private Deck $deck;
-    /** @var PlayerId[] */
+    /** @var Player[] */
     private array $players;
 
     public static function create(
         GameId $gameId,
+        DeckId $deckId,
         array $players
     ): self {
         $game = new self();
-        $game->apply(new GameWasCreated($gameId, $players, DateTime::now()));
+        $game->apply(new GameWasCreated($gameId, $players, $deckId, DateTime::now()));
 
         return $game;
     }
@@ -52,14 +51,9 @@ class Game extends EventSourcedAggregateRoot
         return $this->players;
     }
 
-    public function join(Player $player): void
-    {
-        $this->apply(new GameWasJoined($this->id, $player, DateTime::now()));
-    }
-
     public function initGame(): void
     {
-        $this->deck->shuffleCards();
+        $this->applyGameWasInitialized(new GameWasInitialized(DateTime::now()));
     }
 
     /**
@@ -103,18 +97,12 @@ class Game extends EventSourcedAggregateRoot
         foreach ($event->players() as $playerId) {
             $this->players[] = Player::create($playerId);
         }
-        $this->deck = Deck::create(DeckId::create(), $this->id);
+        $this->deck = Deck::create($event->deckId());
     }
 
-    public function applyGameWasJoined(GameWasJoined $gameWasJoined): void
+    public function applyGameWasInitialized(GameWasInitialized $event): void
     {
-        $totalPlayers = count($this->players());
-
-        if ($totalPlayers >= 2) {
-            throw InvalidPlayerNumber::gameIsFull();
-        }
-
-        $this->players[] = $gameWasJoined->player();
+        $this->deck->shuffleCards();
     }
 
     public function getAggregateRootId(): string

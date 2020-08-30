@@ -9,11 +9,12 @@ class GameFactory
 {
     /**
      * @param GameId $gameId
+     * @param DeckId $deckId
      * @param PlayerId[] $players
      * @return Game
      * @throws InvalidPlayerNumber
      */
-    public function createNewGame(GameId $gameId, array $players): Game
+    public function createNewGame(GameId $gameId, DeckId $deckId, array $players): Game
     {
         $totalPlayers = count($players);
 
@@ -21,6 +22,6 @@ class GameFactory
             throw InvalidPlayerNumber::equalsToTwo();
         }
 
-        return Game::create($gameId, $players);
+        return Game::create($gameId, $deckId, $players);
     }
 }

@@ -15,23 +15,19 @@ class Deck extends SimpleEventSourcedEntity
 {
     public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
     private DeckId $id;
-    private GameId $gameId;
     private array $cards;
 
     public function __construct(
-        DeckId $aDeckId,
-        GameId $gameId
+        DeckId $aDeckId
     ) {
         $this->id = $aDeckId;
-        $this->gameId = $gameId;
         $this->cards = [];
     }
 
     public static function create(
-        DeckId $aDeckId,
-        GameId $gameId
+        DeckId $aDeckId
     ): self {
-        return new self($aDeckId, $gameId);
+        return new self($aDeckId);
     }
 
     public function shuffleCards(): void
@@ -78,14 +74,9 @@ class Deck extends SimpleEventSourcedEntity
         array_pop($this->cards);
     }
 
-    public function getAggregateRootId(): string
+    public function id(): string
     {
         return $this->id->value();
-    }
-
-    public function gameId(): GameId
-    {
-        return $this->gameId;
     }
 
     public function cards(): array

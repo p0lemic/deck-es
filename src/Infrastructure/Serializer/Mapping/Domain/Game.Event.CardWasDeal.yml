@@ -1,0 +1,12 @@
+Deck\Domain\Game\Event\CardWasDeal:
+  exclusion_policy: ALL
+  properties:
+    card:
+      expose: true
+      type: Deck\Domain\Game\Card
+    playerId:
+      expose: true
+      type: Deck\Domain\User\PlayerId
+    occurredOn:
+      expose: true
+      type: Deck\Domain\Shared\ValueObject\DateTime

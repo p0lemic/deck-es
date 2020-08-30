@@ -36,22 +36,6 @@ class GameProjector extends Projector
         $this->repository->save($gameReadModel);
     }
 
-    public function applyGameWasJoined(GameWasJoined $gameWasJoined): void
-    {
-        /** @var GameReadModel $gameReadModel */
-        $gameReadModel = $this->loadReadModel($gameWasJoined->aggregateId());
-
-        $totalPlayers = count($gameReadModel->players());
-
-        if ($totalPlayers >= 2) {
-            throw InvalidPlayerNumber::gameIsFull();
-        }
-
-        $gameReadModel->joinPlayer($gameWasJoined->player());
-
-        $this->repository->save($gameReadModel);
-    }
-
     private function loadReadModel($id)
     {
         return $this->repository->findByGameId($id);

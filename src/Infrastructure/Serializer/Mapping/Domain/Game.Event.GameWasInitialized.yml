@@ -1,7 +1,7 @@
-Deck\Domain\Game\Event\DeckWasCreated:
+Deck\Domain\Game\Event\GameWasInitialized:
   exclusion_policy: ALL
   properties:
-    aggregateId:
+    deckId:
       expose: true
       type: Deck\Domain\Game\DeckId
     occurredOn:

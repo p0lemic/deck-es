@@ -2,6 +2,8 @@
 
 namespace Deck\Application\Game;
 
+use Deck\Domain\Game\Deck;
+use Deck\Domain\Game\DeckId;
 use Deck\Domain\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Game\GameFactory;
 use Deck\Domain\Game\GameRepositoryInterface;
@@ -42,7 +44,7 @@ class CreateGameHandler
 
             $players[] = $player->id();
         }
-        $game = $this->gameFactory->createNewGame($createGameCommand->gameId(), $players);
+        $game = $this->gameFactory->createNewGame($createGameCommand->gameId(), $createGameCommand->deckId(), $players);
         $game->initGame();
 
         $this->gameStore->store($game);

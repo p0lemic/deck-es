@@ -43,7 +43,7 @@ class Player extends SimpleEventSourcedEntity
 
     public function addCardToPlayersHand(Card $card): void
     {
-        $this->apply(new CardWasDeal($this->playerId(), $card, DateTime::now()));
+        $this->handle(new CardWasDeal($this->playerId(), $card, DateTime::now()));
     }
 
     public function applyCardWasDeal(CardWasDeal $cardWasDeal): void
