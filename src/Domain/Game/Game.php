@@ -53,7 +53,7 @@ class Game extends EventSourcedAggregateRoot
 
     public function initGame(): void
     {
-        $this->applyGameWasInitialized(new GameWasInitialized(DateTime::now()));
+        $this->apply(new GameWasInitialized(DateTime::now()));
     }
 
     /**

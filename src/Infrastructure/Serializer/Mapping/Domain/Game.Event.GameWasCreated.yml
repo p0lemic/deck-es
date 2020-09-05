@@ -7,9 +7,9 @@ Deck\Domain\Game\Event\GameWasCreated:
     players:
       expose: true
       type: array<Deck\Domain\User\PlayerId>
-    deck:
+    deckId:
       expose: true
-      type: Deck\Domain\Game\Deck
+      type: Deck\Domain\Game\DeckId
     occurredOn:
       expose: true
       type: Deck\Domain\Shared\ValueObject\DateTime
