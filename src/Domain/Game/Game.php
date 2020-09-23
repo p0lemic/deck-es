@@ -61,6 +61,10 @@ class Game extends EventSourcedAggregateRoot
     public function initGame(): void
     {
         $this->deck->shuffleCards();
+
+        foreach($this->players() as $player) {
+            $this->dealInitialHand($player);
+        }
     }
 
     /**
@@ -75,6 +79,12 @@ class Game extends EventSourcedAggregateRoot
         $card = $this->deck->draw();
 
         $this->apply(new CardWasDeal($player->playerId(), $card, DateTime::now()));
+    }
+
+    private function dealInitialHand(Player $player) {
+        for($i = 0; $i < 3; $i++) {
+            $this->playerDraw($player);
+        }
     }
 
     /**
