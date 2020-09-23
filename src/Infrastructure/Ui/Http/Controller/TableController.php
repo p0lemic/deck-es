@@ -10,6 +10,7 @@ use Deck\Application\Table\CreateTableCommand;
 use Deck\Application\Table\GetTableQuery;
 use Deck\Application\Table\GetTablesQuery;
 use Deck\Application\Table\JoinTableCommand;
+use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\Table\Exception\PlayerAlreadyInTable;
 use Deck\Domain\Table\Exception\TableIsFull;
 use Deck\Domain\Table\TableId;
@@ -66,6 +67,7 @@ class TableController extends AbstractRenderController
         try {
             $user = $security->getUser();
 
+            /** @var AggregateId $userId */
             $userId = $user ? $user->id() : null;
 
             if (null === $userId) {

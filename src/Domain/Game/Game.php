@@ -3,10 +3,12 @@
 namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
+use Deck\Domain\Game\Event\CardWasDeal;
 use Deck\Domain\Game\Event\GameWasCreated;
-use Deck\Domain\Game\Event\GameWasInitialized;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
+use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
+use Deck\Domain\User\PlayerId;
 use function count;
 
 /**
@@ -51,15 +53,20 @@ class Game extends EventSourcedAggregateRoot
         return $this->players;
     }
 
+    public function getPlayer(PlayerId $playerId): ?Player
+    {
+        return $this->players[$playerId->value()] ?? null;
+    }
+
     public function initGame(): void
     {
-        $this->apply(new GameWasInitialized(DateTime::now()));
+        $this->deck->shuffleCards();
     }
 
     /**
      * @param Player $player
      * @return void
-     * @throws CardsNumberInUseNotValidException
+     * @throws CardsNumberInUseNotValidException|DateTimeException
      */
     public function playerDraw(Player $player): void
     {
@@ -67,7 +74,7 @@ class Game extends EventSourcedAggregateRoot
 
         $card = $this->deck->draw();
 
-        $player->addCardToPlayersHand($card);
+        $this->apply(new CardWasDeal($player->playerId(), $card, DateTime::now()));
     }
 
     /**
@@ -95,14 +102,16 @@ class Game extends EventSourcedAggregateRoot
     {
         $this->id = $event->aggregateId();
         foreach ($event->players() as $playerId) {
-            $this->players[] = Player::create($playerId);
+            $this->players[$playerId->value()] = Player::create($playerId);
         }
         $this->deck = Deck::create($event->deckId());
     }
 
-    public function applyGameWasInitialized(GameWasInitialized $event): void
+    public function applyCardWasDeal(CardWasDeal $cardWasDeal): void
     {
-        $this->deck->shuffleCards();
+        $player = $this->players[$cardWasDeal->playerId()->value()];
+
+        $player->addCardToHand($cardWasDeal->card());
     }
 
     public function getAggregateRootId(): string

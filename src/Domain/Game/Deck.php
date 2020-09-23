@@ -7,7 +7,10 @@ use Deck\Domain\Game\Event\CardWasAddedToDeck;
 use Deck\Domain\Game\Event\CardWasDrawn;
 use Deck\Domain\Game\Exception\DeckCardsNumberException;
 use Deck\Domain\Shared\ValueObject\DateTime;
+use function array_flip;
 use function array_pop;
+use function array_reverse;
+use function array_shift;
 use function count;
 use function shuffle;
 
@@ -71,7 +74,7 @@ class Deck extends SimpleEventSourcedEntity
 
     public function applyCardWasDrawn(CardWasDrawn $event): void
     {
-        array_pop($this->cards);
+        array_shift($this->cards);
     }
 
     public function id(): string

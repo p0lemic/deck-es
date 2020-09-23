@@ -7,7 +7,6 @@ namespace Deck\Application\Game;
 use Deck\Domain\Game\DeckId;
 use Deck\Domain\Game\GameId;
 use Deck\Domain\Table\TableId;
-use Deck\Domain\User\Player;
 
 final class CreateGameCommand
 {

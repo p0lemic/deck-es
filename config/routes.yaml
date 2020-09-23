@@ -28,6 +28,11 @@ api.game.load:
     methods: POST
     controller: Deck\Infrastructure\Ui\Http\Controller\GameController::load
 
+api.game.draw:
+    path: /api/games/draw
+    methods: POST
+    controller: Deck\Infrastructure\Ui\Http\Controller\GameController::playerDraw
+
 api.user.signup:
     path: /api/user/signup
     methods: POST

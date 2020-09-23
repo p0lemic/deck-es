@@ -9,8 +9,8 @@ use Deck\Domain\User\PlayerId;
 
 final class JoinTableCommand
 {
-    private PlayerId $playerId;
     private TableId $tableId;
+    private PlayerId $playerId;
 
     public function __construct(
         string $aTableId,

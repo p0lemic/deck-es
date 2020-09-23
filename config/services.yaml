@@ -58,6 +58,9 @@ services:
     Deck\Application\Game\CreateGameHandler:
         tags:
             - { name: command_handler, handles: Deck\Application\Game\CreateGameCommand }
+    Deck\Application\Game\DrawCardHandler:
+        tags:
+            - { name: command_handler, handles: Deck\Application\Game\DrawCardCommand }
 
     Deck\Infrastructure\User\Auth\AuthenticationSuccessListener:
         arguments: ['%lexik_jwt_authentication.token_ttl%']
