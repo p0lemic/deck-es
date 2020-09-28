@@ -169,7 +169,6 @@ class GameController extends AbstractRenderController
 
             return $this->createApiResponse(['id' => $drawCardCommand->gameId()->value()], Response::HTTP_OK);
         } catch (Throwable $exception) {
-            var_dump($exception->getTraceAsString());
             return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
         }
     }

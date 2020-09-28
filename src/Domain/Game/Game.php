@@ -3,9 +3,10 @@
 namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
-use Deck\Domain\Game\Event\CardWasDeal;
+use Deck\Domain\Game\Event\CardWasDealt;
 use Deck\Domain\Game\Event\GameWasCreated;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
+use Deck\Domain\Game\Exception\PlayerNotAllowedToDraw;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
@@ -26,6 +27,7 @@ use function count;
  */
 class Game extends EventSourcedAggregateRoot
 {
+    private const MAX_CARDS_IN_PLAYER_HAND = 3;
     private GameId $id;
     private Deck $deck;
     /** @var Player[] */
@@ -71,18 +73,23 @@ class Game extends EventSourcedAggregateRoot
      * @param Player $player
      * @return void
      * @throws CardsNumberInUseNotValidException|DateTimeException
+     * @throws PlayerNotAllowedToDraw
      */
     public function playerDraw(Player $player): void
     {
+        if (self::MAX_CARDS_IN_PLAYER_HAND >= count($player->hand())) {
+            throw PlayerNotAllowedToDraw::isFull();
+        }
+
         $this->assertTotalCardsInGameAreConsistency();
 
         $card = $this->deck->draw();
 
-        $this->apply(new CardWasDeal($player->playerId(), $card, DateTime::now()));
+        $this->apply(new CardWasDealt($player->playerId(), $card, DateTime::now()));
     }
 
     private function dealInitialHand(Player $player) {
-        for($i = 0; $i < 3; $i++) {
+        for($i = 0; $i < self::MAX_CARDS_IN_PLAYER_HAND; $i++) {
             $this->playerDraw($player);
         }
     }
@@ -117,11 +124,11 @@ class Game extends EventSourcedAggregateRoot
         $this->deck = Deck::create($event->deckId());
     }
 
-    public function applyCardWasDeal(CardWasDeal $cardWasDeal): void
+    public function applyCardWasDealt(CardWasDealt $cardWasDealt): void
     {
-        $player = $this->players[$cardWasDeal->playerId()->value()];
+        $player = $this->players[$cardWasDealt->playerId()->value()];
 
-        $player->addCardToHand($cardWasDeal->card());
+        $player->addCardToHand($cardWasDealt->card());
     }
 
     public function getAggregateRootId(): string

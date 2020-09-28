@@ -5,8 +5,6 @@ declare(strict_types=1);
 namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\SimpleEventSourcedEntity;
-use Deck\Domain\Game\Event\CardWasDeal;
-use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 
 class Player extends SimpleEventSourcedEntity

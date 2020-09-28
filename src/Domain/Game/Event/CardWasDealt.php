@@ -4,13 +4,12 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Game\Event;
 
-use DateTimeImmutable;
 use Deck\Domain\Game\Card;
 use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 
-class CardWasDeal
+class CardWasDealt
 {
     private Card $card;
     private DateTime $occurredOn;
