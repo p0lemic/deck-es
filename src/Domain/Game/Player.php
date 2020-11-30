@@ -44,6 +44,16 @@ class Player extends SimpleEventSourcedEntity
         $this->hand[] = $card;
     }
 
+    public function playCard(Card $card): void
+    {
+        foreach ($this->hand as $index => $cardInHand)
+        {
+            if ($card->equals($cardInHand)) {
+                unset($this->hand[$index]);
+            }
+        }
+    }
+
     public function score(): int
     {
         $points = 0;

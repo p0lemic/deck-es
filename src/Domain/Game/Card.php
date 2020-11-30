@@ -27,6 +27,24 @@ class Card extends SimpleEventSourcedEntity
 
     public function points(): int
     {
-        return 1;
+        switch($this->rank->value()) {
+            case "A":
+                return 11;
+            case "3":
+                return 10;
+            case "K":
+                return 4;
+            case "Q":
+                return 3;
+            case "J":
+                return 2;
+            default:
+                return 0;
+        }
+    }
+
+    public function equals(Card $card): bool
+    {
+        return $card->suite()->value() === $this->suite->value() && $card->rank()->value() === $this->rank->value();
     }
 }

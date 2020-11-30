@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Deck\Domain\User\ValueObject\Auth;
 
 use Assert\Assertion;
+use RuntimeException;
+use function is_bool;
 
 final class HashedPassword
 {
@@ -45,8 +47,8 @@ final class HashedPassword
 
         $hashedPassword = password_hash($plainPassword, PASSWORD_BCRYPT, ['cost' => self::COST]);
 
-        if (\is_bool($hashedPassword)) {
-            throw new \RuntimeException('Server error hashing password');
+        if (is_bool($hashedPassword) || null === $hashedPassword) {
+            throw new RuntimeException('Server error hashing password');
         }
 
         $this->hashedPassword = $hashedPassword;
