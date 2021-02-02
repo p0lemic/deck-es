@@ -37,6 +37,7 @@ class Game extends EventSourcedAggregateRoot
     private PlayerId $currentPlayerId;
     /** @var Card[] */
     private array $cardsOnTable;
+    private Rules $rules;
 
     public static function create(
         GameId $gameId,
@@ -74,7 +75,7 @@ class Game extends EventSourcedAggregateRoot
         }
     }
 
-    private function dealInitialHand(Player $player) {
+    private function dealInitialHand(Player $player): void {
         for($i = 0; $i < self::MAX_CARDS_IN_PLAYER_HAND; $i++) {
             $this->playerDraw($player);
         }
@@ -133,6 +134,7 @@ class Game extends EventSourcedAggregateRoot
             $this->currentPlayerId = $this->currentPlayerId ?? $playerId;
         }
         $this->deck = Deck::create($event->deckId());
+        $this->rules = new Brisca();
     }
 
     public function applyCardWasDealt(CardWasDealt $cardWasDealt): void
@@ -149,7 +151,7 @@ class Game extends EventSourcedAggregateRoot
         $this->currentPlayerId = $this->getNextPlayer();
 
         if ($this->areAllCardsPlayed()) {
-            $this->resolveTurn(new Brisca());
+            $this->resolveTurn();
         }
     }
 
@@ -187,8 +189,8 @@ class Game extends EventSourcedAggregateRoot
         return count($this->cardsOnTable) === count($this->players);
     }
 
-    private function resolveTurn(Rules $rules): void
+    private function resolveTurn(): void
     {
-        usort($this->cardsOnTable, static fn($a, $b) =>  ($rules->resolveHand($a, $b)));
+        usort($this->cardsOnTable, static fn($a, $b) =>  ($this->rules->resolveHand($a, $b)));
     }
 }

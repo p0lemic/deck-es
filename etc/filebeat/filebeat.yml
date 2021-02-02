@@ -1,0 +1,27 @@
+filebeat.config:
+  modules:
+    path: ${path.config}/modules.d/*.yml
+    reload.enabled: false
+
+filebeat.autodiscover:
+  providers:
+    - type: docker
+      hints.enabled: true
+
+filebeat.inputs:
+  - type: log
+    # Change to true to enable this input configuration.
+    enabled: true
+    # Paths that should be crawled and fetched. Glob based paths.
+    paths:
+      - "/logs/domain-events.log"
+    fields:
+      appname: "deck"
+      document_type: event
+
+processors:
+- add_cloud_metadata: ~
+
+output.logstash:
+  # The Logstash hosts
+  hosts: http://logstash:9600

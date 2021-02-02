@@ -18,6 +18,7 @@ RUN npm install -g gulp
 RUN apt-get install --yes build-essential
 
 COPY docker/dev/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
+COPY docker/dev/php/my-config.ini /usr/local/etc/php/conf.d/my-config.ini
 
 ENV APACHE_DOCUMENT_ROOT /var/www/deck/public
 
