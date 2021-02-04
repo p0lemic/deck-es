@@ -93,13 +93,33 @@ services:
     build:
       dockerfile: docker/dev/logstash/Dockerfile
       context: .
+    volumes:
+      - ./var/log:/var/log/deck:ro
     ports:
       - "5000:5000"
       - "9600:9600"
+      - "5044:5044"
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     depends_on:
       - elasticsearch
+
+  filebeat:
+    user: root
+    container_name: filebeat
+    image: docker.elastic.co/beats/filebeat:7.4.0
+    depends_on:
+      - logstash
+    volumes:
+      - /var/run/docker.sock:/host_docker/docker.sock
+      - /var/lib/docker:/host_docker/var/lib/docker
+      - ./var/log:/var/log/deck:ro
+      - ./docker/dev/filebeat/filebeat.yml:/usr/share/filebeat/filebeat.yml
+    command: ["--strict.perms=false"]
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
 
 volumes:
   elasticsearch-data:
