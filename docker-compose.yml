@@ -57,36 +57,74 @@ services:
       # HTTP management UI
       - '15672:15672'
 
-  elasticsearch:
-    image: docker.elastic.co/elasticsearch/elasticsearch:7.4.0
-    container_name: elasticsearch
+  es01:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    container_name: es01
     environment:
-      - xpack.security.enabled=false
-      - discovery.type=single-node
+      - node.name=es01
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es02,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
     ulimits:
       memlock:
         soft: -1
         hard: -1
-      nofile:
-        soft: 65536
-        hard: 65536
-    cap_add:
-      - IPC_LOCK
     volumes:
-      - elasticsearch-data:/usr/share/elasticsearch/data
+      - data01:/usr/share/elasticsearch/data
     ports:
       - 9200:9200
-      - 9300:9300
+    networks:
+      - elastic
+  es02:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    container_name: es02
+    environment:
+      - node.name=es02
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es03
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data02:/usr/share/elasticsearch/data
+    networks:
+      - elastic
+  es03:
+    image: docker.elastic.co/elasticsearch/elasticsearch:7.11.1
+    container_name: es03
+    environment:
+      - node.name=es03
+      - cluster.name=es-docker-cluster
+      - discovery.seed_hosts=es01,es02
+      - cluster.initial_master_nodes=es01,es02,es03
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - data03:/usr/share/elasticsearch/data
+    networks:
+      - elastic
 
   kibana:
     container_name: kibana
-    image: docker.elastic.co/kibana/kibana:7.4.0
+    image: docker.elastic.co/kibana/kibana:7.11.1
     environment:
-      - ELASTICSEARCH_HOSTS=http://elasticsearch:9200
+      - ELASTICSEARCH_HOSTS=http://es01:9200
     ports:
       - 5601:5601
     depends_on:
-      - elasticsearch
+      - es01
+    networks:
+      - elastic
       
   logstash:
     container_name: logstash
@@ -102,12 +140,14 @@ services:
     environment:
       LS_JAVA_OPTS: "-Xmx256m -Xms256m"
     depends_on:
-      - elasticsearch
+      - es01
+    networks:
+      - elastic
 
   filebeat:
     user: root
     container_name: filebeat
-    image: docker.elastic.co/beats/filebeat:7.4.0
+    image: docker.elastic.co/beats/filebeat:7.11.1
     depends_on:
       - logstash
     volumes:
@@ -120,9 +160,19 @@ services:
       memlock:
         soft: -1
         hard: -1
+    networks:
+      - elastic
 
 volumes:
-  elasticsearch-data:
-    driver: local
   database:
     driver: local
+  data01:
+    driver: local
+  data02:
+    driver: local
+  data03:
+    driver: local
+
+networks:
+  elastic:
+    driver: bridge
