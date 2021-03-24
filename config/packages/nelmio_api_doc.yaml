@@ -4,33 +4,48 @@ nelmio_api_doc:
             title: Deck ES
             description: Event sourcing deck
             version: 1.0.0
-        securityDefinitions:
-            Bearer:
-                type: apiKey
-                description: 'Value: Bearer {jwt}'
-                name: Authorization
-                in: header
+        components:
+            securitySchemes:
+                Bearer:
+                    type: apiKey
+                    description: 'Value: Bearer {jwt}'
+                    name: Authorization
+                    in: header
+            schemas:
+                Table:
+                    type: object
+                    properties:
+                        id:
+                            type: string
+                User:
+                    type: object
+                    properties:
+                        email:
+                            type: string
+                        password:
+                            type: string
+                Game:
+                    type: object
+                    properties:
+                        id:
+                            type: string
         security:
             - Bearer: []
         paths:
             /api/login_check:
                 post:
                     summary: Get jwt
-                    consumes:
-                        - application/json
-                    parameters:
-                        - in: body
-                          name: user
-                          description: User credentials
-                          schema:
-                              type: object
-                              required:
-                                  - userName
-                              properties:
-                                  username:
-                                      type: string
-                                  password:
-                                      type: string
+                    requestBody:
+                        required: true
+                        content:
+                            application/json:
+                                schema:
+                                    type: object
+                                    properties:
+                                        username:
+                                            type: string
+                                        password:
+                                            type: string
                     tags:
                         - Security
     areas: # to filter documented areas

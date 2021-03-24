@@ -6,11 +6,10 @@ use Deck\Domain\Table\Exception\TableNotFoundException;
 use Deck\Domain\Table\TableId;
 use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\Table\TableReadModelRepositoryInterface;
-use Deck\Domain\User\Exception\UserNotFoundException;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 
 class DoctrineTableReadModelRepository extends ServiceEntityRepository implements TableReadModelRepositoryInterface
 {
@@ -62,7 +61,6 @@ class DoctrineTableReadModelRepository extends ServiceEntityRepository implement
         if (null === $table) {
             throw TableNotFoundException::idNotFound($tableId);
         }
-
 
         return $table;
     }

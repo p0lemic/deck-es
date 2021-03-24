@@ -14,7 +14,7 @@ use Deck\Application\Game\LoadGameRequest;
 use Deck\Domain\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Shared\AggregateId;
 use InvalidArgumentException;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -27,12 +27,12 @@ class GameController extends AbstractRenderController
     /**
      * List available tables
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Available games"
      * )
      *
-     * @SWG\Tag(name="Game")
+     * @OA\Tag(name="Game")
      *
      * @param GamesListQuery $listGames
      * @return Response
@@ -52,26 +52,25 @@ class GameController extends AbstractRenderController
     /**
      * Create new game from an existing table id
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=201,
      *     description="Game created successfully"
      * )
-     * @SWG\Parameter(
-     *     name="game",
-     *     type="object",
-     *     in="body",
-     *     schema=@SWG\Schema(type="object",
-     *         @SWG\Property(property="table_id", type="string")
-     *     )
+     *
+     * @OA\RequestBody(
+     *     request="table",
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/Table"),
      * )
-     * @SWG\Tag(name="Game")
+     *
+     * @OA\Tag(name="Game")
      *
      * @param Request $request
      * @return Response
      */
     public function create(Request $request): Response
     {
-        $tableId = $request->get('table_id');
+        $tableId = $request->get('id');
 
         try {
             Assertion::notNull($tableId, 'Table Id can\'t be null');
@@ -88,25 +87,22 @@ class GameController extends AbstractRenderController
     /**
      * Load a game
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Game loaded successfully"
      * )
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Bad request"
      * )
-     * @SWG\Parameter(
-     *     name="game",
-     *     type="object",
-     *     in="body",
-     *     schema=@SWG\Schema(type="object",
-     *         @SWG\Property(property="id", type="string")
-     *     )
+     * @OA\RequestBody(
+     *     request="game",
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/Game"),
      * )
      *
-     * @SWG\Tag(name="Game")
+     * @OA\Tag(name="Game")
      *
      * @param LoadGame $loadGame
      * @param Request $request
@@ -130,19 +126,24 @@ class GameController extends AbstractRenderController
     /**
      * Draw a new card from deck
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Card was drawn successfully"
      * )
-     * @SWG\Parameter(
-     *     name="game",
-     *     type="object",
-     *     in="body",
-     *     schema=@SWG\Schema(type="object",
-     *         @SWG\Property(property="game_id", type="string")
-     *     )
+     *
+     * @OA\RequestBody(
+     *     request="game",
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/Game"),
      * )
-     * @SWG\Tag(name="Game")
+     *
+     * @OA\RequestBody(
+     *     request="game",
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/Game"),
+     * )
+     *
+     * @OA\Tag(name="Game")
      *
      * @param Security $security
      * @param Request $request
@@ -150,7 +151,7 @@ class GameController extends AbstractRenderController
      */
     public function playerDraw(Security $security, Request $request): Response
     {
-        $gameId = $request->get('game_id');
+        $gameId = $request->get('id');
 
         try {
             $user = $security->getUser();

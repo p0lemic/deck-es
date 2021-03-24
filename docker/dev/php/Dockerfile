@@ -1,14 +1,17 @@
-FROM php:7.4.8-apache
+FROM php:8.0.1-apache
 
 RUN a2enmod rewrite
 
-RUN apt-get update && apt-get install -y libpq-dev git zip unzip \
+RUN apt-get update && apt-get install -y libpq-dev git zip unzip libicu-dev \
     && docker-php-source extract \
     && pecl install xdebug redis \
     && docker-php-ext-enable xdebug \
     && docker-php-source delete \
-    && docker-php-ext-install pdo_pgsql bcmath sockets \
-    && rm -rf /tmp/*
+    && docker-php-ext-install pdo_pgsql bcmath sockets
+
+RUN docker-php-ext-install -j$(nproc) intl
+
+RUN rm -rf /tmp/*
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 

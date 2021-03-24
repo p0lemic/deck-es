@@ -16,23 +16,23 @@ use Deck\Domain\Table\Exception\TableIsFull;
 use Deck\Domain\Table\TableId;
 use Deck\Domain\User\PlayerId;
 use InvalidArgumentException;
-use Swagger\Annotations as SWG;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
+use OpenApi\Annotations as OA;
 
 class TableController extends AbstractRenderController
 {
     /**
      * List available tables
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Available tables"
      * )
      *
-     * @SWG\Tag(name="Table")
+     * @OA\Tag(name="Table")
      *
      * @param GetTablesQuery $getTables
      * @return Response
@@ -47,17 +47,17 @@ class TableController extends AbstractRenderController
     /**
      * Create new table
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=201,
      *     description="Table created successfully"
      * )
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=409,
      *     description="Conflict"
      * )
      *
-     * @SWG\Tag(name="Table")
+     * @OA\Tag(name="Table")
      *
      * @param Security $security
      * @return Response
@@ -94,31 +94,28 @@ class TableController extends AbstractRenderController
     /**
      * Join a table
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=200,
      *     description="Table joined successfully"
      * )
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Bad request"
      * )
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=409,
      *     description="Conflict"
      * )
      *
-     * @SWG\Parameter(
-     *     name="table",
-     *     type="object",
-     *     in="body",
-     *     schema=@SWG\Schema(type="object",
-     *         @SWG\Property(property="id", type="string")
-     *     )
+     * @OA\RequestBody(
+     *     request="table",
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/Table"),
      * )
      *
-     * @SWG\Tag(name="Table")
+     * @OA\Tag(name="Table")
      *
      * @param Security $security
      * @param GetTableQuery $getTableQuery

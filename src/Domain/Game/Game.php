@@ -2,6 +2,7 @@
 
 namespace Deck\Domain\Game;
 
+use ApiPlatform\Core\Annotation\ApiResource;
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Domain\Game\Event\CardWasDealt;
 use Deck\Domain\Game\Event\CardWasPlayed;
@@ -27,6 +28,8 @@ use function usort;
  * Invariant 1. The deck, and the players all together must have 52 unique cards
  *
  */
+
+#[ApiResource]
 class Game extends EventSourcedAggregateRoot
 {
     private const MAX_CARDS_IN_PLAYER_HAND = 3;

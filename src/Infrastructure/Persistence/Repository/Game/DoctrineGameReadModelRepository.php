@@ -6,9 +6,9 @@ use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\GameReadModel;
 use Deck\Domain\Game\GameReadModelRepositoryInterface;
 use Doctrine\Bundle\DoctrineBundle\Repository\ServiceEntityRepository;
-use Doctrine\Common\Persistence\ManagerRegistry;
 use Doctrine\ORM\OptimisticLockException;
 use Doctrine\ORM\ORMException;
+use Doctrine\Persistence\ManagerRegistry;
 
 class DoctrineGameReadModelRepository extends ServiceEntityRepository implements GameReadModelRepositoryInterface
 {

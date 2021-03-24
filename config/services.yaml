@@ -61,11 +61,3 @@ services:
     Deck\Application\Game\DrawCardHandler:
         tags:
             - { name: command_handler, handles: Deck\Application\Game\DrawCardCommand }
-
-    Deck\Infrastructure\User\Auth\AuthenticationSuccessListener:
-        arguments: ['%lexik_jwt_authentication.token_ttl%']
-        tags:
-            - { name: kernel.event_listener, event: lexik_jwt_authentication.on_authentication_success, method: onAuthenticationSuccess, priority: -2 }
-
-    Deck\Infrastructure\User\Auth\RefreshTokenListener:
-        arguments: ['%gesdinet_jwt_refresh_token.ttl%']

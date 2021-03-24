@@ -9,7 +9,7 @@ use Assert\AssertionFailedException;
 use Deck\Application\User\SignUpCommand;
 use Deck\Domain\User\Exception\EmailAlreadyExistException;
 use InvalidArgumentException;
-use Swagger\Annotations as SWG;
+use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -18,29 +18,26 @@ class SignUpController extends AbstractRenderController
     /**
      * Create a new user
      *
-     * @SWG\Response(
+     * @OA\Response(
      *     response=201,
      *     description="User created successfully"
      * )
-     * @SWG\Response(
+     * @OA\Response(
      *     response=400,
      *     description="Bad request"
      * )
-     * @SWG\Response(
+     * @OA\Response(
      *     response=409,
      *     description="Conflict"
      * )
-     * @SWG\Parameter(
-     *     name="user",
-     *     type="object",
-     *     in="body",
-     *     schema=@SWG\Schema(type="object",
-     *         @SWG\Property(property="email", type="string"),
-     *         @SWG\Property(property="password", type="string")
-     *     )
+     *
+     * @OA\RequestBody(
+     *     request="user",
+     *     required=true,
+     *     @OA\JsonContent(ref="#/components/schemas/User"),
      * )
      *
-     * @SWG\Tag(name="User")
+     * @OA\Tag(name="User")
      *
      * @param Request $request
      * @return Response
