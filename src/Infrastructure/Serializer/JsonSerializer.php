@@ -5,7 +5,9 @@ namespace Deck\Infrastructure\Serializer;
 use Assert\Assertion as Assert;
 use Broadway\Serializer\Serializer;
 use JMS\Serializer\SerializerInterface;
+use Symfony\Component\HttpFoundation\Exception\JsonException;
 use function get_class;
+use function json_decode;
 
 class JsonSerializer implements Serializer
 {
@@ -21,10 +23,14 @@ class JsonSerializer implements Serializer
      */
     public function serialize($object): array
     {
-        return [
-            'class' => get_class($object),
-            'payload' => $this->serializer->serialize($object, 'json'),
-        ];
+        try {
+            return [
+                'class' => get_class($object),
+                'payload' => json_decode($this->serializer->serialize($object, 'json'), true, 512, JSON_THROW_ON_ERROR),
+            ];
+        } catch(JsonException $exception) {
+            return [];
+        }
     }
 
     /**
