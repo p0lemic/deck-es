@@ -49,6 +49,6 @@ class GameTest extends TestCase
         $game->initGame();
         $game->playerDraw(Player::create($playerOne));
 
-        self::assertCount(39, $game->deck()->cards());
+        self::assertCount(33, $game->deck()->cards());
     }
 }

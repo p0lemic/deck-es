@@ -2,7 +2,6 @@
 
 namespace Deck\Domain\Game;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Domain\Game\Event\CardWasDealt;
 use Deck\Domain\Game\Event\CardWasPlayed;
@@ -14,6 +13,7 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use function count;
 use function usort;
+use function var_dump;
 
 /**
  * Aggregate Root
@@ -29,7 +29,6 @@ use function usort;
  *
  */
 
-#[ApiResource]
 class Game extends EventSourcedAggregateRoot
 {
     private const MAX_CARDS_IN_PLAYER_HAND = 3;
@@ -92,7 +91,7 @@ class Game extends EventSourcedAggregateRoot
      */
     public function playerDraw(Player $player): void
     {
-        if (self::MAX_CARDS_IN_PLAYER_HAND >= count($player->hand())) {
+        if (self::MAX_CARDS_IN_PLAYER_HAND <= count($player->hand())) {
             throw PlayerNotAllowedToDraw::isFull();
         }
 
@@ -176,7 +175,7 @@ class Game extends EventSourcedAggregateRoot
         return $children;
     }
 
-    private function getNextPlayer()
+    private function getNextPlayer(): PlayerId
     {
         while($player = current($this->players))
         {

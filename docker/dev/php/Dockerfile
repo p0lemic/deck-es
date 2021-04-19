@@ -4,14 +4,11 @@ RUN a2enmod rewrite
 
 RUN apt-get update && apt-get install -y libpq-dev git zip unzip libicu-dev \
     && docker-php-source extract \
-    && pecl install xdebug redis \
+    && pecl install xdebug \
     && docker-php-ext-enable xdebug \
     && docker-php-source delete \
-    && docker-php-ext-install pdo_pgsql bcmath sockets
-
-RUN docker-php-ext-install -j$(nproc) intl
-
-RUN rm -rf /tmp/*
+    && docker-php-ext-install -j$(nproc) pdo_pgsql intl bcmath sockets \
+    && rm -rf /tmp/*
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 

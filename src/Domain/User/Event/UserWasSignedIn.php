@@ -7,7 +7,6 @@ namespace Deck\Domain\User\Event;
 use Assert\Assertion;
 use Assert\AssertionFailedException;
 use Broadway\Serializer\Serializable;
-use Deck\Domain\Aggregate\AggregateId;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;

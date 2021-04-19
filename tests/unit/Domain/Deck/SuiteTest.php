@@ -24,6 +24,6 @@ class SuiteTest extends TestCase
         $this->expectException(InvalidSuiteException::class);
         $this->expectExceptionMessage(sprintf('Invalid suite type %s', $invalidSuiteType));
 
-        $suite = new Suite($invalidSuiteType);
+        new Suite($invalidSuiteType);
     }
 }

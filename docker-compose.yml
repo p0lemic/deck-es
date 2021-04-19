@@ -39,9 +39,9 @@ services:
     image: postgres:9.6.6
     container_name: deck-database
     expose:
-      - 5432
+      - 5433
     ports:
-      - 5432:5432
+      - 5433:5432
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=pass
