@@ -14,7 +14,7 @@ class GameFactory
      * @return Game
      * @throws InvalidPlayerNumber
      */
-    public function createNewGame(GameId $gameId, DeckId $deckId, array $players): Game
+    public function createNewGame(GameId $gameId, DeckId $deckId, array $players, Rules $rules): Game
     {
         $totalPlayers = count($players);
 
@@ -22,6 +22,6 @@ class GameFactory
             throw InvalidPlayerNumber::equalsToTwo();
         }
 
-        return Game::create($gameId, $deckId, $players);
+        return Game::create($gameId, $deckId, $players, $rules);
     }
 }

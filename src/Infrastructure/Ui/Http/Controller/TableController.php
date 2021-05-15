@@ -150,7 +150,7 @@ class TableController extends AbstractRenderController
 
             $table = $getTableQuery->execute(TableId::fromString($tableId));
 
-            return $this->createApiResponse(['is_full' => $table->isFull()]);
+            return $this->createApiResponse(['joined' => $table->isFull()]);
         } catch (PlayerAlreadyInTable $exception) {
             return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_CONFLICT);
         } catch (InvalidArgumentException|AssertionFailedException|TableIsFull $exception) {

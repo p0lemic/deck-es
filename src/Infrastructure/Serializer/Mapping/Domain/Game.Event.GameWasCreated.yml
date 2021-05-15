@@ -10,6 +10,9 @@ Deck\Domain\Game\Event\GameWasCreated:
     deckId:
       expose: true
       type: Deck\Domain\Game\DeckId
+    rules:
+      expose: true
+      type: string
     occurredOn:
       expose: true
       type: Deck\Domain\Shared\ValueObject\DateTime

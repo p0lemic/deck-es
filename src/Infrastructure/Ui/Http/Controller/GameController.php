@@ -137,12 +137,6 @@ class GameController extends AbstractRenderController
      *     @OA\JsonContent(ref="#/components/schemas/Game"),
      * )
      *
-     * @OA\RequestBody(
-     *     request="game",
-     *     required=true,
-     *     @OA\JsonContent(ref="#/components/schemas/Game"),
-     * )
-     *
      * @OA\Tag(name="Game")
      *
      * @param Security $security

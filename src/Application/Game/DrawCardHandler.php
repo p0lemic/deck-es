@@ -2,7 +2,10 @@
 
 namespace Deck\Application\Game;
 
+use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
+use Deck\Domain\Game\Exception\PlayerNotAllowedToDraw;
 use Deck\Domain\Game\GameRepositoryInterface;
+use Deck\Domain\Shared\Exception\DateTimeException;
 
 class DrawCardHandler
 {
@@ -14,6 +17,11 @@ class DrawCardHandler
         $this->gameStore = $gameStore;
     }
 
+    /**
+     * @throws PlayerNotAllowedToDraw
+     * @throws DateTimeException
+     * @throws CardsNumberInUseNotValidException
+     */
     public function handle(DrawCardCommand $drawCardCommand): void
     {
         $game = $this->gameStore->get($drawCardCommand->gameId());

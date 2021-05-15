@@ -11,7 +11,7 @@ class TableIsFull extends Exception
 {
     public static function isFull(PlayerId $playerId): self
     {
-        $errorMessage = sprintf('Player %s can\'t be added because table is full', $playerId->value());
+        $errorMessage = sprintf('Player %s can\'t join the table because is already full', $playerId->value());
 
         return new self($errorMessage);
     }

@@ -44,7 +44,7 @@ class CreateGameHandler
 
             $players[] = $player->id();
         }
-        $game = $this->gameFactory->createNewGame($createGameCommand->gameId(), $createGameCommand->deckId(), $players);
+        $game = $this->gameFactory->createNewGame($createGameCommand->gameId(), $createGameCommand->deckId(), $players, $createGameCommand->rules());
         $game->initGame();
 
         $this->gameStore->store($game);

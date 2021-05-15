@@ -41,6 +41,6 @@ class JsonSerializer implements Serializer
         Assert::keyExists($serializedObject, 'class', "Key 'class' should be set.");
         Assert::keyExists($serializedObject, 'payload', "Key 'payload' should be set.");
 
-        return $this->serializer->deserialize($serializedObject['payload'], $serializedObject['class'], 'json');
+        return $this->serializer->deserialize(json_encode($serializedObject['payload']), $serializedObject['class'], 'json');
     }
 }

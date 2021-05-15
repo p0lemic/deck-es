@@ -14,7 +14,6 @@ use Deck\Domain\User\PlayerId;
 use function count;
 use function key;
 use function usort;
-use function var_dump;
 
 /**
  * Aggregate Root
@@ -44,10 +43,11 @@ class Game extends EventSourcedAggregateRoot
     public static function create(
         GameId $gameId,
         DeckId $deckId,
-        array $players
+        array $players,
+        Rules $rules,
     ): self {
         $game = new self();
-        $game->apply(new GameWasCreated($gameId, $players, $deckId, DateTime::now()));
+        $game->apply(new GameWasCreated($gameId, $players, $deckId, $rules, DateTime::now()));
 
         return $game;
     }
@@ -79,7 +79,7 @@ class Game extends EventSourcedAggregateRoot
 
     private function dealInitialHand(Player $player): void
     {
-        for ($i = 0; $i < self::MAX_CARDS_IN_PLAYER_HAND; $i++) {
+        for ($i = 0; $i < $this->rules::MAX_CARDS_IN_PLAYER_HAND; $i++) {
             $this->playerDraw($player);
         }
     }
@@ -92,7 +92,7 @@ class Game extends EventSourcedAggregateRoot
      */
     public function playerDraw(Player $player): void
     {
-        if (self::MAX_CARDS_IN_PLAYER_HAND <= count($player->hand())) {
+        if ($this->rules::MAX_CARDS_IN_PLAYER_HAND <= count($player->hand())) {
             throw PlayerNotAllowedToDraw::isFull();
         }
 
@@ -139,7 +139,8 @@ class Game extends EventSourcedAggregateRoot
             $this->currentPlayerId = $this->currentPlayerId ?? $playerId;
         }
         $this->deck = Deck::create($event->deckId());
-        $this->rules = new Brisca();
+        $ruleClass = $event->rules();
+        $this->rules = new $ruleClass;
     }
 
     public function applyCardWasDealt(CardWasDealt $cardWasDealt): void
