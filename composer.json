@@ -95,7 +95,7 @@
     },
     "require-dev": {
         "roave/security-advisories": "dev-latest",
-        "symfony/phpunit-bridge": "^5.1",
+        "symfony/phpunit-bridge": "^5.2",
         "symfony/test-pack": "^1.0"
     }
 }

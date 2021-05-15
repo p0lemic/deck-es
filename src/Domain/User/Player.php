@@ -2,7 +2,6 @@
 
 namespace Deck\Domain\User;
 
-use ApiPlatform\Core\Annotation\ApiResource;
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
@@ -12,7 +11,6 @@ use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Specification\UniqueEmailSpecificationInterface;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
 
-#[ApiResource]
 class Player extends EventSourcedAggregateRoot
 {
     private PlayerId $id;

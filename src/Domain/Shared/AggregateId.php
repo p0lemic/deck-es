@@ -29,7 +29,7 @@ class AggregateId
         return new static(Uuid::fromString($string));
     }
 
-    public static function create(): self
+    public static function create(): static
     {
         return new static();
     }

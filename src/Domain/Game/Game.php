@@ -12,6 +12,7 @@ use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use function count;
+use function key;
 use function usort;
 use function var_dump;
 
@@ -28,7 +29,6 @@ use function var_dump;
  * Invariant 1. The deck, and the players all together must have 52 unique cards
  *
  */
-
 class Game extends EventSourcedAggregateRoot
 {
     private const MAX_CARDS_IN_PLAYER_HAND = 3;
@@ -72,13 +72,14 @@ class Game extends EventSourcedAggregateRoot
     {
         $this->deck->shuffleCards();
 
-        foreach($this->players() as $player) {
+        foreach ($this->players() as $player) {
             $this->dealInitialHand($player);
         }
     }
 
-    private function dealInitialHand(Player $player): void {
-        for($i = 0; $i < self::MAX_CARDS_IN_PLAYER_HAND; $i++) {
+    private function dealInitialHand(Player $player): void
+    {
+        for ($i = 0; $i < self::MAX_CARDS_IN_PLAYER_HAND; $i++) {
             $this->playerDraw($player);
         }
     }
@@ -102,8 +103,10 @@ class Game extends EventSourcedAggregateRoot
         $this->apply(new CardWasDealt($player->playerId(), $card, DateTime::now()));
     }
 
-    public function playCard(Player $player, Card $card): void
-    {
+    public function playCard(
+        Player $player,
+        Card $card
+    ): void {
         $this->apply(new CardWasPlayed($player->playerId(), $card, DateTime::now()));
     }
 
@@ -177,9 +180,8 @@ class Game extends EventSourcedAggregateRoot
 
     private function getNextPlayer(): PlayerId
     {
-        while($player = current($this->players))
-        {
-            if($this->currentPlayerId === key($this->players)) {
+        while ($player = current($this->players)) {
+            if ($this->currentPlayerId->value() === key($this->players)) {
                 return (next($this->players))->playerId() ?? reset($this->players)->playerId();
             }
             next($this->players);
@@ -193,6 +195,11 @@ class Game extends EventSourcedAggregateRoot
 
     private function resolveTurn(): void
     {
-        usort($this->cardsOnTable, static fn($a, $b) =>  ($this->rules->resolveHand($a, $b)));
+        usort(
+            $this->cardsOnTable, static fn(
+            $a,
+            $b
+        ) => ($this->rules->resolveHand($a, $b))
+        );
     }
 }
