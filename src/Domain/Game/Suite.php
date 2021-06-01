@@ -43,4 +43,9 @@ class Suite
     {
         return $this->value;
     }
+
+    public function equals(Suite $suite): bool
+    {
+        return $this->value === $suite->value();
+    }
 }

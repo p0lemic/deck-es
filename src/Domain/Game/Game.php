@@ -6,6 +6,7 @@ use Broadway\EventSourcing\EventSourcedAggregateRoot;
 use Deck\Domain\Game\Event\CardWasDealt;
 use Deck\Domain\Game\Event\CardWasPlayed;
 use Deck\Domain\Game\Event\GameWasCreated;
+use Deck\Domain\Game\Event\HandWasWon;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
 use Deck\Domain\Game\Exception\PlayerNotAllowedToDraw;
 use Deck\Domain\Shared\Exception\DateTimeException;
@@ -13,7 +14,8 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use function count;
 use function key;
-use function usort;
+use function next;
+use function reset;
 
 /**
  * Aggregate Root
@@ -68,6 +70,11 @@ class Game extends EventSourcedAggregateRoot
         return $this->players[$playerId->value()] ?? null;
     }
 
+    public function currentPlayerId(): PlayerId
+    {
+        return $this->currentPlayerId;
+    }
+
     public function initGame(): void
     {
         $this->deck->shuffleCards();
@@ -75,6 +82,8 @@ class Game extends EventSourcedAggregateRoot
         foreach ($this->players() as $player) {
             $this->dealInitialHand($player);
         }
+
+        $this->rules->setSampleCard($this->deck->getLastCard());
     }
 
     private function dealInitialHand(Player $player): void
@@ -108,6 +117,10 @@ class Game extends EventSourcedAggregateRoot
         Card $card
     ): void {
         $this->apply(new CardWasPlayed($player->playerId(), $card, DateTime::now()));
+
+        if ($this->areAllCardsPlayed()) {
+            $this->resolveTurn();
+        }
     }
 
     /**
@@ -129,6 +142,28 @@ class Game extends EventSourcedAggregateRoot
                 $totalCardsInDeck + $totalCardsInPlayersHand
             );
         }
+    }
+
+    private function getNextPlayer(): PlayerId
+    {
+        foreach ($this->players as $playerId => $player) {
+            if ($this->currentPlayerId->value() === $playerId) {
+                $nextPlayer = next($this->players);
+                return $nextPlayer ? $nextPlayer->playerId() : reset($this->players)->playerId();
+            }
+        }
+    }
+
+    private function areAllCardsPlayed(): bool
+    {
+        return count($this->cardsOnTable) === count($this->players);
+    }
+
+    private function resolveTurn(): void
+    {
+        $playerId = $this->rules->resolveHand($this->cardsOnTable);
+
+        $this->apply(new HandWasWon($playerId, $this->cardsOnTable, DateTime::now()));
     }
 
     public function applyGameWasCreated(GameWasCreated $event): void
@@ -155,10 +190,12 @@ class Game extends EventSourcedAggregateRoot
         $player->playCard($cardWasPlayed->card());
         $this->cardsOnTable[$cardWasPlayed->playerId()->value()] = $cardWasPlayed->card();
         $this->currentPlayerId = $this->getNextPlayer();
+    }
 
-        if ($this->areAllCardsPlayed()) {
-            $this->resolveTurn();
-        }
+    public function applyHandWasWon(HandWasWon $handWasWon): void
+    {
+        $player = $this->players[$handWasWon->playerId()->value()];
+        $player->addCardToWonCards($handWasWon->cards());
     }
 
     public function getAggregateRootId(): string
@@ -177,30 +214,5 @@ class Game extends EventSourcedAggregateRoot
         $children[] = $this->deck;
 
         return $children;
-    }
-
-    private function getNextPlayer(): PlayerId
-    {
-        while ($player = current($this->players)) {
-            if ($this->currentPlayerId->value() === key($this->players)) {
-                return (next($this->players))->playerId() ?? reset($this->players)->playerId();
-            }
-            next($this->players);
-        }
-    }
-
-    private function areAllCardsPlayed(): bool
-    {
-        return count($this->cardsOnTable) === count($this->players);
-    }
-
-    private function resolveTurn(): void
-    {
-        usort(
-            $this->cardsOnTable, static fn(
-            $a,
-            $b
-        ) => ($this->rules->resolveHand($a, $b))
-        );
     }
 }

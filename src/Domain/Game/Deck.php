@@ -86,4 +86,11 @@ class Deck extends SimpleEventSourcedEntity
     {
         return $this->cards;
     }
+
+    public function getLastCard(): Card
+    {
+        $lastCardKey = array_key_last($this->cards);
+
+        return $this->cards[$lastCardKey];
+    }
 }

@@ -40,7 +40,7 @@ final class CreateGameCommand
         return $this->deckId;
     }
 
-    public function rules(): Brisca|Rules
+    public function rules(): Rules
     {
         return $this->rules;
     }

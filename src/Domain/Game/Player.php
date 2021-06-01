@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\SimpleEventSourcedEntity;
+use Deck\Domain\Game\Exception\CardPlayedNotInPlayerHand;
+use Deck\Domain\Game\Exception\InvalidNumberOfWonCardsException;
 use Deck\Domain\User\PlayerId;
 
 class Player extends SimpleEventSourcedEntity
@@ -15,18 +17,17 @@ class Player extends SimpleEventSourcedEntity
     /** @var Card[] */
     private array $wonCards;
 
-    public function __construct(
-        PlayerId $playerId,
-        array $hand
+    private function __construct(
+        PlayerId $playerId
     ) {
         $this->id = $playerId;
-        $this->hand = $hand;
+        $this->hand = [];
         $this->wonCards = [];
     }
 
     public static function create(PlayerId $playerId): self
     {
-        return new self($playerId, []);
+        return new self($playerId);
     }
 
     public function playerId(): PlayerId
@@ -37,6 +38,11 @@ class Player extends SimpleEventSourcedEntity
     public function hand(): array
     {
         return $this->hand;
+    }
+
+    public function wonCards(): array
+    {
+        return $this->wonCards;
     }
 
     public function addCardToHand(Card $card): void
@@ -50,8 +56,12 @@ class Player extends SimpleEventSourcedEntity
         {
             if ($card->equals($cardInHand)) {
                 unset($this->hand[$index]);
+
+                return;
             }
         }
+
+        throw CardPlayedNotInPlayerHand::notFound();
     }
 
     public function score(): int
@@ -63,6 +73,17 @@ class Player extends SimpleEventSourcedEntity
         }
 
         return $points;
+    }
+
+    public function addCardToWonCards(array $cards): void
+    {
+        if (count($cards) !== 2) {
+            throw InvalidNumberOfWonCardsException::notValid();
+        }
+
+        foreach ($cards as $card) {
+            $this->wonCards[] = $card;
+        }
     }
 }
 

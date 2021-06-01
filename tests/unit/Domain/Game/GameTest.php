@@ -3,6 +3,7 @@
 namespace Deck\Tests\unit\Domain\Game;
 
 use Broadway\Domain\DomainMessage;
+use Deck\Domain\Game\Brisca;
 use Deck\Domain\Game\DeckId;
 use Deck\Domain\Game\Event\GameWasCreated;
 use Deck\Domain\Game\Game;
@@ -20,7 +21,7 @@ class GameTest extends TestCase
     {
         $players = [PlayerId::create(), PlayerId::create()];
 
-        $game = Game::create(GameId::create(), DeckId::create(), $players);
+        $game = Game::create(GameId::create(), DeckId::create(), $players, new Brisca());
 
         self::assertNotNull($game->getAggregateRootId());
         self::assertCount(count($players), $game->players());
@@ -45,7 +46,7 @@ class GameTest extends TestCase
 
         $players = [$playerOne, $playerTwo];
 
-        $game = Game::create(GameId::create(), DeckId::create(), $players);
+        $game = Game::create(GameId::create(), DeckId::create(), $players, new Brisca());
         $game->initGame();
         $game->playerDraw(Player::create($playerOne));
 

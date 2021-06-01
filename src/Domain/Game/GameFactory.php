@@ -11,6 +11,7 @@ class GameFactory
      * @param GameId $gameId
      * @param DeckId $deckId
      * @param PlayerId[] $players
+     * @param Rules $rules
      * @return Game
      * @throws InvalidPlayerNumber
      */
