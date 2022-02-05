@@ -9,7 +9,7 @@ services:
     expose:
       - 80
     ports:
-      - 8080:80
+      - 8888:80
     volumes:
       - .:/var/www/deck
     working_dir: /var/www/deck
@@ -19,23 +19,7 @@ services:
       AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
       PHP_IDE_CONFIG: 'serverName=Dev'
       XDEBUG_REMOTE_HOST: 'docker.for.mac.host.internal'
-
-  php_test:
-    build:
-      dockerfile: docker/dev/php/Dockerfile
-      context: .
-    container_name: deck-php-test
-    volumes:
-      - .:/var/www/deck
-    working_dir: /var/www/deck
-    links:
-      - deck_database
-    environment:
-      AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
-      PHP_IDE_CONFIG: 'serverName=Test'
-      XDEBUG_REMOTE_HOST: 'docker.for.mac.host.internal'
-
-  deck_database:
+  postgresql:
     image: postgres:9.6.6
     container_name: deck-database
     expose:
@@ -51,6 +35,7 @@ services:
 
   rabbitmq:
     image: 'rabbitmq:3.6-management-alpine'
+    container_name: deck-rabbitmq
     ports:
       # The standard AMQP protocol port
       - '5672:5672'
