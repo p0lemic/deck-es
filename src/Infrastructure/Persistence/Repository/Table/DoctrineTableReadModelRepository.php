@@ -18,14 +18,6 @@ class DoctrineTableReadModelRepository extends ServiceEntityRepository implement
         parent::__construct($registry, TableReadModel::class);
     }
 
-    /**
-     * @param TableReadModel $table
-     *
-     * @return void
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function save(TableReadModel $table): void
     {
         $this->_em->persist($table);
@@ -39,16 +31,14 @@ class DoctrineTableReadModelRepository extends ServiceEntityRepository implement
 
     public function findByTableId(TableId $tableId): ?TableReadModel
     {
-        /** @var TableReadModel $table */
-        $table = $this->findOneBy(
+        return $this->findOneBy(
             [
                 'id' => $tableId,
             ]
         );
-
-        return $table;
     }
 
+    /** @throws TableNotFoundException */
     public function findByTableIdOrFail(TableId $tableId): TableReadModel
     {
         /** @var TableReadModel $table */

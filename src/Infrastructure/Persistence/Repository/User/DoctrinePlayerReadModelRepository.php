@@ -26,21 +26,14 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
         parent::__construct($registry, PlayerReadModel::class);
     }
 
-    /**
-     * @param PlayerId $playerId
-     * @return PlayerReadModel
-     */
     public function findById(PlayerId $playerId): ?PlayerReadModel
     {
-        /** @var PlayerReadModel $player */
-        $player = $this->findOneBy(['id' => $playerId]);
-
-        return $player;
+        return $this->findOneBy(['id' => $playerId]);
     }
 
+    /** @throws UserNotFoundException */
     public function findByIdOrFail(PlayerId $playerId): PlayerReadModel
     {
-        /** @var PlayerReadModel $user */
         $user = $this->findById($playerId);
 
         if (null === $user) {
@@ -50,6 +43,10 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
         return $user;
     }
 
+    /**
+     * @throws NonUniqueResultException
+     * @throws UserNotFoundException
+     */
     public function findByEmailOrFail(Email $email): PlayerReadModel
     {
         /** @var PlayerReadModel $user */
@@ -66,11 +63,7 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
         return $user;
     }
 
-    /**
-     * @param Email $email
-     * @return UuidInterface|null
-     * @throws NonUniqueResultException
-     */
+    /** @throws NonUniqueResultException */
     public function existsEmail(Email $email): ?AggregateId
     {
         $userId = $this->createQueryBuilder('user')
@@ -85,8 +78,7 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
     }
 
     /**
-     * @param Email $email
-     * @return array
+     * @throws NonUniqueResultException
      * @throws UserNotFoundException
      */
     public function getCredentialsByEmail(Email $email): array
@@ -100,21 +92,12 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
         ];
     }
 
-    /**
-     * @param PlayerReadModel $player
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function save(PlayerReadModel $player): void
     {
         $this->_em->persist($player);
         $this->_em->flush($player);
     }
 
-    /**
-     * @return void
-     * @throws MappingException
-     */
     public function clearMemory(): void
     {
         $this->_em->clear(PlayerReadModel::class);

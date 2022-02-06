@@ -22,7 +22,6 @@ class JsonBodyParserSubscriber implements EventSubscriberInterface
 
         $content = $request->getContent();
 
-
         if (empty($content)) {
             return;
         }
@@ -55,7 +54,7 @@ class JsonBodyParserSubscriber implements EventSubscriberInterface
         return true;
     }
 
-    public static function getSubscribedEvents()
+    public static function getSubscribedEvents(): array
     {
         return [
             KernelEvents::REQUEST => 'onKernelRequest',

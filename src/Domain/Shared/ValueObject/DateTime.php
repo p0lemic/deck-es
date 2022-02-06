@@ -26,7 +26,7 @@ class DateTime
      * @return DateTime
      * @throws DateTimeException
      */
-    public static function fromString(string $dateTime): self
+    public static function fromString(string $dateTime): DateTime
     {
         return self::create($dateTime);
     }
@@ -36,7 +36,7 @@ class DateTime
      * @return DateTime
      * @throws DateTimeException
      */
-    private static function create(string $dateTime = ''): self
+    private static function create(string $dateTime = ''): DateTime
     {
         $self = new self();
 

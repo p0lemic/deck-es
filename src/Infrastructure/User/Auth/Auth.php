@@ -7,10 +7,10 @@ namespace Deck\Infrastructure\User\Auth;
 use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\User\ValueObject\Auth\HashedPassword;
 use Deck\Domain\User\ValueObject\Email;
-use Symfony\Component\Security\Core\Encoder\EncoderAwareInterface;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class Auth implements UserInterface, EncoderAwareInterface
+class Auth implements UserInterface, PasswordAuthenticatedUserInterface
 {
     private AggregateId $id;
     private Email $email;
@@ -72,6 +72,11 @@ class Auth implements UserInterface, EncoderAwareInterface
     }
 
     public function __toString(): string
+    {
+        return $this->email->toString();
+    }
+
+    public function getUserIdentifier(): string
     {
         return $this->email->toString();
     }

@@ -17,7 +17,7 @@ class Email
      * @return Email
      * @throws AssertionFailedException
      */
-    public static function fromString(string $email): self
+    public static function fromString(string $email): Email
     {
         Assertion::email($email, 'Not a valid email');
 

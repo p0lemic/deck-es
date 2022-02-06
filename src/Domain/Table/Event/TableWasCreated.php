@@ -34,4 +34,20 @@ class TableWasCreated
     {
         return $this->aggregateId()->value();
     }
+
+    public function normalize(): array
+    {
+        return [
+            'aggregateId' => $this->aggregateId()->value(),
+            'occurredOn' => $this->occurredOn()->toString()
+        ];
+    }
+
+    public static function denormalize(array $payload): self
+    {
+        return new self(
+            TableId::fromString($payload['aggregateId']),
+            DateTime::fromString($payload['occurredOn'])
+        );
+    }
 }

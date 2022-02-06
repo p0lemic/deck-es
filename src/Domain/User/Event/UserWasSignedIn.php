@@ -49,7 +49,7 @@ class UserWasSignedIn implements Serializable
      * @throws DateTimeException
      * @throws AssertionFailedException
      */
-    public static function deserialize(array $data): self
+    public static function deserialize(array $data): UserWasSignedIn
     {
         Assertion::keyExists($data, 'aggregate_id');
         Assertion::keyExists($data, 'email');

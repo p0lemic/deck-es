@@ -17,14 +17,6 @@ class DoctrineGameReadModelRepository extends ServiceEntityRepository implements
         parent::__construct($registry, GameReadModel::class);
     }
 
-    /**
-     * @param GameReadModel $game
-     *
-     * @return void
-     *
-     * @throws ORMException
-     * @throws OptimisticLockException
-     */
     public function save(GameReadModel $game): void
     {
         $this->_em->persist($game);
@@ -36,16 +28,13 @@ class DoctrineGameReadModelRepository extends ServiceEntityRepository implements
         $this->_em->clear(GameReadModel::class);
     }
 
-    public function findByGameId(GameId $gameID): ?GameReadModel
+    public function findByGameId(GameId $gameId): ?GameReadModel
     {
-        /** @var GameReadModel $game */
-        $game = $this->findOneBy(
+        return $this->findOneBy(
             [
-                'id' => $gameID,
+                'id' => $gameId,
             ]
         );
-
-        return $game;
     }
 
     public function all(): array

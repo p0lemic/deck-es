@@ -18,7 +18,7 @@ final class HashedPassword
      * @param string $plainPassword
      * @return HashedPassword
      */
-    public static function encode(string $plainPassword): self
+    public static function encode(string $plainPassword): HashedPassword
     {
         $pass = new self();
 

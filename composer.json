@@ -4,7 +4,7 @@
     "name": "p0lemic/deck-es",
     "description": "Deck in DDD",
     "require": {
-        "php": "^8.0",
+        "php": "^8.1",
         "ext-ctype": "*",
         "ext-iconv": "*",
         "ext-json": "*",

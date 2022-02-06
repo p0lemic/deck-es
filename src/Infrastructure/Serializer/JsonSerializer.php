@@ -4,6 +4,7 @@ namespace Deck\Infrastructure\Serializer;
 
 use Assert\Assertion as Assert;
 use Broadway\Serializer\Serializer;
+use JetBrains\PhpStorm\ArrayShape;
 use JMS\Serializer\SerializerInterface;
 use Symfony\Component\HttpFoundation\Exception\JsonException;
 use function get_class;
@@ -18,29 +19,22 @@ class JsonSerializer implements Serializer
         $this->serializer = $serializer;
     }
 
-    /**
-     * {@inheritdoc}
-     */
+    #[ArrayShape(['class' => "string", 'payload' => "mixed"])]
     public function serialize($object): array
     {
-        try {
-            return [
-                'class' => get_class($object),
-                'payload' => json_decode($this->serializer->serialize($object, 'json'), true, 512, JSON_THROW_ON_ERROR),
-            ];
-        } catch(JsonException $exception) {
-            return [];
-        }
+        return [
+            'class' => get_class($object),
+            'payload' => $object->normalize(),
+        ];
     }
 
-    /**
-     * {@inheritdoc}
-     */
-    public function deserialize(array $serializedObject)
+    public function deserialize(array $serializedObject): mixed
     {
         Assert::keyExists($serializedObject, 'class', "Key 'class' should be set.");
         Assert::keyExists($serializedObject, 'payload', "Key 'payload' should be set.");
 
-        return $this->serializer->deserialize(json_encode($serializedObject['payload']), $serializedObject['class'], 'json');
+        $class = $serializedObject['class'];
+
+        return $class::denormalize($serializedObject['payload']);
     }
 }
