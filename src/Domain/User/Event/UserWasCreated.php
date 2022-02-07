@@ -7,6 +7,8 @@ namespace Deck\Domain\User\Event;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
+use Deck\Domain\User\ValueObject\Auth\HashedPassword;
+use Deck\Domain\User\ValueObject\Email;
 
 class UserWasCreated
 {
@@ -37,5 +39,29 @@ class UserWasCreated
     public function occurredOn(): DateTime
     {
         return $this->occurredOn;
+    }
+
+    public function normalize(): array
+    {
+        return [
+            'aggregateId' => $this->aggregateId->value(),
+            'credentials' => [
+                'email' => $this->credentials->email(),
+                'password' => $this->credentials->password()
+            ],
+            'occurredOn' => $this->occurredOn->toString()
+        ];
+    }
+
+    public static function denormalize(array $payload): self
+    {
+        return new self(
+            PlayerId::fromString($payload['aggregateId']),
+            new Credentials(
+                Email::fromString($payload['credentials']['email']),
+                HashedPassword::fromHash($payload['credentials']['password']),
+            ),
+            DateTime::fromString($payload['occurredOn'])
+        );
     }
 }

@@ -47,4 +47,9 @@ class Card extends SimpleEventSourcedEntity
     {
         return $card->suite()->value() === $this->suite->value() && $card->rank()->value() === $this->rank->value();
     }
+
+    public function __toString(): string
+    {
+        return $this->rank()->value() . $this->suite()->value();
+    }
 }

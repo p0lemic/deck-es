@@ -12,9 +12,12 @@ use Deck\Application\Game\GamesListQuery;
 use Deck\Application\Game\LoadGame;
 use Deck\Application\Game\LoadGameRequest;
 use Deck\Domain\Game\Exception\InvalidPlayerNumber;
+use Deck\Domain\Game\GameReadModel;
 use Deck\Domain\Shared\AggregateId;
+use Deck\Domain\Table\TableReadModel;
 use InvalidArgumentException;
 use OpenApi\Annotations as OA;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -39,14 +42,16 @@ class GameController extends AbstractRenderController
      */
     public function list(GamesListQuery $listGames): Response
     {
-        try {
-            $games = $listGames->execute();
+        $games = $listGames->execute();
 
-            return $this->createApiResponse($games);
-        } catch (Throwable $exception) {
-            var_dump($exception->getTraceAsString());
-            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return (new JsonResponse)
+            ->setEncodingOptions(JsonResponse::DEFAULT_ENCODING_OPTIONS | JSON_PRESERVE_ZERO_FRACTION)
+            ->setData(
+                array_map(
+                    static fn(GameReadModel $game) => $game->toArray(),
+                    $games
+                )
+            );
     }
 
     /**

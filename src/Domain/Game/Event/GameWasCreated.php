@@ -63,4 +63,32 @@ class GameWasCreated
     {
         return $this->aggregateId()->value();
     }
+
+    public function normalize(): array
+    {
+        return [
+            'aggregateId' => $this->aggregateId->value(),
+            'players' => array_map(
+                static fn (PlayerId $playerId) => $playerId->__toString(),
+                $this->players,
+            ),
+            'deckId' => $this->deckId->value(),
+            'rules' => $this->rules,
+            'occurredOn' => $this->occurredOn->toString()
+        ];
+    }
+
+    public static function denormalize(array $payload): self
+    {
+        return new self(
+            GameId::fromString($payload['aggregateId']),
+            array_map(
+                static fn (string $playerId) => PlayerId::fromString($playerId),
+                $payload['players'],
+            ),
+            DeckId::fromString($payload['deckId']),
+            new $payload['rules'],
+            DateTime::fromString($payload['occurredOn'])
+        );
+    }
 }

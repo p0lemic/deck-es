@@ -47,9 +47,9 @@ class PlayerWasSeated
     public function normalize(): array
     {
         return [
-            'aggregateId' => $this->aggregateId()->value(),
-            'playerId' => $this->aggregateId()->value(),
-            'occurredOn' => $this->occurredOn()->toString()
+            'aggregateId' => $this->aggregateId->value(),
+            'playerId' => $this->playerId->value(),
+            'occurredOn' => $this->occurredOn->toString()
         ];
     }
 

@@ -9,16 +9,10 @@ use Deck\Domain\Table\TableId;
 
 class TableWasCreated
 {
-    private TableId $aggregateId;
-    private DateTime $occurredOn;
-
     public function __construct(
-        TableId $id,
-        DateTime $occurredOn
-    ) {
-        $this->aggregateId = $id;
-        $this->occurredOn = $occurredOn;
-    }
+        public readonly TableId $aggregateId,
+        public readonly DateTime $occurredOn
+    ) {}
 
     public function aggregateId(): TableId
     {
@@ -38,8 +32,8 @@ class TableWasCreated
     public function normalize(): array
     {
         return [
-            'aggregateId' => $this->aggregateId()->value(),
-            'occurredOn' => $this->occurredOn()->toString()
+            'aggregateId' => $this->aggregateId->value(),
+            'occurredOn' => $this->occurredOn->toString()
         ];
     }
 

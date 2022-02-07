@@ -43,4 +43,22 @@ class PlayerWasLeaved
     {
         return $this->aggregateId()->value();
     }
+
+    public function normalize(): array
+    {
+        return [
+            'aggregateId' => $this->aggregateId->value(),
+            'playerId' => $this->playerId->value(),
+            'occurredOn' => $this->occurredOn->toString()
+        ];
+    }
+
+    public static function denormalize(array $payload): self
+    {
+        return new self(
+            TableId::fromString($payload['aggregateId']),
+            PlayerId::fromString($payload['playerId']),
+            DateTime::fromString($payload['occurredOn'])
+        );
+    }
 }

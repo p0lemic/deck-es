@@ -20,4 +20,18 @@ class GameWasInitialized
     {
         return $this->occurredOn;
     }
+
+    public function normalize(): array
+    {
+        return [
+            'occurredOn' => $this->occurredOn->toString()
+        ];
+    }
+
+    public static function denormalize(array $payload): self
+    {
+        return new self(
+            DateTime::fromString($payload['occurredOn'])
+        );
+    }
 }

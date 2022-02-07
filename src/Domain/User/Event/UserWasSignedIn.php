@@ -12,7 +12,7 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\ValueObject\Email;
 
-class UserWasSignedIn implements Serializable
+class UserWasSignedIn
 {
     private PlayerId $aggregateId;
     private Email $email;
@@ -43,30 +43,24 @@ class UserWasSignedIn implements Serializable
         return $this->occurredOn;
     }
 
-    /**
-     * @param array $data
-     * @return UserWasSignedIn
-     * @throws DateTimeException
-     * @throws AssertionFailedException
-     */
-    public static function deserialize(array $data): UserWasSignedIn
-    {
-        Assertion::keyExists($data, 'aggregate_id');
-        Assertion::keyExists($data, 'email');
-
-        return new self(
-            PlayerId::fromString($data['aggregate_id']),
-            Email::fromString($data['email']),
-            DateTime::fromString($data['occurred_on'])
-        );
-    }
-
-    public function serialize(): array
+    public function normalize(): array
     {
         return [
-            'aggregate_id' => $this->aggregateId->value(),
+            'aggregateId' => $this->aggregateId->value(),
             'email' => $this->email->toString(),
-            'occurred_on' => $this->occurredOn()->toString(),
+            'occurredOn' => $this->occurredOn()->toString(),
         ];
+    }
+
+    public static function denormalize(array $payload): self
+    {
+        Assertion::keyExists($payload, 'aggregateId');
+        Assertion::keyExists($payload, 'email');
+
+        return new self(
+            PlayerId::fromString($payload['aggregateId']),
+            Email::fromString($payload['email']),
+            DateTime::fromString($payload['occurredOn'])
+        );
     }
 }

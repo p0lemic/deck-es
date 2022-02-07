@@ -14,8 +14,10 @@ use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\Table\Exception\PlayerAlreadyInTable;
 use Deck\Domain\Table\Exception\TableIsFull;
 use Deck\Domain\Table\TableId;
+use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\User\PlayerId;
 use InvalidArgumentException;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
@@ -41,7 +43,14 @@ class TableController extends AbstractRenderController
     {
         $tables = $getTables->execute();
 
-        return $this->createApiResponse($tables);
+        return (new JsonResponse)
+            ->setEncodingOptions(JsonResponse::DEFAULT_ENCODING_OPTIONS | JSON_PRESERVE_ZERO_FRACTION)
+            ->setData(
+                array_map(
+                    static fn(TableReadModel $table) => $table->toArray(),
+                    $tables
+                )
+            );
     }
 
     /**
