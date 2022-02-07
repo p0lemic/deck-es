@@ -14,7 +14,7 @@ services:
       - .:/var/www/deck
     working_dir: /var/www/deck
     links:
-      - deck_database
+      - postgresql
     environment:
       AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
       PHP_IDE_CONFIG: 'serverName=Dev'
