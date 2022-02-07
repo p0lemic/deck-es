@@ -1,9 +1,0 @@
-Deck\Domain\Game\GameReadModel:
-  exclusion_policy: ALL
-  properties:
-    id:
-      expose: true
-      type: Deck\Domain\Game\GameId
-    players:
-      expose: true
-      type: array<Deck\Domain\User\PlayerId>

@@ -1,6 +1,0 @@
-Deck\Domain\Shared\AggregateId:
-  exclusion_policy: ALL
-  properties:
-    value:
-      expose: true
-      type: string

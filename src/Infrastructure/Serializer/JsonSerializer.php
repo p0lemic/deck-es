@@ -5,20 +5,10 @@ namespace Deck\Infrastructure\Serializer;
 use Assert\Assertion as Assert;
 use Broadway\Serializer\Serializer;
 use JetBrains\PhpStorm\ArrayShape;
-use JMS\Serializer\SerializerInterface;
-use Symfony\Component\HttpFoundation\Exception\JsonException;
 use function get_class;
-use function json_decode;
 
 class JsonSerializer implements Serializer
 {
-    private SerializerInterface $serializer;
-
-    public function __construct(SerializerInterface $serializer)
-    {
-        $this->serializer = $serializer;
-    }
-
     #[ArrayShape(['class' => "string", 'payload' => "mixed"])]
     public function serialize($object): array
     {

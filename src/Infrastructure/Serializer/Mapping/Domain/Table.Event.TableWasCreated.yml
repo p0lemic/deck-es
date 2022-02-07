@@ -1,9 +1,0 @@
-Deck\Domain\Table\Event\TableWasCreated:
-  exclusion_policy: ALL
-  properties:
-    aggregateId:
-      expose: true
-      type: Deck\Domain\Table\TableId
-    occurredOn:
-      expose: true
-      type: Deck\Domain\Shared\ValueObject\DateTime

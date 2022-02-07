@@ -33,10 +33,10 @@ api.game.draw:
     methods: POST
     controller: Deck\Infrastructure\Ui\Http\Controller\GameController::playerDraw
 
-api.user.signup:
-    path: /api/user/signup
+api.user.register:
+    path: /api/user/register
     methods: POST
-    controller: Deck\Infrastructure\Ui\Http\Controller\SignUpController:signUp
+    controller: Deck\Infrastructure\Ui\Http\Controller\RegisterController::register
 
 api_login_check:
     path: /api/login_check

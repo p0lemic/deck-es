@@ -1,9 +1,0 @@
-Deck\Domain\Game\Deck:
-  exclusion_policy: ALL
-  properties:
-    id:
-      expose: true
-      type: Deck\Domain\Game\DeckId
-    cards:
-      expose: true
-      type: array<Deck\Domain\Game\Card>

@@ -13,7 +13,7 @@ use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class SignUpController extends AbstractRenderController
+class RegisterController extends AbstractRenderController
 {
     /**
      * Create a new user
@@ -42,7 +42,7 @@ class SignUpController extends AbstractRenderController
      * @param Request $request
      * @return Response
      */
-    public function signUp(Request $request): Response
+    public function register(Request $request): Response
     {
         $email = $request->get('email');
         $password = $request->get('password');

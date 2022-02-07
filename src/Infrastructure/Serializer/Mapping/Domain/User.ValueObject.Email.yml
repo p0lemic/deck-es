@@ -1,6 +1,0 @@
-Deck\Domain\User\ValueObject\Email:
-  exclusion_policy: ALL
-  properties:
-    value:
-      expose: true
-      type: string

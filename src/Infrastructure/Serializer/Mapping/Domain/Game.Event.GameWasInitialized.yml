@@ -1,6 +1,0 @@
-Deck\Domain\Game\Event\GameWasInitialized:
-  exclusion_policy: ALL
-  properties:
-    occurredOn:
-      expose: true
-      type: Deck\Domain\Shared\ValueObject\DateTime

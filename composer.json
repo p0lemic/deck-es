@@ -17,8 +17,6 @@
         "doctrine/doctrine-bundle": "^2",
         "doctrine/doctrine-migrations-bundle": "^3",
         "doctrine/orm": "^2",
-        "friendsofsymfony/rest-bundle": "^3.0",
-        "jms/serializer-bundle": "^4.0",
         "lexik/jwt-authentication-bundle": "^2.11",
         "monolog/monolog": "^2.0",
         "nelmio/api-doc-bundle": "^4.2",

@@ -1,6 +1,0 @@
-Deck\Domain\Game\DeckId:
-  exclusion_policy: ALL
-  properties:
-    value:
-      expose: true
-      type: string

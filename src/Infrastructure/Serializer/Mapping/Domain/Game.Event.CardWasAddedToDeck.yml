@@ -1,9 +1,0 @@
-Deck\Domain\Game\Event\CardWasAddedToDeck:
-  exclusion_policy: ALL
-  properties:
-    card:
-      expose: true
-      type: Deck\Domain\Game\Card
-    occurredOn:
-      expose: true
-      type: Deck\Domain\Shared\ValueObject\DateTime

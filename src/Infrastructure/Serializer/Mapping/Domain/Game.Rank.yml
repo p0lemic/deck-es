@@ -1,7 +1,0 @@
-Deck\Domain\Game\Rank:
-  exclusion_policy: ALL
-  properties:
-    value:
-      expose: true
-      type: string
-
