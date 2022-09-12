@@ -28,22 +28,22 @@
         "simple-bus/doctrine-orm-bridge": "6.3.*",
         "simple-bus/symfony-bridge": "6.3.*",
         "symfony/apache-pack": "^1.0",
-        "symfony/asset": "6.0.*",
-        "symfony/console": "6.0.*",
-        "symfony/dotenv": "6.0.*",
-        "symfony/expression-language": "6.0.*",
+        "symfony/asset": "6.1.*",
+        "symfony/console": "6.1.*",
+        "symfony/dotenv": "6.1.*",
+        "symfony/expression-language": "6.1.*",
         "symfony/flex": "^1.11",
-        "symfony/framework-bundle": "6.0.*",
+        "symfony/framework-bundle": "6.1.*",
         "symfony/monolog-bundle": "^3.6",
-        "symfony/property-access": "6.0.*",
-        "symfony/property-info": "6.0.*",
-        "symfony/proxy-manager-bridge": "6.0.*",
-        "symfony/security-bundle": "6.0.*",
-        "symfony/security-core": "6.0.*",
-        "symfony/serializer": "6.0.*",
-        "symfony/twig-bundle": "6.0.*",
-        "symfony/validator": "6.0.*",
-        "symfony/yaml": "6.0.*"
+        "symfony/property-access": "6.1.*",
+        "symfony/property-info": "6.1.*",
+        "symfony/proxy-manager-bridge": "6.1.*",
+        "symfony/security-bundle": "6.1.*",
+        "symfony/security-core": "6.1.*",
+        "symfony/serializer": "6.1.*",
+        "symfony/twig-bundle": "6.1.*",
+        "symfony/validator": "6.1.*",
+        "symfony/yaml": "6.1.*"
     },
     "config": {
         "preferred-install": {
@@ -90,16 +90,16 @@
     "extra": {
         "symfony": {
             "allow-contrib": false,
-            "require": "6.0.*"
+            "require": "6.1.*"
         }
     },
     "require-dev": {
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
-        "symfony/browser-kit": "6.0.*",
-        "symfony/css-selector": "6.0.*",
+        "symfony/browser-kit": "6.1.*",
+        "symfony/css-selector": "6.1.*",
         "symfony/phpunit-bridge": "^5.2",
-        "symfony/stopwatch": "6.0.*",
-        "symfony/web-profiler-bundle": "6.0.*"
+        "symfony/stopwatch": "6.1.*",
+        "symfony/web-profiler-bundle": "6.1.*"
     }
 }

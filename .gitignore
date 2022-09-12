@@ -25,3 +25,7 @@ node_modules
 .idea
 .phpunit.result.cache
 .env
+###> phpunit/phpunit ###
+/phpunit.xml
+.phpunit.result.cache
+###< phpunit/phpunit ###
