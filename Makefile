@@ -43,7 +43,7 @@ destroy: ## Destroy project including volumes
 	@docker-compose down -v
 
 shell: ## Interactive shell inside vendimia php container
-	@docker exec -it deck-php sh
+	@docker exec -it deck-php bash
 
 ## —— ✨  Code Quality ———————————————————————————————————————————————————
 WITH_INFO=false

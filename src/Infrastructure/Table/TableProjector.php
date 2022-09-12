@@ -8,6 +8,7 @@ use Broadway\ReadModel\Projector;
 use Deck\Domain\Table\Event\PlayerWasLeaved;
 use Deck\Domain\Table\Event\PlayerWasSeated;
 use Deck\Domain\Table\Event\TableWasCreated;
+use Deck\Domain\Table\TableId;
 use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\Table\TableReadModelRepositoryInterface;
 
@@ -20,7 +21,7 @@ class TableProjector extends Projector
         $this->repository = $repository;
     }
 
-    public function exposeStatusOfTable($tableId): TableReadModel
+    public function exposeStatusOfTable(TableId $tableId): ?TableReadModel
     {
         return $this->loadReadModel($tableId);
     }
@@ -52,7 +53,7 @@ class TableProjector extends Projector
         $this->repository->save($tableReadModel);
     }
 
-    private function loadReadModel($id)
+    private function loadReadModel(TableId $id): ?TableReadModel
     {
         return $this->repository->findByTableId($id);
     }

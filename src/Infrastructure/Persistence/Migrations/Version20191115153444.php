@@ -21,7 +21,7 @@ class Version20191115153444 extends AbstractMigration implements ContainerAwareI
     /** @var EntityManager */
     private $em;
 
-    public function setContainer(ContainerInterface $container = null)
+    public function setContainer(ContainerInterface $container = null): void
     {
         $this->eventStore = $container->get(DBALEventStore::class);
         $this->em = $container->get('doctrine.orm.entity_manager');

@@ -6,6 +6,7 @@ namespace Deck\Infrastructure\Game;
 
 use Broadway\ReadModel\Projector;
 use Deck\Domain\Game\Event\GameWasCreated;
+use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\GameReadModel;
 use Deck\Domain\Game\GameReadModelRepositoryInterface;
 
@@ -18,7 +19,7 @@ class GameProjector extends Projector
         $this->repository = $repository;
     }
 
-    public function exposeStatusOfGame($gameId): GameReadModel
+    public function exposeStatusOfGame(GameId $gameId): ?GameReadModel
     {
         return $this->loadReadModel($gameId);
     }
@@ -33,7 +34,7 @@ class GameProjector extends Projector
         $this->repository->save($gameReadModel);
     }
 
-    private function loadReadModel($id)
+    private function loadReadModel(GameId $id): ?GameReadModel
     {
         return $this->repository->findByGameId($id);
     }

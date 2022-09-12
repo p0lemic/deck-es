@@ -19,9 +19,9 @@ class GetTableQuery
 
     /**
      * @param TableId $id
-     * @return TableReadModel
+     * @return TableReadModel|null
      */
-    public function execute(TableId $id): TableReadModel
+    public function execute(TableId $id): ?TableReadModel
     {
         return $this->tableRepository->findByTableId($id);
     }

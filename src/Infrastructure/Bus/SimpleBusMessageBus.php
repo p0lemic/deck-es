@@ -1,6 +1,6 @@
 <?php
 
-namespace Deck\Infrastructure\Events;
+namespace Deck\Infrastructure\Bus;
 
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 

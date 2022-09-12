@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deck\Infrastructure\Events;
+namespace Deck\Infrastructure\Bus;
 
 interface EventBus
 {
