@@ -9,7 +9,6 @@ use function get_class;
 
 class JsonSerializer implements Serializer
 {
-    #[ArrayShape(['class' => "string", 'payload' => "mixed"])]
     public function serialize($object): array
     {
         return [

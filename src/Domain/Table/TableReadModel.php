@@ -3,7 +3,6 @@
 namespace Deck\Domain\Table;
 
 use Deck\Domain\User\PlayerId;
-use JetBrains\PhpStorm\ArrayShape;
 use function count;
 
 class TableReadModel
@@ -51,7 +50,6 @@ class TableReadModel
         return count($this->players) === self::SIZE;
     }
 
-    #[ArrayShape(['id' => "TableId", 'players' => "array|string[]"])]
     public function toArray(): array
     {
         return [

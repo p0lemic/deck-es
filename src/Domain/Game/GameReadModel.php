@@ -3,7 +3,6 @@
 namespace Deck\Domain\Game;
 
 use Deck\Domain\User\PlayerId;
-use JetBrains\PhpStorm\ArrayShape;
 
 class GameReadModel
 {
@@ -36,7 +35,6 @@ class GameReadModel
         return $this->players;
     }
 
-    #[ArrayShape(['id' => "string", 'players' => "array|string[]"])]
     public function toArray(): array
     {
         return [

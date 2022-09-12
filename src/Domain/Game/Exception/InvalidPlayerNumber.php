@@ -14,7 +14,6 @@ class InvalidPlayerNumber extends Exception
         return new self(
             sprintf('Players have to be bigger than zero')
         );
-
     }
 
     public static function equalsToTwo(): self
@@ -22,7 +21,6 @@ class InvalidPlayerNumber extends Exception
         return new self(
             sprintf('Players have to be two')
         );
-
     }
 
     public static function gameIsFull(): self
@@ -30,7 +28,6 @@ class InvalidPlayerNumber extends Exception
         return new self(
             sprintf('The Game is full')
         );
-
     }
 
     public static function gameTableIsNotFull(): self
@@ -38,6 +35,5 @@ class InvalidPlayerNumber extends Exception
         return new self(
             sprintf('The game table should be full')
         );
-
     }
 }

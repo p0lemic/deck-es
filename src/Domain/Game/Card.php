@@ -27,7 +27,7 @@ class Card extends SimpleEventSourcedEntity
 
     public function points(): int
     {
-        switch($this->rank->value()) {
+        switch ($this->rank->value()) {
             case "A":
                 return 11;
             case "3":

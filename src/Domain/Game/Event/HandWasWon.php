@@ -10,7 +10,6 @@ use Deck\Domain\Game\Suite;
 use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
-use JetBrains\PhpStorm\ArrayShape;
 
 class HandWasWon
 {
@@ -43,7 +42,6 @@ class HandWasWon
         return $this->occurredOn;
     }
 
-    #[ArrayShape(['playerId' => "string", 'cards' => "array|array[]", 'occurredOn' => "string"])]
     public function normalize(): array
     {
         return [

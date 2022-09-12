@@ -22,8 +22,9 @@ class Brisca implements Rules
         if ($firstPlayerCard->suite()->equals($secondPlayerCard->suite())) {
             return $this->getPoints($firstPlayerCard->rank()) > $this->getPoints($secondPlayerCard->rank()) ?
                 PlayerId::fromString($firstPlayerId) :
-                PlayerId::fromString($secondPlayerId
-            );
+                PlayerId::fromString(
+                    $secondPlayerId
+                );
         }
 
         if ($firstPlayerCard->suite()->equals($this->sampleCard->suite())) {

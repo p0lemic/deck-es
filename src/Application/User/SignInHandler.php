@@ -6,10 +6,10 @@ namespace Deck\Application\User;
 
 use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\Shared\Exception\DateTimeException;
-use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\Exception\InvalidCredentialsException;
 use Deck\Domain\User\Player;
 use Deck\Domain\User\PlayerId;
+use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\PlayerRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
 

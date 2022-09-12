@@ -15,13 +15,13 @@ final class DoctrineEmailType extends Type
     /**
      * Gets the SQL declaration snippet for a field of this type.
      *
-     * @param mixed[] $fieldDeclaration The field declaration.
+     * @param mixed[] $column The field declaration.
      * @param AbstractPlatform $platform The currently used database platform.
      *
      * @return string
      */
     public function getSQLDeclaration(
-        array $fieldDeclaration,
+        array $column,
         AbstractPlatform $platform
     ): string {
         return $platform->getVarcharTypeDeclarationSQL([]);

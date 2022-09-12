@@ -9,8 +9,8 @@ use Symfony\Component\HttpKernel\Event\RequestEvent;
 use Symfony\Component\HttpKernel\Event\ResponseEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
 
-class RequestListener implements EventSubscriberInterface {
-
+class RequestListener implements EventSubscriberInterface
+{
     public function onKernelRequest(RequestEvent $event)
     {
         $request = $event->getRequest();

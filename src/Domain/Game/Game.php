@@ -175,7 +175,7 @@ class Game extends EventSourcedAggregateRoot
         }
         $this->deck = Deck::create($event->deckId());
         $ruleClass = $event->rules();
-        $this->rules = new $ruleClass;
+        $this->rules = new $ruleClass();
     }
 
     public function applyCardWasDealt(CardWasDealt $cardWasDealt): void

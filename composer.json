@@ -43,7 +43,9 @@
         "symfony/serializer": "6.1.*",
         "symfony/twig-bundle": "6.1.*",
         "symfony/validator": "6.1.*",
-        "symfony/yaml": "6.1.*"
+        "symfony/yaml": "6.1.*",
+        "symplify/easy-coding-standard": "^11.1",
+        "vimeo/psalm": "^4.27"
     },
     "config": {
         "preferred-install": {
@@ -82,7 +84,21 @@
         ],
         "post-update-cmd": [
             "@auto-scripts"
-        ]
+        ],
+        "precommit-check": [
+            "@cs-check",
+            "@psalm",
+            "@test"
+        ],
+        "check-all": [
+            "@cs-check",
+            "@psalm",
+            "@test"
+        ],
+        "cs-check": "ecs check src config",
+        "cs-fix": "ecs check src config --fix",
+        "test": "phpunit --colors=always",
+        "psalm": "psalm"
     },
     "conflict": {
         "symfony/symfony": "*"

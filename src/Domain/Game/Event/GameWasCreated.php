@@ -87,7 +87,7 @@ class GameWasCreated
                 $payload['players'],
             ),
             DeckId::fromString($payload['deckId']),
-            new $payload['rules'],
+            new $payload['rules'](),
             DateTime::fromString($payload['occurredOn'])
         );
     }

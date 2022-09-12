@@ -14,6 +14,5 @@ class PlayerNotAllowedToDraw extends Exception
         return new self(
             sprintf('Players hand is full')
         );
-
     }
 }

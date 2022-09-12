@@ -12,7 +12,8 @@ class TableWasCreated
     public function __construct(
         public readonly TableId $aggregateId,
         public readonly DateTime $occurredOn
-    ) {}
+    ) {
+    }
 
     public function aggregateId(): TableId
     {

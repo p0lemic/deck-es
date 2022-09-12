@@ -14,6 +14,5 @@ class CardPlayedNotInPlayerHand extends Exception
         return new self(
             sprintf('Card played not found in player hand')
         );
-
     }
 }
