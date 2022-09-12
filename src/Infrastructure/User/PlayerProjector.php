@@ -7,6 +7,7 @@ namespace Deck\Infrastructure\User;
 use Broadway\ReadModel\Projector;
 use Deck\Domain\User\Event\UserWasCreated;
 use Deck\Domain\User\Event\UserWasSignedIn;
+use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\PlayerReadModel;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 
@@ -19,7 +20,7 @@ class PlayerProjector extends Projector
         $this->repository = $repository;
     }
 
-    public function exposeStatusOfPlayer($playerId): PlayerReadModel
+    public function exposeStatusOfPlayer(PlayerId $playerId): ?PlayerReadModel
     {
         return $this->loadReadModel($playerId);
     }
@@ -45,7 +46,7 @@ class PlayerProjector extends Projector
         $this->repository->save($playerReadModel);
     }
 
-    private function loadReadModel($id)
+    private function loadReadModel(PlayerId $id): ?PlayerReadModel
     {
         return $this->repository->findById($id);
     }

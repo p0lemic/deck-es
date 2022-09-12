@@ -7,7 +7,6 @@ namespace Deck\Infrastructure\User\Auth;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
-use Symfony\Component\Security\Core\Exception\UserNotFoundException;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Security\Core\User\UserProviderInterface;
 
@@ -20,7 +19,7 @@ class UserProvider implements UserProviderInterface
         $this->playerRepository = $playerRepository;
     }
 
-    public function loadUserByUsername($username): UserInterface
+    public function loadUserByUsername(string $username): UserInterface
     {
         [$id, $email, $hashedPassword] = $this->playerRepository->getCredentialsByEmail(
             Email::fromString($username)
@@ -38,7 +37,7 @@ class UserProvider implements UserProviderInterface
         return $this->loadUserByUsername($user->getUsername());
     }
 
-    public function supportsClass($class): bool
+    public function supportsClass(string $class): bool
     {
         return Auth::class === $class;
     }

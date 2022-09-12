@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Deck\Application\User;
 
+use Deck\Application\Shared\Command\CommandInterface;
 use Deck\Domain\User\ValueObject\Email;
 
-class SignInCommand
+class SignInCommand implements CommandInterface
 {
     private Email $email;
     private string $plainPassword;

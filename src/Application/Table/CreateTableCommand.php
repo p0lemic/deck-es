@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Deck\Application\Table;
 
+use Deck\Application\Shared\Command\CommandInterface;
 use Deck\Domain\Table\TableId;
 
-final class CreateTableCommand
+final class CreateTableCommand implements CommandInterface
 {
     private TableId $id;
 

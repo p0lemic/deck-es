@@ -2,7 +2,7 @@
 
 namespace Deck\Application\Game;
 
-use Deck\Domain\Game\Game;
+use Deck\Domain\Game\GameReadModel;
 use Deck\Domain\Game\GameReadModelRepositoryInterface;
 
 class GamesListQuery
@@ -16,7 +16,7 @@ class GamesListQuery
     }
 
     /**
-     * @return Game[]
+     * @return GameReadModel[]
      */
     public function execute(): array
     {

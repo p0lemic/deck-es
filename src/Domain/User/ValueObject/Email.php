@@ -19,7 +19,7 @@ class Email
      */
     public static function fromString(string $email): Email
     {
-        Assertion::email($email, 'Not a valid email');
+        Assertion::email($email, 'Email format is not valid');
 
         $mail = new self();
 

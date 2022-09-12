@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
+use Deck\Application\Shared\Command\CommandInterface;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -19,14 +20,14 @@ class AbstractRenderController extends AbstractController
         $this->commandBus = $commandBus;
     }
 
-    protected function execute($command): void
+    protected function execute(CommandInterface $command): void
     {
         $this->commandBus->handle($command);
     }
 
     protected function createApiResponse(
-        $data,
-        $statusCode = Response::HTTP_OK
+        array $data,
+        int $statusCode = Response::HTTP_OK
     ): Response {
         return new JsonResponse(
             $data,

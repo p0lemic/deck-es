@@ -14,14 +14,6 @@ final class DoctrinePlayerIdArrayType extends Type
 {
     public const NAME = 'players_id_array';
 
-    /**
-     * Gets the SQL declaration snippet for a field of this type.
-     *
-     * @param mixed[] $column The field declaration.
-     * @param AbstractPlatform $platform The currently used database platform.
-     *
-     * @return string
-     */
     public function getSQLDeclaration(
         array $column,
         AbstractPlatform $platform
@@ -34,22 +26,11 @@ final class DoctrinePlayerIdArrayType extends Type
         return true;
     }
 
-    /**
-     * Gets the name of this type.
-     *
-     * @return string
-     *
-     */
     public function getName(): string
     {
         return self::NAME;
     }
 
-    /**
-     * @param PlayerId $value
-     * @param AbstractPlatform $platform
-     * @return string
-     */
     public function convertToDatabaseValue(
         $value,
         AbstractPlatform $platform
@@ -62,11 +43,6 @@ final class DoctrinePlayerIdArrayType extends Type
         return json_encode($playersIds);
     }
 
-    /**
-     * @param string $value
-     * @param AbstractPlatform $platform
-     * @return PlayerId[]
-     */
     public function convertToPHPValue(
         $value,
         AbstractPlatform $platform

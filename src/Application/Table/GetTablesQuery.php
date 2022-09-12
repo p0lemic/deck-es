@@ -2,7 +2,7 @@
 
 namespace Deck\Application\Table;
 
-use Deck\Domain\Table\Table;
+use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\Table\TableReadModelRepositoryInterface;
 
 class GetTablesQuery
@@ -16,7 +16,7 @@ class GetTablesQuery
     }
 
     /**
-     * @return Table[]
+     * @return TableReadModel[]
      */
     public function execute(): array
     {

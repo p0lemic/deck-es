@@ -22,7 +22,7 @@ doctrine:
             player_id: Deck\Infrastructure\Persistence\Type\User\DoctrinePlayerIdType
             game_id: Deck\Infrastructure\Persistence\Type\Game\DoctrineGameIdType
             table_id: Deck\Infrastructure\Persistence\Type\Table\DoctrineTableIdType
-            datetime: Deck\Infrastructure\Persistence\Type\Shared\DoctrineDateTimeType
+            custom_datetime: Deck\Infrastructure\Persistence\Type\Shared\DoctrineDateTimeType
             players_id_array: Deck\Infrastructure\Persistence\Type\User\DoctrinePlayerIdArrayType
 
     orm:

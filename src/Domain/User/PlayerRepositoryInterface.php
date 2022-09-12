@@ -10,5 +10,5 @@ interface PlayerRepositoryInterface
 {
     public function get(AggregateId $id): Player;
 
-    public function store(Player $user): void;
+    public function store(Player $player): void;
 }

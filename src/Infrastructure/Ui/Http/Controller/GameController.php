@@ -11,19 +11,13 @@ use Deck\Application\Game\DrawCardCommand;
 use Deck\Application\Game\GamesListQuery;
 use Deck\Application\Game\LoadGame;
 use Deck\Application\Game\LoadGameRequest;
-use Deck\Domain\Game\Exception\InvalidPlayerNumber;
 use Deck\Domain\Game\GameReadModel;
-use Deck\Domain\Shared\AggregateId;
-use Deck\Domain\Table\TableReadModel;
-use InvalidArgumentException;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 use Symfony\Component\Security\Core\Security;
-use Throwable;
-use function var_dump;
 
 class GameController extends AbstractRenderController
 {
@@ -48,7 +42,7 @@ class GameController extends AbstractRenderController
             ->setEncodingOptions(JsonResponse::DEFAULT_ENCODING_OPTIONS | JSON_PRESERVE_ZERO_FRACTION)
             ->setData(
                 array_map(
-                    static fn (GameReadModel $game) => $game->toArray(),
+                    static fn(GameReadModel $game) => $game->toArray(),
                     $games
                 )
             );
@@ -72,21 +66,18 @@ class GameController extends AbstractRenderController
      *
      * @param Request $request
      * @return Response
+     * @throws AssertionFailedException
      */
     public function create(Request $request): Response
     {
         $tableId = $request->get('id');
 
-        try {
-            Assertion::notNull($tableId, 'Table Id can\'t be null');
+        Assertion::notNull($tableId, 'Table Id can\'t be null');
 
-            $createGameCommand = new CreateGameCommand($tableId);
-            $this->execute($createGameCommand);
+        $createGameCommand = new CreateGameCommand($tableId);
+        $this->execute($createGameCommand);
 
-            return $this->createApiResponse(['id' => $createGameCommand->gameId()->value()], Response::HTTP_CREATED);
-        } catch (InvalidArgumentException|AssertionFailedException|InvalidPlayerNumber $exception) {
-            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return $this->createApiResponse(['id' => $createGameCommand->gameId()->value()], Response::HTTP_CREATED);
     }
 
     /**
@@ -117,15 +108,11 @@ class GameController extends AbstractRenderController
         LoadGame $loadGame,
         Request $request
     ): Response {
-        try {
-            $id = $request->get('id');
+        $id = $request->get('id');
 
-            $game = $loadGame->execute(new LoadGameRequest($id));
+        $game = $loadGame->execute(new LoadGameRequest($id));
 
-            return $this->createApiResponse($game);
-        } catch (Throwable $exception) {
-            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
-        }
+        return $this->createApiResponse($game->toArray());
     }
 
     /**
@@ -148,28 +135,24 @@ class GameController extends AbstractRenderController
      * @param Request $request
      * @return Response
      */
-    public function playerDraw(Security $security, Request $request): Response
-    {
+    public function playerDraw(
+        Security $security,
+        Request $request
+    ): Response {
         $gameId = $request->get('id');
 
-        try {
-            $user = $security->getUser();
+        $user = $security->getUser();
+        $userId = $user?->id();
 
-            /** @var AggregateId $userId */
-            $userId = $user ? $user->id() : null;
-
-            if (null === $userId) {
-                throw new AuthenticationException('You should be logged in to create a new table.');
-            }
-
-            Assertion::notNull($gameId, 'Game Id can\'t be null');
-
-            $drawCardCommand = new DrawCardCommand($gameId, $userId->value());
-            $this->execute($drawCardCommand);
-
-            return $this->createApiResponse(['id' => $drawCardCommand->gameId()->value()], Response::HTTP_OK);
-        } catch (Throwable $exception) {
-            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        if (null === $userId) {
+            throw new AuthenticationException('You should be logged in to create a new table.');
         }
+
+        Assertion::notNull($gameId, 'Game Id can\'t be null');
+
+        $drawCardCommand = new DrawCardCommand($gameId, $userId->value());
+        $this->execute($drawCardCommand);
+
+        return $this->createApiResponse(['id' => $drawCardCommand->gameId()->value()], Response::HTTP_OK);
     }
 }

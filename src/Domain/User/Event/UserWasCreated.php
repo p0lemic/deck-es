@@ -46,8 +46,8 @@ class UserWasCreated
         return [
             'aggregateId' => $this->aggregateId->value(),
             'credentials' => [
-                'email' => $this->credentials->email(),
-                'password' => $this->credentials->password()
+                'email' => $this->credentials->email()->toString(),
+                'password' => $this->credentials->password()->toString()
             ],
             'occurredOn' => $this->occurredOn->toString()
         ];

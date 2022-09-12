@@ -12,7 +12,7 @@ Deck\Domain\User\PlayerReadModel:
       type: player_id
   fields:
     createdAt:
-      type: datetime
+      type: custom_datetime
     updatedAt:
-      type: datetime
+      type: custom_datetime
       columnDefinition: TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL

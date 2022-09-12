@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Deck\Application\Table;
 
+use Deck\Application\Shared\Command\CommandInterface;
 use Deck\Domain\Table\TableId;
 use Deck\Domain\User\PlayerId;
 
-final class JoinTableCommand
+final class JoinTableCommand implements CommandInterface
 {
     private TableId $tableId;
     private PlayerId $playerId;

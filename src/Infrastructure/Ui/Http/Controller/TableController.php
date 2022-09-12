@@ -5,18 +5,14 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
 use Assert\Assertion;
-use Assert\AssertionFailedException;
 use Deck\Application\Table\CreateTableCommand;
 use Deck\Application\Table\GetTableQuery;
 use Deck\Application\Table\GetTablesQuery;
 use Deck\Application\Table\JoinTableCommand;
 use Deck\Domain\Shared\AggregateId;
-use Deck\Domain\Table\Exception\PlayerAlreadyInTable;
-use Deck\Domain\Table\Exception\TableIsFull;
 use Deck\Domain\Table\TableId;
 use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\User\PlayerId;
-use InvalidArgumentException;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -47,7 +43,7 @@ class TableController extends AbstractRenderController
             ->setEncodingOptions(JsonResponse::DEFAULT_ENCODING_OPTIONS | JSON_PRESERVE_ZERO_FRACTION)
             ->setData(
                 array_map(
-                    static fn (TableReadModel $table) => $table->toArray(),
+                    static fn(TableReadModel $table) => $table->toArray(),
                     $tables
                 )
             );
@@ -73,31 +69,27 @@ class TableController extends AbstractRenderController
      */
     public function create(Security $security): Response
     {
-        try {
-            $user = $security->getUser();
+        $user = $security->getUser();
 
-            /** @var AggregateId $userId */
-            $userId = $user ? $user->id() : null;
+        /** @var AggregateId $userId */
+        $userId = $user ? $user->id() : null;
 
-            if (null === $userId) {
-                throw new AuthenticationException('You should be logged in to create a new table.');
-            }
-
-            $createTableCommand = new CreateTableCommand();
-
-            $this->execute($createTableCommand);
-
-            $this->execute(
-                new JoinTableCommand(
-                    $createTableCommand->id()->value(),
-                    $userId->value()
-                )
-            );
-
-            return $this->createApiResponse(['id' => $createTableCommand->id()->value()], Response::HTTP_CREATED);
-        } catch (PlayerAlreadyInTable $exception) {
-            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_CONFLICT);
+        if (null === $userId) {
+            throw new AuthenticationException('You should be logged in to create a new table.');
         }
+
+        $createTableCommand = new CreateTableCommand();
+
+        $this->execute($createTableCommand);
+
+        $this->execute(
+            new JoinTableCommand(
+                $createTableCommand->id()->value(),
+                $userId->value()
+            )
+        );
+
+        return $this->createApiResponse(['id' => $createTableCommand->id()->value()], Response::HTTP_CREATED);
     }
 
     /**
@@ -136,34 +128,28 @@ class TableController extends AbstractRenderController
         GetTableQuery $getTableQuery,
         Request $request
     ): Response {
-        $tableId = $request->request->get('id');
+        $tableId = $request->request->getDigits('id');
 
-        try {
-            Assertion::notNull($tableId, 'Table id can\'t be empty');
+        Assertion::notNull($tableId, 'Table id can\'t be empty');
 
-            $user = $security->getUser();
+        $user = $security->getUser();
 
-            /** @var PlayerId $userId */
-            $userId = $user ? $user->id() : null;
+        /** @var PlayerId $userId */
+        $userId = $user ? $user->id() : null;
 
-            if (null === $userId) {
-                throw new AuthenticationException('You should be logged in to join a table.');
-            }
-
-            $this->execute(
-                new JoinTableCommand(
-                    $tableId,
-                    $userId->value()
-                )
-            );
-
-            $table = $getTableQuery->execute(TableId::fromString($tableId));
-
-            return $this->createApiResponse(['joined' => $table->isFull()]);
-        } catch (PlayerAlreadyInTable $exception) {
-            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_CONFLICT);
-        } catch (InvalidArgumentException|AssertionFailedException|TableIsFull $exception) {
-            return $this->createApiResponse(['error' => $exception->getMessage()], Response::HTTP_BAD_REQUEST);
+        if (null === $userId) {
+            throw new AuthenticationException('You should be logged in to join a table.');
         }
+
+        $this->execute(
+            new JoinTableCommand(
+                $tableId,
+                $userId->value()
+            )
+        );
+
+        $table = $getTableQuery->execute(TableId::fromString($tableId));
+
+        return $this->createApiResponse(['joined' => $table->isFull()]);
     }
 }

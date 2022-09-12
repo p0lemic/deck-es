@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Deck\Application\Game;
 
+use Deck\Application\Shared\Command\CommandInterface;
 use Deck\Domain\Game\Brisca;
 use Deck\Domain\Game\DeckId;
 use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\Rules;
 use Deck\Domain\Table\TableId;
 
-final class CreateGameCommand
+final class CreateGameCommand implements CommandInterface
 {
     private TableId $tableId;
     private GameId $gameId;

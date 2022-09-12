@@ -2,11 +2,10 @@
 
 namespace Deck\Application\Table;
 
-use Broadway\CommandHandling\CommandHandler;
 use Deck\Domain\Table\TableRepositoryInterface;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 
-class JoinTableHandler implements CommandHandler
+class JoinTableHandler
 {
     private TableRepositoryInterface $tableRepository;
     private PlayerReadModelRepositoryInterface $playerReadModelRepository;

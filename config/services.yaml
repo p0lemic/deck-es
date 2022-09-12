@@ -27,7 +27,12 @@ services:
     # this creates a service per class whose id is the fully-qualified class name
     Deck\:
         resource: '../src/*'
-        exclude: '../src/{DependencyInjection,Entity,Migrations,Tests,Kernel.php}'
+        exclude:
+            - '../src/Kernel.php'
+            - '../src/Application/**/{*Command.php,*Query.php}'
+            - '../src/Domain/**/{*Was*.php,*Exception.php}'
+            - '../src/Domain/**/ValueObject'
+            - '../src/Infrastructure/**/{Migrations,Type}'
 
     # controllers are imported separately to make sure services can be injected
     # as action arguments even if you don't extend any base controller class

@@ -2,9 +2,11 @@
 
 namespace Deck\Infrastructure\Bus;
 
+use Deck\Application\Shared\Command\CommandBusInterface;
+use Deck\Application\Shared\Command\CommandInterface;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
 
-class SimpleBusMessageBus implements MessageBus
+class SimpleBusCommandBus implements CommandBusInterface
 {
     private CommandBus $commandBus;
 
@@ -14,7 +16,7 @@ class SimpleBusMessageBus implements MessageBus
         $this->commandBus = $commandBus;
     }
 
-    public function handle($command): void
+    public function handle(CommandInterface $command): void
     {
         $this->commandBus->handle($command);
     }

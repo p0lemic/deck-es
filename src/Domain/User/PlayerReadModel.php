@@ -52,7 +52,7 @@ class PlayerReadModel
 
     public function getId(): string
     {
-        return $this->id()->value()->toString();
+        return $this->id()->value();
     }
 
     public function changeUpdatedAt(DateTime $updatedAt): void

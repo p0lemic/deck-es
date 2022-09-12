@@ -144,7 +144,7 @@ class Game extends EventSourcedAggregateRoot
         }
     }
 
-    private function getNextPlayer(): PlayerId
+    private function getNextPlayer(): ?PlayerId
     {
         foreach ($this->players as $playerId => $player) {
             if ($this->currentPlayerId->value() === $playerId) {
@@ -152,6 +152,8 @@ class Game extends EventSourcedAggregateRoot
                 return $nextPlayer ? $nextPlayer->playerId() : reset($this->players)->playerId();
             }
         }
+
+        return null;
     }
 
     private function areAllCardsPlayed(): bool
@@ -214,5 +216,16 @@ class Game extends EventSourcedAggregateRoot
         $children[] = $this->deck;
 
         return $children;
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'id' => $this->id->value(),
+            'players' => array_map(
+                static fn (Player $player) => $player->playerId()->__toString(),
+                $this->players,
+            ),
+        ];
     }
 }
