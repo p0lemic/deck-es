@@ -24,7 +24,10 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
 
     public function findById(PlayerId $playerId): ?PlayerReadModel
     {
-        return $this->findOneBy(['id' => $playerId]);
+        /** @var PlayerReadModel $player */
+        $player = $this->findOneBy(['id' => $playerId]);
+
+        return $player;
     }
 
     /** @throws UserNotFoundException */
@@ -91,11 +94,11 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
     public function save(PlayerReadModel $player): void
     {
         $this->_em->persist($player);
-        $this->_em->flush($player);
+        $this->_em->flush();
     }
 
     public function clearMemory(): void
     {
-        $this->_em->clear(PlayerReadModel::class);
+        $this->_em->clear();
     }
 }

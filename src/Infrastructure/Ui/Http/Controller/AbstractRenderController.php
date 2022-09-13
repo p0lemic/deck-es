@@ -6,11 +6,10 @@ namespace Deck\Infrastructure\Ui\Http\Controller;
 
 use Deck\Application\Shared\Command\CommandInterface;
 use SimpleBus\SymfonyBridge\Bus\CommandBus;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 
-class AbstractRenderController extends AbstractController
+class AbstractRenderController
 {
     private CommandBus $commandBus;
 

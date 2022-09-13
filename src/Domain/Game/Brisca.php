@@ -10,7 +10,7 @@ use function array_keys;
 class Brisca implements Rules
 {
     public const MAX_CARDS_IN_PLAYER_HAND = 3;
-    private Card $sampleCard;
+    private ?Card $sampleCard = null;
 
     public function resolveHand(array $cards): PlayerId
     {
@@ -27,11 +27,11 @@ class Brisca implements Rules
                 );
         }
 
-        if ($firstPlayerCard->suite()->equals($this->sampleCard->suite())) {
+        if ($firstPlayerCard->suite()->equals($this->sampleCard?->suite())) {
             return PlayerId::fromString($firstPlayerId);
         }
 
-        if ($secondPlayerCard->suite()->equals($this->sampleCard->suite())) {
+        if ($secondPlayerCard->suite()->equals($this->sampleCard?->suite())) {
             return PlayerId::fromString($secondPlayerId);
         }
 

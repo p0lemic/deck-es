@@ -16,7 +16,7 @@ final class DoctrineAggregateIdType extends Type
         array $column,
         AbstractPlatform $platform
     ): string {
-        return $platform->getVarcharTypeDeclarationSQL([]);
+        return $platform->getStringTypeDeclarationSQL([]);
     }
 
     public function requiresSQLCommentHint(AbstractPlatform $platform): bool

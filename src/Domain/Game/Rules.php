@@ -10,5 +10,5 @@ interface Rules
 {
     public function resolveHand(array $cards): PlayerId;
 
-    public function setSampleCard(Card $sampleCard);
+    public function setSampleCard(Card $sampleCard): void;
 }

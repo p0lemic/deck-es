@@ -21,21 +21,24 @@ class DoctrineTableReadModelRepository extends ServiceEntityRepository implement
     public function save(TableReadModel $table): void
     {
         $this->_em->persist($table);
-        $this->_em->flush($table);
+        $this->_em->flush();
     }
 
     public function clearMemory(): void
     {
-        $this->_em->clear(TableReadModel::class);
+        $this->_em->clear();
     }
 
     public function findByTableId(TableId $tableId): ?TableReadModel
     {
-        return $this->findOneBy(
+        /** @var TableReadModel $table */
+        $table = $this->findOneBy(
             [
                 'id' => $tableId,
             ]
         );
+
+        return $table;
     }
 
     /** @throws TableNotFoundException */

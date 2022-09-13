@@ -38,7 +38,7 @@ class Deck extends SimpleEventSourcedEntity
         $cards = [];
 
         foreach (Suite::AVAILABLE_SUITES as $suite) {
-            foreach (Rank::AVAILABLE_RANKS as $rank => $rankName) {
+            foreach (Rank::AVAILABLE_RANKS as $rank) {
                 $cards[] = new Card(new Suite($suite), new Rank($rank));
             }
         }
@@ -89,8 +89,6 @@ class Deck extends SimpleEventSourcedEntity
 
     public function getLastCard(): Card
     {
-        $lastCardKey = array_key_last($this->cards);
-
-        return $this->cards[$lastCardKey];
+        return end($this->cards);
     }
 }

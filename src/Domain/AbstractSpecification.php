@@ -10,7 +10,7 @@ abstract class AbstractSpecification
 {
     abstract public function isSatisfiedBy(Email $value): bool;
 
-    final public function not($value): bool
+    final public function not(Email $value): bool
     {
         return !$this->isSatisfiedBy($value);
     }

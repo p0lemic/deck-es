@@ -9,10 +9,9 @@ use Deck\Application\Table\CreateTableCommand;
 use Deck\Application\Table\GetTableQuery;
 use Deck\Application\Table\GetTablesQuery;
 use Deck\Application\Table\JoinTableCommand;
-use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\Table\TableId;
 use Deck\Domain\Table\TableReadModel;
-use Deck\Domain\User\PlayerId;
+use Deck\Infrastructure\User\Auth\Auth;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -69,10 +68,10 @@ class TableController extends AbstractRenderController
      */
     public function create(Security $security): Response
     {
+        /** @var Auth|null $user */
         $user = $security->getUser();
 
-        /** @var AggregateId $userId */
-        $userId = $user ? $user->id() : null;
+        $userId = $user?->id();
 
         if (null === $userId) {
             throw new AuthenticationException('You should be logged in to create a new table.');
@@ -128,14 +127,15 @@ class TableController extends AbstractRenderController
         GetTableQuery $getTableQuery,
         Request $request
     ): Response {
-        $tableId = $request->request->getDigits('id');
+        $tableId = $request->request->get('id');
 
         Assertion::notNull($tableId, 'Table id can\'t be empty');
+        Assertion::string($tableId);
 
+        /** @var Auth|null $user */
         $user = $security->getUser();
 
-        /** @var PlayerId $userId */
-        $userId = $user ? $user->id() : null;
+        $userId = $user?->id();
 
         if (null === $userId) {
             throw new AuthenticationException('You should be logged in to join a table.');
@@ -150,6 +150,6 @@ class TableController extends AbstractRenderController
 
         $table = $getTableQuery->execute(TableId::fromString($tableId));
 
-        return $this->createApiResponse(['joined' => $table->isFull()]);
+        return $this->createApiResponse(['joined' => $table?->isFull()]);
     }
 }

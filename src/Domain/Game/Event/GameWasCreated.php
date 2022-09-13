@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Game\Event;
 
+use Deck\Domain\Game\Brisca;
 use Deck\Domain\Game\DeckId;
 use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\Rules;
@@ -87,7 +88,7 @@ class GameWasCreated
                 $payload['players'],
             ),
             DeckId::fromString($payload['deckId']),
-            new $payload['rules'](),
+            new Brisca(),
             DateTime::fromString($payload['occurredOn'])
         );
     }

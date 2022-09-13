@@ -11,6 +11,6 @@ class EmailAlreadyExistException extends Exception
 {
     public static function exists(Email $email): self
     {
-        return new self(sprintf('Email %s already exists', $email));
+        return new self(sprintf('Email %s already exists', $email->toString()));
     }
 }

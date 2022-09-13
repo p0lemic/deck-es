@@ -47,10 +47,6 @@ final class HashedPassword
 
         $hashedPassword = password_hash($plainPassword, PASSWORD_BCRYPT, ['cost' => self::COST]);
 
-        if (is_bool($hashedPassword) || null === $hashedPassword) {
-            throw new RuntimeException('Server error hashing password');
-        }
-
         $this->hashedPassword = $hashedPassword;
     }
 

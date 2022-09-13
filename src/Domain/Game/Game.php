@@ -32,15 +32,24 @@ use function reset;
  */
 class Game extends EventSourcedAggregateRoot
 {
-    private const MAX_CARDS_IN_PLAYER_HAND = 3;
-    private GameId $id;
-    private Deck $deck;
+    private ?GameId $id;
+    private ?Deck $deck;
     /** @var Player[] */
     private array $players;
-    private PlayerId $currentPlayerId;
+    private ?PlayerId $currentPlayerId;
     /** @var Card[] */
     private array $cardsOnTable;
-    private Rules $rules;
+    private ?Rules $rules;
+
+    private function __construct()
+    {
+        $this->id = null;
+        $this->deck = null;
+        $this->players = [];
+        $this->currentPlayerId = null;
+        $this->cardsOnTable = [];
+        $this->rules = null;
+    }
 
     public static function create(
         GameId $gameId,
@@ -70,7 +79,7 @@ class Game extends EventSourcedAggregateRoot
         return $this->players[$playerId->value()] ?? null;
     }
 
-    public function currentPlayerId(): PlayerId
+    public function currentPlayerId(): ?PlayerId
     {
         return $this->currentPlayerId;
     }
@@ -147,7 +156,7 @@ class Game extends EventSourcedAggregateRoot
     private function getNextPlayer(): ?PlayerId
     {
         foreach ($this->players as $playerId => $player) {
-            if ($this->currentPlayerId->value() === $playerId) {
+            if ($this->currentPlayerId?->value() === $playerId) {
                 $nextPlayer = next($this->players);
                 return $nextPlayer ? $nextPlayer->playerId() : reset($this->players)->playerId();
             }
@@ -173,11 +182,11 @@ class Game extends EventSourcedAggregateRoot
         $this->id = $event->aggregateId();
         foreach ($event->players() as $playerId) {
             $this->players[$playerId->value()] = Player::create($playerId);
-            $this->currentPlayerId = $this->currentPlayerId ?? $playerId;
+            $this->currentPlayerId = $playerId;
         }
         $this->deck = Deck::create($event->deckId());
         $ruleClass = $event->rules();
-        $this->rules = new $ruleClass();
+        $this->rules = new Brisca();
     }
 
     public function applyCardWasDealt(CardWasDealt $cardWasDealt): void

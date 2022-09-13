@@ -19,14 +19,8 @@ class Player extends EventSourcedAggregateRoot
     private ?DateTime $updatedAt;
 
     /**
-     * @param PlayerId $id
-     * @param Credentials $credentials
-     * @param UniqueEmailSpecificationInterface $uniqueEmailSpecification
-     *
-     * @return static
-     *
-     * @throws DateTimeException
      * @throws Exception\EmailAlreadyExistException
+     * @throws DateTimeException
      */
     public static function create(
         PlayerId $id,

@@ -20,21 +20,24 @@ class DoctrineGameReadModelRepository extends ServiceEntityRepository implements
     public function save(GameReadModel $game): void
     {
         $this->_em->persist($game);
-        $this->_em->flush($game);
+        $this->_em->flush();
     }
 
     public function clearMemory(): void
     {
-        $this->_em->clear(GameReadModel::class);
+        $this->_em->clear();
     }
 
     public function findByGameId(GameId $gameId): ?GameReadModel
     {
-        return $this->findOneBy(
+        /** @var GameReadModel $game */
+        $game = $this->findOneBy(
             [
                 'id' => $gameId,
             ]
         );
+
+        return $game;
     }
 
     public function all(): array

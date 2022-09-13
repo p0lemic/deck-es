@@ -7,7 +7,6 @@ use Deck\Domain\User\PlayerId;
 class GameReadModel
 {
     private GameId $id;
-    private Deck $deck;
     /** @var PlayerId[] */
     private array $players;
 
@@ -22,11 +21,6 @@ class GameReadModel
     public function id(): GameId
     {
         return $this->id;
-    }
-
-    public function deck(): Deck
-    {
-        return $this->deck;
     }
 
     /** @return PlayerId[] */

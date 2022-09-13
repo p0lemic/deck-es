@@ -2,6 +2,7 @@
 
 namespace Deck\Application\Table;
 
+use Deck\Application\Shared\Command\CommandInterface;
 use Deck\Domain\Table\TableRepositoryInterface;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 
@@ -18,7 +19,7 @@ class JoinTableHandler
         $this->playerReadModelRepository = $playerReadModelRepository;
     }
 
-    public function handle($joinTableCommand): void
+    public function handle(JoinTableCommand $joinTableCommand): void
     {
         $player = $this->playerReadModelRepository->findByIdOrFail($joinTableCommand->playerId());
         $table = $this->tableRepository->get($joinTableCommand->tableId());

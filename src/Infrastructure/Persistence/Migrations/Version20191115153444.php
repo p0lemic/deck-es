@@ -18,7 +18,7 @@ class Version20191115153444 extends AbstractMigration implements ContainerAwareI
 {
     /** @var DBALEventStore|object|null */
     private $eventStore;
-    /** @var EntityManager */
+    /** @var EntityManager|object|null */
     private $em;
 
     public function setContainer(ContainerInterface $container = null): void

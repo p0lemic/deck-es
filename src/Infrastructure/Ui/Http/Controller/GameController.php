@@ -12,6 +12,7 @@ use Deck\Application\Game\GamesListQuery;
 use Deck\Application\Game\LoadGame;
 use Deck\Application\Game\LoadGameRequest;
 use Deck\Domain\Game\GameReadModel;
+use Deck\Infrastructure\User\Auth\Auth;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,9 +71,10 @@ class GameController extends AbstractRenderController
      */
     public function create(Request $request): Response
     {
-        $tableId = $request->get('id');
+        $tableId = $request->request->get('id');
 
         Assertion::notNull($tableId, 'Table Id can\'t be null');
+        Assertion::string($tableId);
 
         $createGameCommand = new CreateGameCommand($tableId);
         $this->execute($createGameCommand);
@@ -108,7 +110,10 @@ class GameController extends AbstractRenderController
         LoadGame $loadGame,
         Request $request
     ): Response {
-        $id = $request->get('id');
+        $id = $request->request->get('id');
+
+        Assertion::notNull($id, 'Game Id can\'t be null');
+        Assertion::string($id);
 
         $game = $loadGame->execute(new LoadGameRequest($id));
 
@@ -139,16 +144,19 @@ class GameController extends AbstractRenderController
         Security $security,
         Request $request
     ): Response {
-        $gameId = $request->get('id');
+        $gameId = $request->request->get('id');
 
+        /** @var Auth|null $user */
         $user = $security->getUser();
-        $userId = $user?->id();
 
-        if (null === $userId) {
-            throw new AuthenticationException('You should be logged in to create a new table.');
+        if (null === $user) {
+            throw new AuthenticationException('You should be logged in to create a new game.');
         }
 
+        $userId = $user->id();
+
         Assertion::notNull($gameId, 'Game Id can\'t be null');
+        Assertion::string($gameId);
 
         $drawCardCommand = new DrawCardCommand($gameId, $userId->value());
         $this->execute($drawCardCommand);

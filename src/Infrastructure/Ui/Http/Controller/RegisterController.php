@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
 use Assert\Assertion;
+use Assert\AssertionFailedException;
 use Deck\Application\User\SignUpCommand;
 use OpenApi\Annotations as OA;
 use Symfony\Component\HttpFoundation\Request;
@@ -41,14 +42,17 @@ class RegisterController extends AbstractRenderController
      *
      * @param Request $request
      * @return Response
+     * @throws AssertionFailedException
      */
     public function register(Request $request): Response
     {
-        $email = $request->get('email');
-        $password = $request->get('password');
+        $email = $request->request->get('email');
+        $password = $request->request->get('password');
 
         Assertion::notNull($email, 'Email can\'t be null');
         Assertion::notNull($password, 'Password can\'t be null');
+        Assertion::string($email);
+        Assertion::string($password);
 
         $signUpCommand = new SignUpCommand($email, $password);
 

@@ -20,6 +20,10 @@ class Table extends EventSourcedAggregateRoot
     /** @var PlayerId[] */
     private array $players;
 
+    private function __construct()
+    {
+    }
+
     public static function create(TableId $tableId): self
     {
         $game = new self();

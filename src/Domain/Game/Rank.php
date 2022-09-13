@@ -7,16 +7,16 @@ use Deck\Domain\Game\Exception\InvalidRankException;
 class Rank
 {
     public const AVAILABLE_RANKS = [
-        'A' => 'A',
-        '2' => '2',
-        '3' => '3',
-        '4' => '4',
-        '5' => '5',
-        '6' => '6',
-        '7' => '7',
-        'J' => 'J',
-        'Q' => 'Q',
-        'K' => 'K',
+        'A',
+        '2',
+        '3',
+        '4',
+        '5',
+        '6',
+        '7',
+        'J',
+        'Q',
+        'K',
     ];
 
     private string $value;

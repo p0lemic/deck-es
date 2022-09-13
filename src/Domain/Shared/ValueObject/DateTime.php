@@ -13,6 +13,10 @@ class DateTime
 
     private DateTimeImmutable $dateTime;
 
+    private function __construct()
+    {
+    }
+
     /**
      * @throws DateTimeException
      */
