@@ -24,6 +24,7 @@ class AggregateId
         $this->value = $uuid->toString();
     }
 
+    /** @throws Exception */
     public static function fromString(string $string): static
     {
         return new static(Uuid::fromString($string));

@@ -4,10 +4,11 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Table\Event;
 
+use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\Table\TableId;
 
-class TableWasCreated
+class TableWasCreated implements DomainEvent
 {
     public function __construct(
         public readonly TableId $aggregateId,
@@ -34,7 +35,7 @@ class TableWasCreated
     {
         return [
             'aggregateId' => $this->aggregateId->value(),
-            'occurredOn' => $this->occurredOn->toString()
+            'occurredOn' => $this->occurredOn->toString(),
         ];
     }
 

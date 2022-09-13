@@ -7,12 +7,13 @@ namespace Deck\Domain\User\Event;
 use Assert\Assertion;
 use Assert\AssertionFailedException;
 use Broadway\Serializer\Serializable;
+use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\ValueObject\Email;
 
-class UserWasSignedIn
+class UserWasSignedIn implements DomainEvent
 {
     private PlayerId $aggregateId;
     private Email $email;

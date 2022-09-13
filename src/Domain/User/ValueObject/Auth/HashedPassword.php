@@ -14,6 +14,11 @@ final class HashedPassword
 
     private string $hashedPassword;
 
+    private function __construct(string $hashedPassword = '')
+    {
+        $this->hashedPassword = $hashedPassword;
+    }
+
     /**
      * @param string $plainPassword
      * @return HashedPassword
@@ -29,11 +34,7 @@ final class HashedPassword
 
     public static function fromHash(string $hashedPassword): self
     {
-        $pass = new self();
-
-        $pass->hashedPassword = $hashedPassword;
-
-        return $pass;
+        return new self($hashedPassword);
     }
 
     public function match(string $plainPassword): bool

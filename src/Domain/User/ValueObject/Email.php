@@ -12,6 +12,11 @@ class Email
     /** @var string */
     private string $value;
 
+    private function __construct(string $email)
+    {
+        $this->value = $email;
+    }
+
     /**
      * @param string $email
      * @return Email
@@ -21,11 +26,7 @@ class Email
     {
         Assertion::email($email, 'Email format is not valid');
 
-        $mail = new self();
-
-        $mail->value = $email;
-
-        return $mail;
+        return new self($email);
     }
 
     public function toString(): string

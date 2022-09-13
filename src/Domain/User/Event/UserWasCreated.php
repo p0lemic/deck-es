@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace Deck\Domain\User\Event;
 
+use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\ValueObject\Auth\Credentials;
 use Deck\Domain\User\ValueObject\Auth\HashedPassword;
 use Deck\Domain\User\ValueObject\Email;
 
-class UserWasCreated
+class UserWasCreated implements DomainEvent
 {
     private PlayerId $aggregateId;
     private Credentials $credentials;

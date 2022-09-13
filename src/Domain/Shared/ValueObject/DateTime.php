@@ -13,8 +13,13 @@ class DateTime
 
     private DateTimeImmutable $dateTime;
 
-    private function __construct()
+    private function __construct(string $dateTime = '')
     {
+        try {
+            $this->dateTime = new DateTimeImmutable($dateTime);
+        } catch (\Exception $e) {
+            throw new DateTimeException($e);
+        }
     }
 
     /**
@@ -42,15 +47,7 @@ class DateTime
      */
     private static function create(string $dateTime = ''): DateTime
     {
-        $self = new self();
-
-        try {
-            $self->dateTime = new DateTimeImmutable($dateTime);
-        } catch (\Exception $e) {
-            throw new DateTimeException($e);
-        }
-
-        return $self;
+        return new self($dateTime);
     }
 
     public function toString(): string

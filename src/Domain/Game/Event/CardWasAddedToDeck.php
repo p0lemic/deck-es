@@ -7,9 +7,10 @@ namespace Deck\Domain\Game\Event;
 use Deck\Domain\Game\Card;
 use Deck\Domain\Game\Rank;
 use Deck\Domain\Game\Suite;
+use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\ValueObject\DateTime;
 
-class CardWasAddedToDeck
+class CardWasAddedToDeck implements DomainEvent
 {
     private Card $card;
     private DateTime $occurredOn;

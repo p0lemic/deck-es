@@ -18,6 +18,10 @@ class Player extends EventSourcedAggregateRoot
     private DateTime $createdAt;
     private ?DateTime $updatedAt;
 
+    private function __construct()
+    {
+    }
+
     /**
      * @throws Exception\EmailAlreadyExistException
      * @throws DateTimeException

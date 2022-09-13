@@ -8,10 +8,11 @@ use Deck\Domain\Game\Card;
 use Deck\Domain\Game\Rank;
 use Deck\Domain\Game\Suite;
 use Deck\Domain\Shared\AggregateId;
+use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 
-class HandWasWon
+class HandWasWon implements DomainEvent
 {
     private array $cards;
     private PlayerId $playerId;

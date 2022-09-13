@@ -8,11 +8,12 @@ use Deck\Domain\Game\Brisca;
 use Deck\Domain\Game\DeckId;
 use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\Rules;
+use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use function get_class;
 
-class GameWasCreated
+class GameWasCreated implements DomainEvent
 {
     private GameId $aggregateId;
     /** @var PlayerId[] */

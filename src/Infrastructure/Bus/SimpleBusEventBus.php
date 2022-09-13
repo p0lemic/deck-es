@@ -2,6 +2,7 @@
 
 namespace Deck\Infrastructure\Bus;
 
+use Deck\Domain\Shared\DomainEvent;
 use SimpleBus\SymfonyBridge\Bus\EventBus as SimpleEventBus;
 
 class SimpleBusEventBus implements EventBus
@@ -14,7 +15,7 @@ class SimpleBusEventBus implements EventBus
         $this->eventBus = $eventBus;
     }
 
-    public function publish($singleEvent): void
+    public function publish(?DomainEvent $singleEvent): void
     {
         if (null === $singleEvent) {
             return;

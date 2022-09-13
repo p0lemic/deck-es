@@ -44,7 +44,7 @@ class DoctrineTableReadModelRepository extends ServiceEntityRepository implement
     /** @throws TableNotFoundException */
     public function findByTableIdOrFail(TableId $tableId): TableReadModel
     {
-        /** @var TableReadModel $table */
+        /** @var TableReadModel|null $table */
         $table = $this->findOneBy(
             [
                 'id' => $tableId,

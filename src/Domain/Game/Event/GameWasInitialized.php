@@ -4,9 +4,10 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Game\Event;
 
+use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\ValueObject\DateTime;
 
-class GameWasInitialized
+class GameWasInitialized implements DomainEvent
 {
     private DateTime $occurredOn;
 

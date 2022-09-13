@@ -4,11 +4,12 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Table\Event;
 
+use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\Table\TableId;
 use Deck\Domain\User\PlayerId;
 
-class PlayerWasLeaved
+class PlayerWasLeaved implements DomainEvent
 {
     private TableId $aggregateId;
     private PlayerId $playerId;

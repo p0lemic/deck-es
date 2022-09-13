@@ -48,7 +48,7 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
      */
     public function findByEmailOrFail(Email $email): PlayerReadModel
     {
-        /** @var PlayerReadModel $user */
+        /** @var PlayerReadModel|null $user */
         $user = $this->createQueryBuilder('user')
             ->where('user.credentials.email = :email')
             ->setParameter('email', $email)

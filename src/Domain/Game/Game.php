@@ -32,23 +32,17 @@ use function reset;
  */
 class Game extends EventSourcedAggregateRoot
 {
-    private ?GameId $id;
-    private ?Deck $deck;
+    private GameId $id;
+    private Deck $deck;
     /** @var Player[] */
     private array $players;
     private ?PlayerId $currentPlayerId;
     /** @var Card[] */
     private array $cardsOnTable;
-    private ?Rules $rules;
+    private Rules $rules;
 
     private function __construct()
     {
-        $this->id = null;
-        $this->deck = null;
-        $this->players = [];
-        $this->currentPlayerId = null;
-        $this->cardsOnTable = [];
-        $this->rules = null;
     }
 
     public static function create(
@@ -185,7 +179,6 @@ class Game extends EventSourcedAggregateRoot
             $this->currentPlayerId = $playerId;
         }
         $this->deck = Deck::create($event->deckId());
-        $ruleClass = $event->rules();
         $this->rules = new Brisca();
     }
 
@@ -203,6 +196,7 @@ class Game extends EventSourcedAggregateRoot
         $this->currentPlayerId = $this->getNextPlayer();
     }
 
+    /** @throws Exception\InvalidNumberOfWonCardsException */
     public function applyHandWasWon(HandWasWon $handWasWon): void
     {
         $player = $this->players[$handWasWon->playerId()->value()];
