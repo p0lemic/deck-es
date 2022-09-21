@@ -44,8 +44,12 @@ class Suite
         return $this->value;
     }
 
-    public function equals(Suite $suite): bool
+    public function equals(?Suite $suite): bool
     {
+        if (null === $suite) {
+            return false;
+        }
+
         return $this->value === $suite->value();
     }
 }

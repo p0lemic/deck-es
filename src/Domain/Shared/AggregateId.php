@@ -16,7 +16,7 @@ class AggregateId
      * @param UuidInterface|null $uuid
      * @throws Exception
      */
-    private function __construct(UuidInterface $uuid = null)
+    final private function __construct(UuidInterface $uuid = null)
     {
         if ($uuid === null) {
             $uuid = Uuid::uuid4();

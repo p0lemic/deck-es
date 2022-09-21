@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\User\Auth;
 
+use Assert\AssertionFailedException;
 use Deck\Domain\User\PlayerReadModelRepositoryInterface;
 use Deck\Domain\User\ValueObject\Email;
 use Symfony\Component\Security\Core\Exception\UnsupportedUserException;
@@ -19,13 +20,10 @@ class UserProvider implements UserProviderInterface
         $this->playerRepository = $playerRepository;
     }
 
+    /** @throws AssertionFailedException */
     public function loadUserByUsername(string $username): UserInterface
     {
-        [$id, $email, $hashedPassword] = $this->playerRepository->getCredentialsByEmail(
-            Email::fromString($username)
-        );
-
-        return Auth::create($id, $email, $hashedPassword);
+        return $this->getUserData($username);
     }
 
     public function refreshUser(UserInterface $user): UserInterface
@@ -42,7 +40,18 @@ class UserProvider implements UserProviderInterface
         return Auth::class === $class;
     }
 
+    /** @throws AssertionFailedException */
     public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        return $this->getUserData($identifier);
+    }
+
+    /**
+     * @param string $identifier
+     * @return Auth
+     * @throws AssertionFailedException
+     */
+    private function getUserData(string $identifier): Auth
     {
         [$id, $email, $hashedPassword] = $this->playerRepository->getCredentialsByEmail(
             Email::fromString($identifier)

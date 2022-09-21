@@ -13,9 +13,13 @@ use Deck\Domain\User\ValueObject\Auth\Credentials;
 
 class Player extends EventSourcedAggregateRoot
 {
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private PlayerId $id;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Credentials $credentials;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private DateTime $createdAt;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private ?DateTime $updatedAt;
 
     private function __construct()

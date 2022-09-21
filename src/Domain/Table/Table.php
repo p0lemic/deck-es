@@ -16,8 +16,12 @@ use Deck\Domain\User\PlayerId;
 class Table extends EventSourcedAggregateRoot
 {
     private const SIZE = 2;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private TableId $id;
-    /** @var PlayerId[] */
+    /**
+     * @var PlayerId[]
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private array $players;
 
     private function __construct()

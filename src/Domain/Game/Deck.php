@@ -18,6 +18,7 @@ class Deck extends SimpleEventSourcedEntity
 {
     public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
     private DeckId $id;
+    /** @var Card[] $cards */
     private array $cards;
 
     public function __construct(
@@ -59,6 +60,7 @@ class Deck extends SimpleEventSourcedEntity
         $this->cards[] = $event->card();
     }
 
+    /** @return Card[]   */
     protected function getChildEntities(): array
     {
         return $this->cards;
@@ -82,6 +84,7 @@ class Deck extends SimpleEventSourcedEntity
         return $this->id->value();
     }
 
+    /**  */
     public function cards(): array
     {
         return $this->cards;

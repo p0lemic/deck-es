@@ -11,6 +11,7 @@ interface PlayerReadModelRepositoryInterface
     public function findByIdOrFail(PlayerId $playerId): PlayerReadModel;
     public function findByEmailOrFail(Email $email): PlayerReadModel;
     public function existsEmail(Email $email): ?AggregateId;
+    /** @return array<AggregateId, string, string> */
     public function getCredentialsByEmail(Email $email): array;
     public function save(PlayerReadModel $player): void;
     public function clearMemory(): void;

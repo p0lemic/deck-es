@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deck\Domain\Game;
 
 use Deck\Domain\User\PlayerId;
+use Exception;
 use function array_keys;
 
 class Brisca implements Rules
@@ -12,6 +13,11 @@ class Brisca implements Rules
     public const MAX_CARDS_IN_PLAYER_HAND = 3;
     private ?Card $sampleCard = null;
 
+    /**
+     * @param array<string, Card> $cards
+     * @return PlayerId
+     * @throws Exception
+     */
     public function resolveHand(array $cards): PlayerId
     {
         [$firstPlayerId, $secondPlayerId] = array_keys($cards);

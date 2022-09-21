@@ -32,13 +32,23 @@ use function reset;
  */
 class Game extends EventSourcedAggregateRoot
 {
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private GameId $id;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Deck $deck;
-    /** @var Player[] */
+    /**
+     * @var Player[]
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private array $players;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private ?PlayerId $currentPlayerId;
-    /** @var Card[] */
+    /**
+     * @var Card[]
+     * @psalm-suppress PropertyNotSetInConstructor
+     */
     private array $cardsOnTable;
+    /** @psalm-suppress PropertyNotSetInConstructor */
     private Rules $rules;
 
     private function __construct()

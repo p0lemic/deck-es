@@ -8,6 +8,7 @@ use Deck\Domain\Game\Card;
 use Deck\Domain\Game\Rank;
 use Deck\Domain\Game\Suite;
 use Deck\Domain\Shared\DomainEvent;
+use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
 
 class CardWasAddedToDeck implements DomainEvent
@@ -44,6 +45,11 @@ class CardWasAddedToDeck implements DomainEvent
         ];
     }
 
+    /**
+     * @param array<string, string> $payload
+     * @return CardWasAddedToDeck
+     * @throws DateTimeException
+     */
     public static function denormalize(array $payload): self
     {
         return new self(

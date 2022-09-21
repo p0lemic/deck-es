@@ -44,6 +44,7 @@ class JsonBodyParserSubscriber implements EventSubscriberInterface
     private function transformJsonBody(Request $request): bool
     {
         try {
+            /** @var array|null $data */
             $data = json_decode((string) $request->getContent(), true, 512, JSON_THROW_ON_ERROR);
         } catch (JsonException $e) {
             throw new InvalidArgumentException('Payload can\'t be unmarshalled');

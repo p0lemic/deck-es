@@ -110,6 +110,7 @@
         }
     },
     "require-dev": {
+        "pact-foundation/pact-php": "^8.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "6.1.*",

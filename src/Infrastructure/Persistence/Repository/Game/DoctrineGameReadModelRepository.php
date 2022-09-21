@@ -40,6 +40,7 @@ class DoctrineGameReadModelRepository extends ServiceEntityRepository implements
         return $game;
     }
 
+    /** @return GameReadModel[] */
     public function all(): array
     {
         return $this->findAll();
