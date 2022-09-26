@@ -7,12 +7,12 @@ namespace Deck\Domain\Game\Exception;
 use Exception;
 use function sprintf;
 
-class CardPlayedNotInPlayerHand extends Exception
+class PlayedCardNotInPlayerHandException extends Exception
 {
     public static function notFound(): self
     {
         return new self(
-            sprintf('Card played not found in player hand')
+            'Card played not found in player hand'
         );
     }
 }

@@ -22,7 +22,7 @@ class Player extends EventSourcedAggregateRoot
     /** @psalm-suppress PropertyNotSetInConstructor */
     private ?DateTime $updatedAt;
 
-    private function __construct()
+    public function __construct()
     {
     }
 

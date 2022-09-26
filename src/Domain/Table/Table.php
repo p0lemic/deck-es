@@ -9,8 +9,8 @@ use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\Table\Event\PlayerWasLeaved;
 use Deck\Domain\Table\Event\PlayerWasSeated;
 use Deck\Domain\Table\Event\TableWasCreated;
-use Deck\Domain\Table\Exception\PlayerAlreadyInTable;
-use Deck\Domain\Table\Exception\TableIsFull;
+use Deck\Domain\Table\Exception\PlayerAlreadyInTableException;
+use Deck\Domain\Table\Exception\TableIsFullException;
 use Deck\Domain\User\PlayerId;
 
 class Table extends EventSourcedAggregateRoot
@@ -24,7 +24,7 @@ class Table extends EventSourcedAggregateRoot
      */
     private array $players;
 
-    private function __construct()
+    public function __construct()
     {
     }
 
@@ -72,17 +72,17 @@ class Table extends EventSourcedAggregateRoot
      *
      * @return void
      *
-     * @throws PlayerAlreadyInTable|TableIsFull
+     * @throws PlayerAlreadyInTableException|TableIsFullException
      */
     public function applyPlayerWasSeated(PlayerWasSeated $event): void
     {
         if ($this->isFull()) {
-            throw TableIsFull::isFull($event->playerId());
+            throw TableIsFullException::isFull($event->playerId());
         }
 
         foreach ($this->players() as $player) {
             if ($event->playerId()->equals($player)) {
-                throw PlayerAlreadyInTable::alreadyInTable($event->playerId());
+                throw PlayerAlreadyInTableException::alreadyInTable($event->playerId());
             }
         }
 

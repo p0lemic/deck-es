@@ -9,7 +9,7 @@ services:
     expose:
       - 80
     ports:
-      - 8888:80
+      - "8888:80"
     volumes:
       - .:/var/www/deck
     working_dir: /var/www/deck
@@ -19,13 +19,14 @@ services:
       AMQP_URL: 'amqp://rabbitmq?connection_attempts=5&retry_delay=5'
       PHP_IDE_CONFIG: 'serverName=Dev'
       XDEBUG_REMOTE_HOST: 'docker.for.mac.host.internal'
+
   postgresql:
     image: postgres:9.6.6
     container_name: deck-database
     expose:
       - 5433
     ports:
-      - 5433:5432
+      - "5433:5432"
     environment:
       - POSTGRES_USER=admin
       - POSTGRES_PASSWORD=pass
@@ -41,6 +42,18 @@ services:
       - '5672:5672'
       # HTTP management UI
       - '15672:15672'
+
+  api-doc:
+    image: swaggerapi/swagger-ui:v3.52.3
+    container_name: deck-api-doc
+    restart: unless-stopped
+    expose:
+      - 8080
+    ports:
+      - "8889:8080"
+    environment: [ "SWAGGER_JSON=/var/www/deck-api-doc/openapi.json","VALIDATOR_URL=" ]
+    volumes:
+      - ./spec:/var/www/deck-api-doc:ro
 
 volumes:
   database:

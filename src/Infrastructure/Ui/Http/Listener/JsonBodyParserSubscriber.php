@@ -19,10 +19,10 @@ class JsonBodyParserSubscriber implements EventSubscriberInterface
     {
         $request = $event->getRequest();
 
-//        if (! $this->containsHeader($request, 'Content-Type', 'application/json')) {
-//            $event->setResponse(new JsonResponse('Content-Type should be application/json', Response::HTTP_BAD_REQUEST));
-//            return;
-//        }
+        //        if (! $this->containsHeader($request, 'Content-Type', 'application/json')) {
+        //            $event->setResponse(new JsonResponse('Content-Type should be application/json', Response::HTTP_BAD_REQUEST));
+        //            return;
+        //        }
 
         $content = $request->getContent();
 
@@ -30,15 +30,10 @@ class JsonBodyParserSubscriber implements EventSubscriberInterface
             return;
         }
 
-        if (! $this->transformJsonBody($request)) {
+        if (!$this->transformJsonBody($request)) {
             $response = new Response(null, Response::HTTP_BAD_REQUEST);
             $event->setResponse($response);
         }
-    }
-
-    private function isJsonRequest(Request $request): bool
-    {
-        return 'json' === $request->getContentType();
     }
 
     private function transformJsonBody(Request $request): bool

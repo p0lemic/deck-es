@@ -2,7 +2,7 @@
 
 namespace Deck\Domain\Game;
 
-use Deck\Domain\Game\Exception\InvalidPlayerNumber;
+use Deck\Domain\Game\Exception\InvalidPlayerNumberException;
 use Deck\Domain\User\PlayerId;
 
 class GameFactory
@@ -13,14 +13,14 @@ class GameFactory
      * @param PlayerId[] $players
      * @param Rules $rules
      * @return Game
-     * @throws InvalidPlayerNumber
+     * @throws InvalidPlayerNumberException
      */
     public function createNewGame(GameId $gameId, DeckId $deckId, array $players, Rules $rules): Game
     {
         $totalPlayers = count($players);
 
         if ($totalPlayers < 2) {
-            throw InvalidPlayerNumber::equalsToTwo();
+            throw InvalidPlayerNumberException::equalsToTwo();
         }
 
         return Game::create($gameId, $deckId, $players, $rules);

@@ -15,9 +15,7 @@ class GamesListQuery
         $this->gameRepository = $gameRepository;
     }
 
-    /**
-     * @return GameReadModel[]
-     */
+    /** @return GameReadModel[] */
     public function execute(): array
     {
         return $this->gameRepository->all();

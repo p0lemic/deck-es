@@ -1,0 +1,372 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "version": "1.0.0",
+    "title": "Deck ES API Spec",
+    "contact": {
+      "email": "javieroman@gmail.com"
+    }
+  },
+  "tags": [
+    {
+      "name": "Deck",
+      "description": "Deck built with Event Sourcing."
+    }
+  ],
+  "servers": [
+    {
+      "url": "http://localhost:8888"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT",
+        "in": "header",
+        "name": "Authorization",
+        "description": "Value: Bearer {jwt}"
+      }
+    }
+  },
+  "security": [
+    {
+      "bearerAuth": []
+    }
+  ],
+  "paths": {
+    "/api/token": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Check login credentials and return a JWT",
+        "operationId": "Login",
+        "description": "Login - Check login credentials and return a JWT",
+        "requestBody": {
+          "description": "",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": {
+                    "type": "string"
+                  },
+                  "password": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "A valid JWT with user information",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "A valid JWT",
+                  "type": "string",
+                  "example": {
+                    "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NjM5MzI0NzIsImV4cCI6MTY2MzkzNjA3Miwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiamF2aWVyb21hbkBnbWFpbC5jb20ifQ.MUBMC0Sex7i8qa5ZOyvmcwo2I92ifyTRBKQXr9gM72qQWuyMjwhzqOhJEN_IohVoQayycKBKHxLqwxbDbzI2M0pW8sjnUOLg_eDF_lt83VqFvy6VyRBphLpABmarX4Nps5s3Dw61HgWNkFyPqRekt3UTFEey1O7DbWIHXxhIVcw2Txic1ZKc1gkIV9MrQKuKpXeK393s1291QGIDP6bUCechFVokJbbKBjM3nxVBVmHegL-lp00-7QF25mZcd7yEZD-sQ3Hl7BI7AmtNRqpF7Ul9se9XOR5kxHYGiWYjpPzbQZWOmghAJb4EsPu83c2npqoQcRachmnXbBWET1pUn4QIKM_EDkFPQj4mbT_Mt629zWg5a2jQ4q5BlWPj6rGbqI2hKWhsfbdrcPma3T4pfWwx7oVJqgLun_JohSFxXvfVYPJIbttc3c7otrF4avdRbbDaSUB-9x3G19r8tbKo46iiy-6nf_OUVP7mfE54cEe1SlvYUt7msmjXKGi5XMM2b7UJsbGPEU04hgt1XzI1bZLFG1zNWGR3SGbzF0uC0OpNERt3eJLR1DCZpHdQDZHnthVva5CxGbl10pY8w9bPlTHwVkmvNpfVQNbwRFAbCB_h0dX5KnZdQ6PV84wu0theD47r1CWS5RXLClnfgcThr-zX6Hsa-kJVUp4V3opmC78"
+                  }
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Invalid credentials"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/user": {
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "Register a new User",
+        "operationId": "Register",
+        "description": "Register a new User with the email and password provided",
+        "requestBody": {
+          "$ref": "components/requests/User.json"
+        },
+        "responses": {
+          "201": {
+            "description": "A new User was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "User created successfully",
+                  "type": "string",
+                  "example": {
+                    "id": "7d49dac0-7672-4834-8649-16f664719e03"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "409": {
+            "description": "Conflict"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/table": {
+      "get": {
+        "tags": [
+          "Table"
+        ],
+        "summary": "List all tables",
+        "operationId": "List Table",
+        "description": "List available tables",
+        "responses": {
+          "200": {
+            "description": "Available tables",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Available tables",
+                  "type": "string",
+                  "example": {
+                    "id": "7d49dac0-7672-4834-8649-16f664719e03"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Table"
+        ],
+        "summary": "Create a new Table",
+        "operationId": "Create Table",
+        "description": "Create a new Table using the logged user as Player",
+        "responses": {
+          "201": {
+            "description": "A new Table was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Table created successfully",
+                  "type": "string",
+                  "example": {
+                    "id": "7d49dac0-7672-4834-8649-16f664719e03"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/table/join": {
+      "post": {
+        "tags": [
+          "Table"
+        ],
+        "summary": "Join a Table",
+        "operationId": "Join Table",
+        "description": "Join a table with an empty seat",
+        "requestBody": {
+          "$ref": "components/requests/Table.json"
+        },
+        "responses": {
+          "200": {
+            "description": "Join a table with an empty seat",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Table joined successfully",
+                  "type": "string",
+                  "example": {
+                    "id": "7d49dac0-7672-4834-8649-16f664719e03"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/game": {
+      "get": {
+        "tags": [
+          "Game"
+        ],
+        "summary": "List all games",
+        "operationId": "List Games",
+        "description": "List available games",
+        "responses": {
+          "200": {
+            "description": "Available games",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Available games",
+                  "type": "string",
+                  "example": {
+                    "id": "7d49dac0-7672-4834-8649-16f664719e03"
+                  }
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Game"
+        ],
+        "summary": "Create a new Game",
+        "operationId": "Create Game",
+        "description": "Create a new Game using an existing Table",
+        "requestBody": {
+          "$ref": "components/requests/Table.json"
+        },
+        "responses": {
+          "201": {
+            "description": "A new Game was created",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Game created successfully",
+                  "type": "string",
+                  "example": {
+                    "id": "7d49dac0-7672-4834-8649-16f664719e03"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/game/{id}": {
+      "get": {
+        "tags": [
+          "Game"
+        ],
+        "summary": "Load a game",
+        "operationId": "Load Game",
+        "description": "Load a Game by id",
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "schema": {
+              "type": "string"
+            },
+            "required": true,
+            "description": "Uuid ID of the table to load"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Load a Game",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Load a Game by Id",
+                  "type": "string",
+                  "example": {
+                    "id": "611cf3e5-c517-4aff-996e-446a02b308d2",
+                    "players": {
+                      "ec7c658e-6f6f-4fda-a8e0-878cd54d7177": "ec7c658e-6f6f-4fda-a8e0-878cd54d7177",
+                      "674f74a7-f1be-4576-a80d-c5ef0260ad76": "674f74a7-f1be-4576-a80d-c5ef0260ad76"
+                    },
+                    "deck": {
+                      "cards": []
+                    },
+                    "currentPlayerId": "674f74a7-f1be-4576-a80d-c5ef0260ad76",
+                    "cardsOnTable": []
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/card/draw": {
+      "post": {
+        "tags": [
+          "Card"
+        ],
+        "summary": "Draw a Card from a Game",
+        "operationId": "Draw Card",
+        "description": "Draw a Card from the Deck assigned to a given Game ID",
+        "requestBody": {
+          "$ref": "components/requests/Game.json"
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "description": "Card was drawn successfully",
+                  "type": "string",
+                  "example": {
+                    "id": "7d49dac0-7672-4834-8649-16f664719e03"
+                  }
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    }
+  }
+}

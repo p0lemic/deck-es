@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Deck\Domain\Table\Exception;
 
 use Deck\Domain\User\PlayerId;
-use Exception;
+use InvalidArgumentException;
 
-class TableIsFull extends Exception
+class TableIsFullException extends InvalidArgumentException
 {
     public static function isFull(PlayerId $playerId): self
     {

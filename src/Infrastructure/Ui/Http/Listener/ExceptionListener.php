@@ -20,7 +20,14 @@ class ExceptionListener implements EventSubscriberInterface
 
         // Customize your response object to display the exception details
         $response = new JsonResponse();
-        $response->setContent(json_encode(['error' => $exception->getMessage()]));
+        $response->setContent(
+            json_encode(
+                [
+                    'code' => Response::HTTP_INTERNAL_SERVER_ERROR,
+                    'message' => $exception->getMessage()
+                ]
+            )
+        );
 
         // HttpExceptionInterface is a special type of exception that
         // holds status code and header details

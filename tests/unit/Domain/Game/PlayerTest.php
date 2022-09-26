@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Deck\Tests\unit\Domain\Game;
 
 use Deck\Domain\Game\Card;
-use Deck\Domain\Game\Exception\CardPlayedNotInPlayerHand;
+use Deck\Domain\Game\Exception\PlayedCardNotInPlayerHandException;
 use Deck\Domain\Game\Exception\InvalidNumberOfWonCardsException;
 use Deck\Domain\Game\Player;
 use Deck\Domain\Game\Rank;
@@ -50,7 +50,7 @@ class PlayerTest extends TestCase
         $player->playCard(new Card(new Suite('diams'), new Rank('A')));
         self::assertCount(2, $player->hand());
 
-        $this->expectException(CardPlayedNotInPlayerHand::class);
+        $this->expectException(PlayedCardNotInPlayerHandException::class);
 
         $player->playCard(new Card(new Suite('spades'), new Rank('A')));
     }

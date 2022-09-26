@@ -1,0 +1,8 @@
+# config/routes/attributes.yaml
+controllers:
+  resource: ../../src/Infrastructure/Ui/Http/Controller/
+  type: attribute
+
+kernel:
+  resource: ../../src/Kernel.php
+  type: attribute

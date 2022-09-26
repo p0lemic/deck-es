@@ -19,7 +19,6 @@
         "doctrine/orm": "^2",
         "lexik/jwt-authentication-bundle": "^2.11",
         "monolog/monolog": "^2.0",
-        "nelmio/api-doc-bundle": "^4.2",
         "nelmio/cors-bundle": "^2.1",
         "phpdocumentor/reflection-docblock": "^5.2",
         "ramsey/uuid": "^4.1",
@@ -45,7 +44,8 @@
         "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*",
         "symplify/easy-coding-standard": "^11.1",
-        "vimeo/psalm": "^4.27"
+        "vimeo/psalm": "^4.27",
+        "zircote/swagger-php": "^4.4"
     },
     "config": {
         "preferred-install": {

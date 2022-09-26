@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <psalm
-    errorLevel="1"
+    errorLevel="2"
     phpVersion="8.1"
     resolveFromConfigFile="true"
     autoloader="./vendor/autoload.php"

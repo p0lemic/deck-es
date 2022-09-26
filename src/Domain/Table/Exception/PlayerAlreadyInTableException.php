@@ -7,7 +7,7 @@ namespace Deck\Domain\Table\Exception;
 use Deck\Domain\User\PlayerId;
 use Exception;
 
-class PlayerAlreadyInTable extends Exception
+class PlayerAlreadyInTableException extends Exception
 {
     public static function alreadyInTable(PlayerId $playerId): self
     {

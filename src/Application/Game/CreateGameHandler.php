@@ -4,7 +4,7 @@ namespace Deck\Application\Game;
 
 use Deck\Domain\Game\Deck;
 use Deck\Domain\Game\DeckId;
-use Deck\Domain\Game\Exception\InvalidPlayerNumber;
+use Deck\Domain\Game\Exception\InvalidPlayerNumberException;
 use Deck\Domain\Game\GameFactory;
 use Deck\Domain\Game\GameRepositoryInterface;
 use Deck\Domain\Table\TableId;
@@ -35,7 +35,7 @@ class CreateGameHandler
         $table = $this->tableRepository->findByTableIdOrFail(TableId::fromString($createGameCommand->tableId()->value()));
 
         if (!$table->isFull()) {
-            throw InvalidPlayerNumber::gameTableIsNotFull();
+            throw InvalidPlayerNumberException::gameTableIsNotFull();
         }
 
         $players = [];

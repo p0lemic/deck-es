@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Deck\Infrastructure\Serializer;
@@ -29,7 +30,7 @@ class JsonSerializer implements Serializer
 
         $payload = $serializedObject['payload'];
 
-        if (! is_array($payload)) {
+        if (!is_array($payload)) {
             throw new InvalidArgumentException("DomainEvent is not valid because the payload not exists");
         }
 

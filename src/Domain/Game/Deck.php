@@ -84,7 +84,6 @@ class Deck extends SimpleEventSourcedEntity
         return $this->id->value();
     }
 
-    /**  */
     public function cards(): array
     {
         return $this->cards;
@@ -93,5 +92,15 @@ class Deck extends SimpleEventSourcedEntity
     public function getLastCard(): Card
     {
         return end($this->cards);
+    }
+
+    public function toArray(): array
+    {
+        return [
+            'cards' => array_map(
+                static fn (Card $card) => [$card->suite()->value(), $card->rank()->value()],
+                $this->cards
+            )
+        ];
     }
 }

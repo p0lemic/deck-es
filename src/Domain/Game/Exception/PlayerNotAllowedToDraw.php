@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace Deck\Domain\Game\Exception;
 
-use Exception;
-use function sprintf;
+use InvalidArgumentException;
 
-class PlayerNotAllowedToDraw extends Exception
+class PlayerNotAllowedToDraw extends InvalidArgumentException
 {
     public static function isFull(): self
     {
-        return new self(
-            sprintf('Players hand is full')
-        );
+        return new self('Players hand is full');
     }
 }

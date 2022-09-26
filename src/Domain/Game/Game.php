@@ -51,7 +51,7 @@ class Game extends EventSourcedAggregateRoot
     /** @psalm-suppress PropertyNotSetInConstructor */
     private Rules $rules;
 
-    private function __construct()
+    public function __construct()
     {
     }
 
@@ -188,6 +188,7 @@ class Game extends EventSourcedAggregateRoot
             $this->players[$playerId->value()] = Player::create($playerId);
             $this->currentPlayerId = $playerId;
         }
+        $this->cardsOnTable = [];
         $this->deck = Deck::create($event->deckId());
         $this->rules = new Brisca();
     }
@@ -236,9 +237,15 @@ class Game extends EventSourcedAggregateRoot
         return [
             'id' => $this->id->value(),
             'players' => array_map(
-                static fn (Player $player) => $player->playerId()->__toString(),
+                static fn (Player $player) => $player->toArray(),
                 $this->players,
             ),
+            'deck' => $this->deck->toArray(),
+            'currentPlayerId' => $this->currentPlayerId->value(),
+            'cardsOnTable' => array_map(
+                static fn (Card $card) => [$card->suite()->value(), $card->rank()->value()],
+                $this->cardsOnTable
+            )
         ];
     }
 }

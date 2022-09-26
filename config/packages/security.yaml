@@ -20,10 +20,10 @@ security:
             stateless: true
 
         login:
-            pattern: ^/api/login
+            pattern: ^/api/token
             stateless: true
             json_login:
-                check_path: /api/login_check
+                check_path: /api/token
                 success_handler: lexik_jwt_authentication.handler.authentication_success
                 failure_handler: lexik_jwt_authentication.handler.authentication_failure
 
@@ -32,7 +32,7 @@ security:
             stateless: true
 
         register:
-            pattern: ^/api/user/signup
+            pattern: ^/api/user
             stateless: true
 
         api:
@@ -43,6 +43,6 @@ security:
     access_control:
         - { path: ^/api/doc, roles: PUBLIC_ACCESS }
         - { path: ^/api/login, roles: PUBLIC_ACCESS }
-        - { path: ^/api/user/register, roles: PUBLIC_ACCESS }
+        - { path: ^/api/user, roles: PUBLIC_ACCESS }
         - { path: ^/api/token/refresh, roles: PUBLIC_ACCESS }
         - { path: ^/api, roles: IS_AUTHENTICATED_FULLY }
