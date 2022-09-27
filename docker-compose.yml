@@ -51,7 +51,7 @@ services:
       - 8080
     ports:
       - "8889:8080"
-    environment: [ "SWAGGER_JSON=/var/www/deck-api-doc/openapi.json","VALIDATOR_URL=" ]
+    environment: [ "SWAGGER_JSON=/var/www/deck-api-doc/openapi.yaml","VALIDATOR_URL=" ]
     volumes:
       - ./spec:/var/www/deck-api-doc:ro
 

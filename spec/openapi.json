@@ -28,6 +28,168 @@
         "name": "Authorization",
         "description": "Value: Bearer {jwt}"
       }
+    },
+    "schemas": {
+      "user": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "email": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          }
+        }
+      },
+      "player": {
+        "type": "object",
+        "required": [
+          "email",
+          "password"
+        ],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "hand": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/card"
+            }
+          },
+          "wonCards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/card"
+            }
+          }
+        }
+      },
+      "deck": {
+        "title": "Deck",
+        "type": "object",
+        "properties": {
+          "cards": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/card"
+            }
+          }
+        }
+      },
+      "card": {
+        "title": "Card",
+        "description": "Card",
+        "required": [
+          "rank",
+          "suite"
+        ],
+        "type": "object",
+        "properties": {
+          "rank": {
+            "$ref": "#/components/schemas/rank"
+          },
+          "suite": {
+            "$ref": "#/components/schemas/suite"
+          }
+        }
+      },
+      "rank": {
+        "title": "Rank",
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "suite": {
+        "title": "Suite",
+        "type": "object",
+        "required": [
+          "value"
+        ],
+        "properties": {
+          "value": {
+            "type": "string"
+          }
+        }
+      },
+      "game": {
+        "title": "Game",
+        "type": "object",
+        "required": [],
+        "properties": {
+          "id": {
+            "type": "string"
+          },
+          "players": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/player"
+            }
+          },
+          "deck": {
+            "$ref": "#/components/schemas/deck"
+          },
+          "currentPlayerId": {
+            "type": "string"
+          },
+          "cardsOnTable": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/card"
+            }
+          }
+        },
+        "example": {
+          "id": "611cf3e5-c517-4aff-996e-446a02b308d2",
+          "players": {
+            "ec7c658e-6f6f-4fda-a8e0-878cd54d7177": {
+              "id": "ec7c658e-6f6f-4fda-a8e0-878cd54d7177",
+              "hand": [
+                [
+                  "clubs",
+                  "5"
+                ]
+              ],
+              "wonCards": []
+            },
+            "674f74a7-f1be-4576-a80d-c5ef0260ad76": {
+              "id": "674f74a7-f1be-4576-a80d-c5ef0260ad76",
+              "hand": [
+                [
+                  "hearts",
+                  "5"
+                ]
+              ],
+              "wonCards": []
+            }
+          },
+          "deck": {
+            "cards": [
+              [
+                "spades",
+                "J"
+              ]
+            ]
+          },
+          "currentPlayerId": "674f74a7-f1be-4576-a80d-c5ef0260ad76",
+          "cardsOnTable": [
+            [
+              "spades",
+              "J"
+            ]
+          ]
+        }
+      }
     }
   },
   "security": [
@@ -96,7 +258,7 @@
         "operationId": "Register",
         "description": "Register a new User with the email and password provided",
         "requestBody": {
-          "$ref": "components/requests/User.json"
+          "$ref": "components/requestBodies/User.json"
         },
         "responses": {
           "201": {
@@ -193,7 +355,7 @@
         "operationId": "Join Table",
         "description": "Join a table with an empty seat",
         "requestBody": {
-          "$ref": "components/requests/Table.json"
+          "$ref": "components/requestBodies/Table.json"
         },
         "responses": {
           "200": {
@@ -255,7 +417,7 @@
         "operationId": "Create Game",
         "description": "Create a new Game using an existing Table",
         "requestBody": {
-          "$ref": "components/requests/Table.json"
+          "$ref": "components/requestBodies/Table.json"
         },
         "responses": {
           "201": {
@@ -306,20 +468,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "description": "Load a Game by Id",
-                  "type": "string",
-                  "example": {
-                    "id": "611cf3e5-c517-4aff-996e-446a02b308d2",
-                    "players": {
-                      "ec7c658e-6f6f-4fda-a8e0-878cd54d7177": "ec7c658e-6f6f-4fda-a8e0-878cd54d7177",
-                      "674f74a7-f1be-4576-a80d-c5ef0260ad76": "674f74a7-f1be-4576-a80d-c5ef0260ad76"
-                    },
-                    "deck": {
-                      "cards": []
-                    },
-                    "currentPlayerId": "674f74a7-f1be-4576-a80d-c5ef0260ad76",
-                    "cardsOnTable": []
-                  }
+                  "$ref": "#/components/schemas/game"
                 }
               }
             }
@@ -342,7 +491,7 @@
         "operationId": "Draw Card",
         "description": "Draw a Card from the Deck assigned to a given Game ID",
         "requestBody": {
-          "$ref": "components/requests/Game.json"
+          "$ref": "components/requestBodies/Game.json"
         },
         "responses": {
           "200": {
