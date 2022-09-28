@@ -6,10 +6,10 @@ namespace Deck\Domain\User\Exception;
 
 use Deck\Domain\User\PlayerId;
 use Deck\Domain\User\ValueObject\Email;
-use Exception;
+use InvalidArgumentException;
 use function sprintf;
 
-class UserNotFoundException extends Exception
+class UserNotFoundException extends InvalidArgumentException
 {
     public static function idNotFound(PlayerId $playerId): self
     {

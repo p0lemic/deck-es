@@ -1,6 +1,6 @@
 <?php
 
-namespace Deck\Tests\unit\Domain\Game;
+namespace Deck\Tests\Unit\Domain\Game;
 
 use Broadway\Domain\DomainMessage;
 use Deck\Domain\Game\Brisca;

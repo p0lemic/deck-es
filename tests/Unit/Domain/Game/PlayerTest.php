@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deck\Tests\unit\Domain\Game;
+namespace Deck\Tests\Unit\Domain\Game;
 
 use Deck\Domain\Game\Card;
 use Deck\Domain\Game\Exception\PlayedCardNotInPlayerHandException;

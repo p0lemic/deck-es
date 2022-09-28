@@ -6,8 +6,9 @@ namespace Deck\Domain\User\Exception;
 
 use Deck\Domain\User\ValueObject\Email;
 use Exception;
+use InvalidArgumentException;
 
-class EmailAlreadyExistException extends Exception
+class EmailAlreadyExistException extends InvalidArgumentException
 {
     public static function exists(Email $email): self
     {

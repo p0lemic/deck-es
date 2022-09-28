@@ -5,12 +5,25 @@
     "title": "Deck ES API Spec",
     "contact": {
       "email": "javieroman@gmail.com"
-    }
+    },
+    "description": "Deck ES API Spec"
   },
   "tags": [
     {
       "name": "Deck",
       "description": "Deck built with Event Sourcing."
+    },
+    {
+      "name": "User"
+    },
+    {
+      "name": "Card"
+    },
+    {
+      "name": "Table"
+    },
+    {
+      "name": "Game"
     }
   ],
   "servers": [
@@ -22,15 +35,16 @@
     "securitySchemes": {
       "bearerAuth": {
         "type": "http",
+        "description": "JWT Authorization header using the Bearer scheme.",
         "scheme": "bearer",
         "bearerFormat": "JWT",
         "in": "header",
-        "name": "Authorization",
-        "description": "Value: Bearer {jwt}"
+        "name": "Authorization"
       }
     },
     "schemas": {
       "user": {
+        "title": "User",
         "type": "object",
         "required": [
           "email",
@@ -46,10 +60,12 @@
         }
       },
       "player": {
+        "title": "Player",
         "type": "object",
         "required": [
-          "email",
-          "password"
+          "id",
+          "hand",
+          "wonCards"
         ],
         "properties": {
           "id": {
@@ -78,6 +94,20 @@
             "items": {
               "$ref": "#/components/schemas/card"
             }
+          }
+        },
+        "x-examples": {
+          "example-1": {
+            "cards": [
+              {
+                "rank": {
+                  "value": "string"
+                },
+                "suite": {
+                  "value": "string"
+                }
+              }
+            ]
           }
         }
       },
@@ -125,7 +155,13 @@
       "game": {
         "title": "Game",
         "type": "object",
-        "required": [],
+        "required": [
+          "id",
+          "players",
+          "deck",
+          "currentPlayerId",
+          "cardsOnTable"
+        ],
         "properties": {
           "id": {
             "type": "string"
@@ -151,42 +187,58 @@
         },
         "example": {
           "id": "611cf3e5-c517-4aff-996e-446a02b308d2",
-          "players": {
-            "ec7c658e-6f6f-4fda-a8e0-878cd54d7177": {
+          "players": [
+            {
               "id": "ec7c658e-6f6f-4fda-a8e0-878cd54d7177",
               "hand": [
-                [
-                  "clubs",
-                  "5"
-                ]
+                {
+                  "rank": {
+                    "value": "string"
+                  },
+                  "suite": {
+                    "value": "string"
+                  }
+                }
               ],
               "wonCards": []
             },
-            "674f74a7-f1be-4576-a80d-c5ef0260ad76": {
+            {
               "id": "674f74a7-f1be-4576-a80d-c5ef0260ad76",
               "hand": [
-                [
-                  "hearts",
-                  "5"
-                ]
+                {
+                  "rank": {
+                    "value": "string"
+                  },
+                  "suite": {
+                    "value": "string"
+                  }
+                }
               ],
               "wonCards": []
             }
-          },
+          ],
           "deck": {
             "cards": [
-              [
-                "spades",
-                "J"
-              ]
+              {
+                "rank": {
+                  "value": "string"
+                },
+                "suite": {
+                  "value": "string"
+                }
+              }
             ]
           },
           "currentPlayerId": "674f74a7-f1be-4576-a80d-c5ef0260ad76",
           "cardsOnTable": [
-            [
-              "spades",
-              "J"
-            ]
+            {
+              "rank": {
+                "value": "string"
+              },
+              "suite": {
+                "value": "string"
+              }
+            }
           ]
         }
       }
@@ -232,7 +284,7 @@
               "application/json": {
                 "schema": {
                   "description": "A valid JWT",
-                  "type": "string",
+                  "type": "object",
                   "example": {
                     "token": "eyJ0eXAiOiJKV1QiLCJhbGciOiJSUzI1NiJ9.eyJpYXQiOjE2NjM5MzI0NzIsImV4cCI6MTY2MzkzNjA3Miwicm9sZXMiOlsiUk9MRV9VU0VSIl0sInVzZXJuYW1lIjoiamF2aWVyb21hbkBnbWFpbC5jb20ifQ.MUBMC0Sex7i8qa5ZOyvmcwo2I92ifyTRBKQXr9gM72qQWuyMjwhzqOhJEN_IohVoQayycKBKHxLqwxbDbzI2M0pW8sjnUOLg_eDF_lt83VqFvy6VyRBphLpABmarX4Nps5s3Dw61HgWNkFyPqRekt3UTFEey1O7DbWIHXxhIVcw2Txic1ZKc1gkIV9MrQKuKpXeK393s1291QGIDP6bUCechFVokJbbKBjM3nxVBVmHegL-lp00-7QF25mZcd7yEZD-sQ3Hl7BI7AmtNRqpF7Ul9se9XOR5kxHYGiWYjpPzbQZWOmghAJb4EsPu83c2npqoQcRachmnXbBWET1pUn4QIKM_EDkFPQj4mbT_Mt629zWg5a2jQ4q5BlWPj6rGbqI2hKWhsfbdrcPma3T4pfWwx7oVJqgLun_JohSFxXvfVYPJIbttc3c7otrF4avdRbbDaSUB-9x3G19r8tbKo46iiy-6nf_OUVP7mfE54cEe1SlvYUt7msmjXKGi5XMM2b7UJsbGPEU04hgt1XzI1bZLFG1zNWGR3SGbzF0uC0OpNERt3eJLR1DCZpHdQDZHnthVva5CxGbl10pY8w9bPlTHwVkmvNpfVQNbwRFAbCB_h0dX5KnZdQ6PV84wu0theD47r1CWS5RXLClnfgcThr-zX6Hsa-kJVUp4V3opmC78"
                   }
@@ -255,7 +307,7 @@
           "User"
         ],
         "summary": "Register a new User",
-        "operationId": "Register",
+        "operationId": "register",
         "description": "Register a new User with the email and password provided",
         "requestBody": {
           "$ref": "components/requestBodies/User.json"
@@ -267,7 +319,7 @@
               "application/json": {
                 "schema": {
                   "description": "User created successfully",
-                  "type": "string",
+                  "type": "object",
                   "example": {
                     "id": "7d49dac0-7672-4834-8649-16f664719e03"
                   }
@@ -293,7 +345,7 @@
           "Table"
         ],
         "summary": "List all tables",
-        "operationId": "List Table",
+        "operationId": "list-table",
         "description": "List available tables",
         "responses": {
           "200": {
@@ -302,7 +354,7 @@
               "application/json": {
                 "schema": {
                   "description": "Available tables",
-                  "type": "string",
+                  "type": "object",
                   "example": {
                     "id": "7d49dac0-7672-4834-8649-16f664719e03"
                   }
@@ -320,7 +372,7 @@
           "Table"
         ],
         "summary": "Create a new Table",
-        "operationId": "Create Table",
+        "operationId": "create-table",
         "description": "Create a new Table using the logged user as Player",
         "responses": {
           "201": {
@@ -329,7 +381,7 @@
               "application/json": {
                 "schema": {
                   "description": "Table created successfully",
-                  "type": "string",
+                  "type": "object",
                   "example": {
                     "id": "7d49dac0-7672-4834-8649-16f664719e03"
                   }
@@ -352,7 +404,7 @@
           "Table"
         ],
         "summary": "Join a Table",
-        "operationId": "Join Table",
+        "operationId": "join-table",
         "description": "Join a table with an empty seat",
         "requestBody": {
           "$ref": "components/requestBodies/Table.json"
@@ -364,7 +416,7 @@
               "application/json": {
                 "schema": {
                   "description": "Table joined successfully",
-                  "type": "string",
+                  "type": "object",
                   "example": {
                     "id": "7d49dac0-7672-4834-8649-16f664719e03"
                   }
@@ -387,7 +439,7 @@
           "Game"
         ],
         "summary": "List all games",
-        "operationId": "List Games",
+        "operationId": "list-games",
         "description": "List available games",
         "responses": {
           "200": {
@@ -396,7 +448,7 @@
               "application/json": {
                 "schema": {
                   "description": "Available games",
-                  "type": "string",
+                  "type": "object",
                   "example": {
                     "id": "7d49dac0-7672-4834-8649-16f664719e03"
                   }
@@ -414,7 +466,7 @@
           "Game"
         ],
         "summary": "Create a new Game",
-        "operationId": "Create Game",
+        "operationId": "create-game",
         "description": "Create a new Game using an existing Table",
         "requestBody": {
           "$ref": "components/requestBodies/Table.json"
@@ -426,7 +478,7 @@
               "application/json": {
                 "schema": {
                   "description": "Game created successfully",
-                  "type": "string",
+                  "type": "object",
                   "example": {
                     "id": "7d49dac0-7672-4834-8649-16f664719e03"
                   }
@@ -449,7 +501,7 @@
           "Game"
         ],
         "summary": "Load a game",
-        "operationId": "Load Game",
+        "operationId": "load-game",
         "description": "Load a Game by id",
         "parameters": [
           {
@@ -488,7 +540,7 @@
           "Card"
         ],
         "summary": "Draw a Card from a Game",
-        "operationId": "Draw Card",
+        "operationId": "draw-card",
         "description": "Draw a Card from the Deck assigned to a given Game ID",
         "requestBody": {
           "$ref": "components/requestBodies/Game.json"
@@ -500,7 +552,7 @@
               "application/json": {
                 "schema": {
                   "description": "Card was drawn successfully",
-                  "type": "string",
+                  "type": "object",
                   "example": {
                     "id": "7d49dac0-7672-4834-8649-16f664719e03"
                   }

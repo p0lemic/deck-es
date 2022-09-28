@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deck\Tests\unit\Domain\User;
+namespace Deck\Tests\Unit\Domain\User;
 
 use Deck\Domain\User\Player;
 use Deck\Domain\User\PlayerId;
@@ -11,14 +11,11 @@ use Deck\Domain\User\ValueObject\Auth\Credentials;
 use Deck\Domain\User\ValueObject\Email;
 use PHPUnit\Framework\MockObject\MockObject;
 use PHPUnit\Framework\TestCase;
-use Ramsey\Uuid\Uuid;
 
 final class PlayerTest extends TestCase
 {
-    /** @var MockObject|Credentials */
-    private $credentials;
-    /** @var MockObject|UniqueEmailSpecificationInterface */
-    private $emailSpecification;
+    private Credentials|MockObject $credentials;
+    private UniqueEmailSpecificationInterface|MockObject $emailSpecification;
 
     public function setUp(): void
     {

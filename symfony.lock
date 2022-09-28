@@ -163,6 +163,18 @@
             "config/packages/nelmio_cors.yaml"
         ]
     },
+    "nyholm/psr7": {
+        "version": "1.5",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "0cd4d2d0e7f646fda75f9944f747a56e6ed13d4c"
+        },
+        "files": [
+            "config/packages/nyholm_psr7.yaml"
+        ]
+    },
     "ocramius/package-versions": {
         "version": "1.4.0"
     },
@@ -355,6 +367,15 @@
     },
     "symfony/http-kernel": {
         "version": "v4.2.8"
+    },
+    "symfony/maker-bundle": {
+        "version": "1.46",
+        "recipe": {
+            "repo": "github.com/symfony/recipes",
+            "branch": "main",
+            "version": "1.0",
+            "ref": "fadbfe33303a76e25cb63401050439aa9b1a9c7f"
+        }
     },
     "symfony/monolog-bridge": {
         "version": "v5.0.7"

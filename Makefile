@@ -77,3 +77,6 @@ tests-functional: ## Run functional tests
 
 tests-unit: ## Run unit tests
 	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite unit"
+
+tests-contract: ## Run integration tests
+	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite contract"

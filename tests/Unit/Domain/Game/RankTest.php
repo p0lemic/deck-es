@@ -1,6 +1,6 @@
 <?php
 
-namespace Deck\Tests\unit\Domain\Deck;
+namespace Deck\Tests\Unit\Domain\Game;
 
 use Deck\Domain\Game\Exception\InvalidRankException;
 use Deck\Domain\Game\Rank;

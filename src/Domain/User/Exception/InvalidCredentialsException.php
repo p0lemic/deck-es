@@ -5,8 +5,9 @@ declare(strict_types=1);
 namespace Deck\Domain\User\Exception;
 
 use Exception;
+use InvalidArgumentException;
 
-class InvalidCredentialsException extends Exception
+class InvalidCredentialsException extends InvalidArgumentException
 {
     public static function invalid(): self
     {

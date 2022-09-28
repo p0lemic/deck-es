@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Deck\Tests\unit\Domain\Game;
+namespace Deck\Tests\Unit\Domain\Game;
 
 use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\GameReadModel;

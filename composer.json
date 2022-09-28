@@ -44,8 +44,7 @@
         "symfony/validator": "6.1.*",
         "symfony/yaml": "6.1.*",
         "symplify/easy-coding-standard": "^11.1",
-        "vimeo/psalm": "^4.27",
-        "zircote/swagger-php": "^4.4"
+        "vimeo/psalm": "^4.27"
     },
     "config": {
         "preferred-install": {
@@ -53,7 +52,9 @@
         },
         "sort-packages": true,
         "allow-plugins": {
-            "symfony/flex": true
+            "symfony/flex": true,
+            "pestphp/pest-plugin": true,
+            "infection/extension-installer": true
         }
     },
     "autoload": {
@@ -110,11 +111,16 @@
         }
     },
     "require-dev": {
+        "ddelnano/dredd-hooks-php": "^2.0",
+        "infection/infection": "^0.26.15",
+        "mmal/openapi-validator": "^0.9.12",
+        "osteel/openapi-httpfoundation-testing": "^0.7.2",
         "pact-foundation/pact-php": "^8.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "6.1.*",
         "symfony/css-selector": "6.1.*",
+        "symfony/maker-bundle": "^1.46",
         "symfony/phpunit-bridge": "^5.2",
         "symfony/stopwatch": "6.1.*",
         "symfony/web-profiler-bundle": "6.1.*"
