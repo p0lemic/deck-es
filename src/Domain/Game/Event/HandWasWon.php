@@ -28,7 +28,7 @@ class HandWasWon implements DomainEvent
         $this->occurredOn = $occurredOn;
     }
 
-    public function playerId(): AggregateId
+    public function playerId(): PlayerId
     {
         return $this->playerId;
     }

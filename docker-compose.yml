@@ -75,7 +75,7 @@ services:
       PACT_BROKER_DATABASE_CONNECT_MAX_RETRIES: "5"
       # The list of allowed base URLs (not setting this makes the app vulnerable to cache poisoning)
       # This allows the app to be addressed from the host from within another docker container correctly
-      PACT_BROKER_BASE_URL: 'https://localhost http://localhost http://localhost:9292 http://pact-broker:9292'
+      PACT_BROKER_BASE_URL: 'https://localhost http://localhost http://localhost:9292 http://deck-pact-broker:9292'
 
 #  pact-stub:
 #    image: 'pactfoundation/pact-stub-server:latest'

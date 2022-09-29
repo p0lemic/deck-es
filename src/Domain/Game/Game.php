@@ -13,7 +13,6 @@ use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
 use function count;
-use function key;
 use function next;
 use function reset;
 
@@ -80,7 +79,13 @@ class Game extends EventSourcedAggregateRoot
 
     public function getPlayer(PlayerId $playerId): ?Player
     {
-        return $this->players[$playerId->value()] ?? null;
+        foreach ($this->players as $player) {
+            if ($player->playerId()->equals($playerId)) {
+                return $player;
+            }
+        }
+
+        return null;
     }
 
     public function currentPlayerId(): ?PlayerId
@@ -185,7 +190,7 @@ class Game extends EventSourcedAggregateRoot
     {
         $this->id = $event->aggregateId();
         foreach ($event->players() as $playerId) {
-            $this->players[$playerId->value()] = Player::create($playerId);
+            $this->players[] = Player::create($playerId);
             $this->currentPlayerId = $playerId;
         }
         $this->cardsOnTable = [];
@@ -195,13 +200,13 @@ class Game extends EventSourcedAggregateRoot
 
     public function applyCardWasDealt(CardWasDealt $cardWasDealt): void
     {
-        $player = $this->players[$cardWasDealt->playerId()->value()];
+        $player = $this->getPlayer($cardWasDealt->playerId());
         $player->addCardToHand($cardWasDealt->card());
     }
 
     public function applyCardWasPlayed(CardWasPlayed $cardWasPlayed): void
     {
-        $player = $this->players[$cardWasPlayed->playerId()->value()];
+        $player = $this->getPlayer($cardWasPlayed->playerId());
         $player->playCard($cardWasPlayed->card());
         $this->cardsOnTable[$cardWasPlayed->playerId()->value()] = $cardWasPlayed->card();
         $this->currentPlayerId = $this->getNextPlayer();
@@ -210,7 +215,7 @@ class Game extends EventSourcedAggregateRoot
     /** @throws Exception\InvalidNumberOfWonCardsException */
     public function applyHandWasWon(HandWasWon $handWasWon): void
     {
-        $player = $this->players[$handWasWon->playerId()->value()];
+        $player = $this->getPlayer($handWasWon->playerId());
         $player->addCardToWonCards($handWasWon->cards());
     }
 
@@ -237,15 +242,15 @@ class Game extends EventSourcedAggregateRoot
         return [
             'id' => $this->id->value(),
             'players' => array_map(
-                static fn (Player $player) => $player->toArray(),
+                static fn(Player $player) => $player->toArray(),
                 $this->players,
             ),
             'deck' => $this->deck->toArray(),
             'currentPlayerId' => $this->currentPlayerId->value(),
             'cardsOnTable' => array_map(
-                static fn (Card $card) => [$card->suite()->value(), $card->rank()->value()],
+                static fn(Card $card) => [$card->suite()->value(), $card->rank()->value()],
                 $this->cardsOnTable
-            )
+            ),
         ];
     }
 }

@@ -16,8 +16,8 @@ class GameProducerTest extends TestCase
         $config = new VerifierConfig();
         $config->setProviderName('gameProvider') // Providers name to fetch.
             ->setProviderVersion('1.0.0') // Providers version.
-            ->setProviderBranch('main') // Providers git branch
             ->setProviderBaseUrl(new Uri('http://localhost:80')) // URL of the Provider.
+            ->setBrokerUri(new Uri('http://deck-pact-broker:9292'))
             ->setPublishResults(true);
 
         $verifier = new Verifier($config);

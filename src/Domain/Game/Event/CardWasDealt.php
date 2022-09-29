@@ -7,7 +7,6 @@ namespace Deck\Domain\Game\Event;
 use Deck\Domain\Game\Card;
 use Deck\Domain\Game\Rank;
 use Deck\Domain\Game\Suite;
-use Deck\Domain\Shared\AggregateId;
 use Deck\Domain\Shared\DomainEvent;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
@@ -28,7 +27,7 @@ class CardWasDealt implements DomainEvent
         $this->occurredOn = $occurredOn;
     }
 
-    public function playerId(): AggregateId
+    public function playerId(): PlayerId
     {
         return $this->playerId;
     }

@@ -10,7 +10,6 @@
     <ini name="error_reporting" value="-1"/>
     <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
     <env name="KERNEL_CLASS" value="Deck\Kernel"/>
-<!--    <env name="PACT_MOCK_SERVER_HOST" value="deck-pact-stub"/>-->
     <env name="PACT_MOCK_SERVER_HOST" value="localhost"/>
     <env name="PACT_MOCK_SERVER_PORT" value="8080"/>
     <env name="PACT_CONSUMER_NAME" value="gameConsumer"/>
@@ -19,7 +18,7 @@
     <env name="PACT_PROVIDER_NAME" value="gameProvider"/>
     <env name="PACT_OUTPUT_DIR" value=".\pacts"/>
     <env name="PACT_MOCK_SERVER_HEALTH_CHECK_TIMEOUT" value="10"/>
-    <!--<env name="PACT_BROKER_URI" value="http://deck-pack-broker:9292"/>-->
+    <env name="PACT_BROKER_URI" value="http://deck-pact-broker:9292"/>
   </php>
   <testsuites>
     <testsuite name="consumer">

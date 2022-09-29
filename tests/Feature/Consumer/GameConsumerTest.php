@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Tests\Feature\Consumer;
 
+use Exception;
 use GuzzleHttp\Client;
 use PhpPact\Consumer\InteractionBuilder;
 use PhpPact\Consumer\Matcher\Matcher;
@@ -34,7 +35,8 @@ class GameConsumerTest extends TestCase
                     'players' => $matcher->eachLike([
                         'id' => $currentPlayerId,
                         'hand' => $matcher->eachLike([
-                            $matcher->regex('clubs','[a-zA-Z]+')
+                            $matcher->regex('clubs','[a-zA-Z]+'),
+                            $matcher->regex('A','[a-zA-Z0-9]+'),
                         ]),
                         'wonCards' => []
                     ]),
@@ -54,9 +56,16 @@ class GameConsumerTest extends TestCase
         $consumer = new GameConsumer($client);
 
         $game = $consumer->getGameById($id);
-
-        $this->assertTrue($builder->verify());
-
         $this->assertEquals($id, $game->id());
+
+        $hasException = false;
+        try {
+            $builder->verify();
+        } catch(Exception $e) {
+            $hasException = true;
+        }
+
+        $this->assertFalse($hasException, "We expect the pacts to validate");
+
     }
 }

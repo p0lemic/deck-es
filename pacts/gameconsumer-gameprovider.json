@@ -27,7 +27,8 @@
               "id": "674f74a7-f1be-4576-a80d-c5ef0260ad76",
               "hand": [
                 [
-                  "clubs"
+                  "clubs",
+                  "A"
                 ]
               ],
               "wonCards": [
@@ -56,6 +57,10 @@
           "$.body.players[*].hand[*][0]": {
             "match": "regex",
             "regex": "[a-zA-Z]+"
+          },
+          "$.body.players[*].hand[*][1]": {
+            "match": "regex",
+            "regex": "[a-zA-Z0-9]+"
           }
         }
       }
