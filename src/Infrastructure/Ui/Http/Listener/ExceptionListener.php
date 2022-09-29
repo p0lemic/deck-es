@@ -10,6 +10,7 @@ use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\ExceptionEvent;
 use Symfony\Component\HttpKernel\Exception\HttpException;
+use Symfony\Component\HttpKernel\Exception\NotFoundHttpException;
 use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\Security\Core\Exception\AuthenticationException;
 
@@ -29,6 +30,8 @@ class ExceptionListener implements EventSubscriberInterface
 
         if ($exception instanceof InvalidArgumentException) {
             $statusCode = Response::HTTP_BAD_REQUEST;
+        } elseif ($exception instanceof  NotFoundHttpException) {
+            $statusCode = Response::HTTP_NOT_FOUND;
         } elseif ($exception instanceof HttpException) {
             if ($exception->getPrevious() instanceof AuthenticationException) {
                 $statusCode = Response::HTTP_UNAUTHORIZED;

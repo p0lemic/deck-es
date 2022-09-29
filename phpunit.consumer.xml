@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- https://phpunit.de/manual/current/en/appendixes.configuration.html -->
+<phpunit xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://schema.phpunit.de/9.3/phpunit.xsd" backupGlobals="false" colors="true" bootstrap="vendor/autoload.php">
+  <coverage>
+    <include>
+      <directory>./src/</directory>
+    </include>
+  </coverage>
+  <php>
+    <ini name="error_reporting" value="-1"/>
+    <env name="SYMFONY_DEPRECATIONS_HELPER" value="disabled"/>
+    <env name="KERNEL_CLASS" value="Deck\Kernel"/>
+<!--    <env name="PACT_MOCK_SERVER_HOST" value="deck-pact-stub"/>-->
+    <env name="PACT_MOCK_SERVER_HOST" value="localhost"/>
+    <env name="PACT_MOCK_SERVER_PORT" value="8080"/>
+    <env name="PACT_CONSUMER_NAME" value="gameConsumer"/>
+    <env name="PACT_CONSUMER_VERSION" value="1.0.0"/>
+    <env name="PACT_CONSUMER_TAG" value="master"/>
+    <env name="PACT_PROVIDER_NAME" value="gameProvider"/>
+    <env name="PACT_OUTPUT_DIR" value=".\pacts"/>
+    <env name="PACT_MOCK_SERVER_HEALTH_CHECK_TIMEOUT" value="10"/>
+    <!--<env name="PACT_BROKER_URI" value="http://deck-pack-broker:9292"/>-->
+  </php>
+  <testsuites>
+    <testsuite name="consumer">
+      <directory>./tests/Feature/Consumer</directory>
+    </testsuite>
+  </testsuites>
+  <listeners>
+    <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
+    <listener class="PhpPact\Consumer\Listener\PactTestListener">
+      <arguments>
+        <array>
+          <element key="0">
+            <string>consumer</string>
+          </element>
+        </array>
+      </arguments>
+    </listener>
+  </listeners>
+</phpunit>

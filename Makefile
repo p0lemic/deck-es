@@ -28,7 +28,7 @@ build:	## Build the project by installing all needed dependencies and start the 
 build: build-container start
 
 build-container:
-	@docker-compose up --build --force-recreate --no-deps -d
+	@docker-compose up --build --force-recreate --remove-orphans --no-deps -d
 
 start: ## Start container
 	@docker-compose up -d
@@ -78,5 +78,11 @@ tests-functional: ## Run functional tests
 tests-unit: ## Run unit tests
 	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite unit"
 
-tests-contract: ## Run integration tests
+tests-contract: ## Run contract tests
 	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite contract"
+
+tests-consumer: ## Run Consumer tests
+	docker exec -it deck-php sh -c "bin/phpunit -c phpunit.consumer.xml --stop-on-failure --testdox --colors=always --testsuite consumer"
+
+tests-provider: ## Run Provider tests
+	docker exec -it deck-php sh -c "bin/phpunit -c phpunit.provider.xml --stop-on-failure --testdox --colors=always --testsuite provider"

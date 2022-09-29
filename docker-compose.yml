@@ -5,6 +5,7 @@ services:
     build:
       dockerfile: docker/dev/php/Dockerfile
       context: .
+    platform: linux/x86_64
     container_name: deck-php
     expose:
       - 80
@@ -34,14 +35,14 @@ services:
     volumes:
       - database:/var/lib/postgresql/data
 
-  rabbitmq:
-    image: 'rabbitmq:3.6-management-alpine'
-    container_name: deck-rabbitmq
-    ports:
-      # The standard AMQP protocol port
-      - '5672:5672'
-      # HTTP management UI
-      - '15672:15672'
+#  rabbitmq:
+#    image: 'rabbitmq:3.6-management-alpine'
+#    container_name: deck-rabbitmq
+#    ports:
+#      # The standard AMQP protocol port
+#      - '5672:5672'
+#      # HTTP management UI
+#      - '15672:15672'
 
   api-doc:
     image: swaggerapi/swagger-ui:v3.52.3
@@ -54,6 +55,41 @@ services:
     environment: [ "SWAGGER_JSON=/var/www/deck-api-doc/openapi.json","VALIDATOR_URL=" ]
     volumes:
       - ./spec:/var/www/deck-api-doc:ro
+
+  pact-broker:
+    image: 'pactfoundation/pact-broker:latest'
+    platform: linux/x86_64
+    container_name: deck-pact-broker
+    depends_on:
+      - postgresql
+    ports:
+      - "9292:9292"
+    environment:
+      PACT_BROKER_DATABASE_URL: 'postgres://admin:pass@postgresql/deck'
+      PACT_BROKER_PORT: '9292'
+      PACT_BROKER_LOG_LEVEL: INFO
+      PACT_BROKER_SQL_LOG_LEVEL: DEBUG
+      # PACT_BROKER_DATABASE_CONNECT_MAX_RETRIES is only needed for docker-compose
+      # because the database takes longer to start up than the puma process
+      # Should not be needed in production.
+      PACT_BROKER_DATABASE_CONNECT_MAX_RETRIES: "5"
+      # The list of allowed base URLs (not setting this makes the app vulnerable to cache poisoning)
+      # This allows the app to be addressed from the host from within another docker container correctly
+      PACT_BROKER_BASE_URL: 'https://localhost http://localhost http://localhost:9292 http://pact-broker:9292'
+
+#  pact-stub:
+#    image: 'pactfoundation/pact-stub-server:latest'
+#    platform: linux/x86_64
+#    container_name: deck-pact-stub
+#    expose:
+#      - 8080
+#    ports:
+#      - "8080:8080"
+#    volumes:
+#      - ./pacts:/app/pacts:ro
+#    command:
+#      - '-dpacts'
+#      - '-p8080'
 
 volumes:
   database:
