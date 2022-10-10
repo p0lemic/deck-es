@@ -15,6 +15,7 @@ purge: ## Purge cache and logs
 
 install: ## Install vendors
 	docker exec -it deck-php sh -c "composer i"
+	docker exec -it deck-php sh -c "npm install"
 
 update: ## Update vendors
 	docker exec -it deck-php sh -c "composer u"
@@ -31,7 +32,7 @@ build-container:
 	@docker-compose up --build --force-recreate --remove-orphans --no-deps -d
 
 start: ## Start container
-	@docker-compose up -d
+	@docker-compose up -d --remove-orphans
 
 stop: ## Stop project
 	@docker-compose stop
@@ -69,12 +70,6 @@ test-one: ## Run especific test
 tests-coverage: ## Run unit tests
 	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuit unit --coverage-html var/phpunit/coverage-report"
 
-tests-integration: ## Run integration tests
-	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite integration"
-
-tests-functional: ## Run functional tests
-	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite functional"
-
 tests-unit: ## Run unit tests
 	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite unit"
 
@@ -86,3 +81,6 @@ tests-consumer: ## Run Consumer tests
 
 tests-provider: ## Run Provider tests
 	docker exec -it deck-php sh -c "bin/phpunit -c phpunit.provider.xml --stop-on-failure --testdox --colors=always --testsuite provider"
+
+tests-dredd: ## Run Provider tests
+	docker exec -it deck-php sh -c "bin/docs-test.sh"

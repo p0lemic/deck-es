@@ -38,15 +38,6 @@
     <!-- ###+ nelmio/cors-bundle ### -->
     <env name="CORS_ALLOW_ORIGIN" value="^https?://(localhost|127\.0\.0\.1)(:[0-9]+)?$"/>
     <!-- ###- nelmio/cors-bundle ### -->
-    <env name="PACT_MOCK_SERVER_HOST" value="localhost"/>
-    <env name="PACT_MOCK_SERVER_PORT" value="8080"/>
-    <env name="PACT_CONSUMER_NAME" value="gameConsumer"/>
-    <env name="PACT_CONSUMER_VERSION" value="1.0.0"/>
-    <env name="PACT_CONSUMER_TAG" value="master"/>
-    <env name="PACT_PROVIDER_NAME" value="gameProvider"/>
-    <env name="PACT_OUTPUT_DIR" value=".\pacts"/>
-    <env name="PACT_MOCK_SERVER_HEALTH_CHECK_TIMEOUT" value="10"/>
-    <env name="PACT_BROKER_URI" value="http://deck-pact-broker:9292"/>
   </php>
   <testsuites>
     <testsuite name="unit">
@@ -55,23 +46,8 @@
     <testsuite name="contract">
       <directory>./tests/Contract</directory>
     </testsuite>
-    <testsuite name="provider">
-      <directory>./tests/Feature/Provider</directory>
-    </testsuite>
-    <testsuite name="consumer">
-      <directory>./tests/Feature/Consumer</directory>
-    </testsuite>
   </testsuites>
   <listeners>
     <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>
-    <listener class="PhpPact\Consumer\Listener\PactTestListener">
-      <arguments>
-        <array>
-          <element key="0">
-            <string>consumer</string>
-          </element>
-        </array>
-      </arguments>
-    </listener>
   </listeners>
 </phpunit>
