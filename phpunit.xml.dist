@@ -43,9 +43,6 @@
     <testsuite name="unit">
       <directory>./tests/Unit</directory>
     </testsuite>
-    <testsuite name="contract">
-      <directory>./tests/Contract</directory>
-    </testsuite>
   </testsuites>
   <listeners>
     <listener class="Symfony\Bridge\PhpUnit\SymfonyTestsListener"/>

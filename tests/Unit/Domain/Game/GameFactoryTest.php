@@ -44,26 +44,6 @@ class GameFactoryTest extends TestCase
     }
 
     /** @test */
-    public function whenPlayerDrawCardDeckShouldHaveOneLessCard(): void
-    {
-        $players = [PlayerId::create(), PlayerId::create()];
-
-        $gameFactory = new GameFactory();
-        $game = $gameFactory->createNewGame(GameId::create(), DeckId::create(), $players, new Brisca());
-        $game->initGame();
-
-        self::assertCount(34, $game->deck()->cards());
-        $game->deck()->draw();
-        self::assertCount(33, $game->deck()->cards());
-
-        $events = $game->getUncommittedEvents();
-        /** @var DomainMessage $event */
-        $event = $events->getIterator()->offsetGet($events->getIterator()->count() - 1);
-
-        self::assertInstanceOf(CardWasDrawn::class, $event->getPayload(), 'Last event should be CardWasDrawn');
-    }
-
-    /** @test */
     public function whenPlayerPlayACard(): void
     {
         $players = [PlayerId::create(), PlayerId::create()];

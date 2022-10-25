@@ -4,12 +4,15 @@ RUN a2enmod rewrite
 
 RUN apt-get update && apt-get install -y libpq-dev git zip unzip libicu-dev \
     && docker-php-source extract \
+    && pecl install xdebug \
+    && docker-php-ext-enable xdebug \
     && docker-php-source delete \
     && docker-php-ext-install -j$(nproc) pdo_pgsql intl bcmath \
     && rm -rf /tmp/*
 
 RUN curl -sS https://getcomposer.org/installer | php && mv composer.phar /usr/local/bin/composer
 
+COPY docker/dev/php/xdebug.ini /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini
 COPY docker/dev/php/my-config.ini /usr/local/etc/php/conf.d/my-config.ini
 
 ENV APACHE_DOCUMENT_ROOT /var/www/deck/public

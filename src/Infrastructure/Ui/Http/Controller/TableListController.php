@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
-use Deck\Application\Table\GetTablesQuery;
+use Deck\Application\Table\TablesListQuery;
 use Deck\Domain\Table\TableReadModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class TableListController extends AbstractRenderController
 {
     #[Route('/api/table', name: 'api.table.list', methods: ['GET'])]
-    public function __invoke(GetTablesQuery $getTables): Response
+    public function __invoke(TablesListQuery $getTables): Response
     {
         $tables = $getTables->execute();
 

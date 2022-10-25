@@ -9,8 +9,10 @@ class Card extends SimpleEventSourcedEntity
     public Rank $rank;
     public Suite $suite;
 
-    public function __construct(Suite $suite, Rank $rank)
-    {
+    public function __construct(
+        Suite $suite,
+        Rank $rank
+    ) {
         $this->suite = $suite;
         $this->rank = $rank;
     }
@@ -27,20 +29,14 @@ class Card extends SimpleEventSourcedEntity
 
     public function points(): int
     {
-        switch ($this->rank->value()) {
-            case "A":
-                return 11;
-            case "3":
-                return 10;
-            case "K":
-                return 4;
-            case "Q":
-                return 3;
-            case "J":
-                return 2;
-            default:
-                return 0;
-        }
+        return match ($this->rank->value()) {
+            "A" => 11,
+            "3" => 10,
+            "K" => 4,
+            "Q" => 3,
+            "J" => 2,
+            default => 0,
+        };
     }
 
     public function equals(Card $card): bool
@@ -51,5 +47,13 @@ class Card extends SimpleEventSourcedEntity
     public function __toString(): string
     {
         return $this->rank()->value() . $this->suite()->value();
+    }
+
+    public function normalize(): array
+    {
+        return [
+            'suite' => $this->suite->value(),
+            'rank' => $this->rank->value(),
+        ];
     }
 }

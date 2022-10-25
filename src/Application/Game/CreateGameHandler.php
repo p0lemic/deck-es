@@ -2,8 +2,6 @@
 
 namespace Deck\Application\Game;
 
-use Deck\Domain\Game\Deck;
-use Deck\Domain\Game\DeckId;
 use Deck\Domain\Game\Exception\InvalidPlayerNumberException;
 use Deck\Domain\Game\GameFactory;
 use Deck\Domain\Game\GameRepositoryInterface;

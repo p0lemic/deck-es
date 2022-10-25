@@ -68,7 +68,7 @@ test-one: ## Run especific test
 	docker exec -it deck-php sh -c "bin/phpunit --filter $(test)"
 
 tests-coverage: ## Run unit tests
-	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuit unit --coverage-html var/phpunit/coverage-report"
+	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuit unit --coverage-xml var/phpunit/coverage-report"
 
 tests-unit: ## Run unit tests
 	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite unit"

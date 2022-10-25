@@ -67,7 +67,8 @@ services:
         tags:
             - { name: command_handler, handles: Deck\Application\Game\DrawCardCommand }
 
-    Deck\Application\Table\GetTablesQuery:
-    Deck\Application\Table\GetTableQuery:
+    Deck\Application\Table\TablesListQuery:
+    Deck\Application\Table\LoadTableQuery:
     Deck\Application\Game\GamesListQuery:
+    Deck\Application\Game\LoadGameQuery:
         autowire: true

@@ -3,11 +3,14 @@
 namespace Deck\Domain\Game;
 
 use Broadway\EventSourcing\EventSourcedAggregateRoot;
+use Deck\Domain\Game\Event\CardWasAddedToDeck;
 use Deck\Domain\Game\Event\CardWasDealt;
+use Deck\Domain\Game\Event\CardWasDrawn;
 use Deck\Domain\Game\Event\CardWasPlayed;
 use Deck\Domain\Game\Event\GameWasCreated;
 use Deck\Domain\Game\Event\HandWasWon;
 use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
+use Deck\Domain\Game\Exception\DeckCardsNumberException;
 use Deck\Domain\Game\Exception\PlayerNotAllowedToDraw;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
@@ -31,6 +34,8 @@ use function reset;
  */
 class Game extends EventSourcedAggregateRoot
 {
+    public const TOTAL_INITIAL_CARDS_IN_DECK = 40;
+
     /** @psalm-suppress PropertyNotSetInConstructor */
     private GameId $id;
     /** @psalm-suppress PropertyNotSetInConstructor */
@@ -95,13 +100,34 @@ class Game extends EventSourcedAggregateRoot
 
     public function initGame(): void
     {
-        $this->deck->shuffleCards();
+        $this->shuffleCards();
 
         foreach ($this->players() as $player) {
             $this->dealInitialHand($player);
         }
 
         $this->rules->setSampleCard($this->deck->getLastCard());
+    }
+
+    public function shuffleCards(): void
+    {
+        $cards = [];
+
+        foreach (Suite::AVAILABLE_SUITES as $suite) {
+            foreach (Rank::AVAILABLE_RANKS as $rank) {
+                $cards[] = new Card(new Suite($suite), new Rank($rank));
+            }
+        }
+
+        if (count($cards) !== self::TOTAL_INITIAL_CARDS_IN_DECK) {
+            throw DeckCardsNumberException::invalidInitialNumber(self::TOTAL_INITIAL_CARDS_IN_DECK, count($cards));
+        }
+
+        shuffle($cards);
+
+        foreach ($cards as $card) {
+            $this->apply(new CardWasAddedToDeck($this->id, $card, DateTime::now()));
+        }
     }
 
     private function dealInitialHand(Player $player): void
@@ -127,14 +153,16 @@ class Game extends EventSourcedAggregateRoot
 
         $card = $this->deck->draw();
 
-        $this->apply(new CardWasDealt($player->playerId(), $card, DateTime::now()));
+        $this->apply(new CardWasDrawn($this->id, $card, DateTime::now()));
+
+        $this->apply(new CardWasDealt($this->id, $player->playerId(), $card, DateTime::now()));
     }
 
     public function playCard(
         Player $player,
         Card $card
     ): void {
-        $this->apply(new CardWasPlayed($player->playerId(), $card, DateTime::now()));
+        $this->apply(new CardWasPlayed($this->id, $player->playerId(), $card, DateTime::now()));
 
         if ($this->areAllCardsPlayed()) {
             $this->resolveTurn();
@@ -183,7 +211,7 @@ class Game extends EventSourcedAggregateRoot
     {
         $playerId = $this->rules->resolveHand($this->cardsOnTable);
 
-        $this->apply(new HandWasWon($playerId, $this->cardsOnTable, DateTime::now()));
+        $this->apply(new HandWasWon($this->id, $playerId, $this->cardsOnTable, DateTime::now()));
     }
 
     public function applyGameWasCreated(GameWasCreated $event): void

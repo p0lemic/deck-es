@@ -16,16 +16,17 @@ class GameReadModelTest extends TestCase
      */
     public function given_game_id_and_players_should_create_game_read_model(): void
     {
-        $gameId = GameId::create();
-        $playerOne = PlayerId::create();
-        $playerTwo = PlayerId::create();
+        $gameId = GameId::create()->value();
+        $playerOne = PlayerId::create()->value();
+        $playerTwo = PlayerId::create()->value();
 
         $game = new GameReadModel(
             $gameId,
             [
                 $playerOne,
                 $playerTwo,
-            ]
+            ],
+            null
         );
 
         self::assertEquals($gameId, $game->id());

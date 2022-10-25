@@ -22,9 +22,7 @@ final class Version20200330223806 extends AbstractMigration
         // this up() migration is auto-generated, please modify it to your needs
         $this->abortIf($this->connection->getDatabasePlatform()->getName() !== 'postgresql', 'Migration can only be executed safely on \'postgresql\'.');
 
-        $this->addSql('CREATE TABLE deck.games (id VARCHAR(255) NOT NULL, players JSON NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('COMMENT ON COLUMN deck.games.id IS \'(DC2Type:game_id)\'');
-        $this->addSql('COMMENT ON COLUMN deck.games.players IS \'(DC2Type:json_array)\'');
+        $this->addSql('CREATE TABLE deck.games (id VARCHAR(255) NOT NULL, players JSON NOT NULL, current_player VARCHAR(40) NOT NULL, deck TEXT NOT NULL, cards_on_table VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE deck.tables (id VARCHAR(255) NOT NULL, players JSON NOT NULL, PRIMARY KEY(id))');
         $this->addSql('COMMENT ON COLUMN deck.tables.id IS \'(DC2Type:table_id)\'');
         $this->addSql('COMMENT ON COLUMN deck.tables.players IS \'(DC2Type:json_array)\'');

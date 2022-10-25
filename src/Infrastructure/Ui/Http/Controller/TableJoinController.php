@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
 use Assert\Assertion;
-use Deck\Application\Table\GetTableQuery;
+use Deck\Application\Table\LoadTableQuery;
 use Deck\Application\Table\JoinTableCommand;
 use Deck\Infrastructure\User\Auth\Auth;
 use Symfony\Component\HttpFoundation\Request;
@@ -19,7 +19,7 @@ class TableJoinController extends AbstractRenderController
     #[Route('/api/table/join', name: 'api.table.join', methods: ['POST'])]
     public function __invoke(
         Security $security,
-        GetTableQuery $getTableQuery,
+        LoadTableQuery $getTableQuery,
         Request $request
     ): Response {
         $tableId = $request->request->get('id');

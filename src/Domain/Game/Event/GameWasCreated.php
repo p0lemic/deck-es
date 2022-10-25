@@ -36,6 +36,7 @@ class GameWasCreated implements DomainEvent
         $this->occurredOn = $occurredOn;
     }
 
+    /** @return PlayerId[] */
     public function players(): array
     {
         return $this->players;

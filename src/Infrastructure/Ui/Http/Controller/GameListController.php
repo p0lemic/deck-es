@@ -21,7 +21,7 @@ class GameListController extends AbstractRenderController
             ->setEncodingOptions(JsonResponse::DEFAULT_ENCODING_OPTIONS | JSON_PRESERVE_ZERO_FRACTION)
             ->setData(
                 array_map(
-                    static fn (GameReadModel $game) => $game->toArray(),
+                    static fn (GameReadModel $game) => $game->normalize(),
                     $games
                 )
             );

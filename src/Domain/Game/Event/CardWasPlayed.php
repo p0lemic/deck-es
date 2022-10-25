@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Deck\Domain\Game\Event;
 
 use Deck\Domain\Game\Card;
+use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\Rank;
 use Deck\Domain\Game\Suite;
 use Deck\Domain\Shared\AggregateId;
@@ -19,6 +20,7 @@ class CardWasPlayed implements DomainEvent
     private PlayerId $playerId;
 
     public function __construct(
+        public readonly GameId $aggregateId,
         PlayerId $playerId,
         Card $card,
         DateTime $occurredOn
@@ -46,6 +48,7 @@ class CardWasPlayed implements DomainEvent
     public function normalize(): array
     {
         return [
+            'aggregateId' => $this->aggregateId->value(),
             'playerId' => $this->playerId->value(),
             'card' => [
                 'suite' => $this->card->suite->value(),
@@ -58,6 +61,7 @@ class CardWasPlayed implements DomainEvent
     public static function denormalize(array $payload): self
     {
         return new self(
+            GameId::fromString($payload['aggregateId']),
             PlayerId::fromString($payload['playerId']),
             new Card(
                 new Suite($payload['card']['suite']),

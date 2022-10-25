@@ -2,10 +2,12 @@
 
 namespace Deck\Application\Table;
 
+use Deck\Domain\Table\Table;
+use Deck\Domain\Table\TableId;
 use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\Table\TableReadModelRepositoryInterface;
 
-class GetTablesQuery
+class LoadTableQuery
 {
     private TableReadModelRepositoryInterface $tableRepository;
 
@@ -16,10 +18,11 @@ class GetTablesQuery
     }
 
     /**
-     * @return TableReadModel[]
+     * @param TableId $id
+     * @return TableReadModel|null
      */
-    public function execute(): array
+    public function execute(TableId $id): ?TableReadModel
     {
-        return $this->tableRepository->all();
+        return $this->tableRepository->findByTableId($id);
     }
 }

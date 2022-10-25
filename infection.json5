@@ -7,5 +7,8 @@
     },
     "mutators": {
         "@default": true
+    },
+    "logs": {
+        "text": "var/log/infection.log"
     }
 }
