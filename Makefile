@@ -64,23 +64,8 @@ ecs-fix: ## Run Easy-Code-Standard Fix
 test: ## Run all tests
 	docker exec -it deck-php sh -c "bin/phpunit --testdox --colors=always"
 
-test-one: ## Run especific test
-	docker exec -it deck-php sh -c "bin/phpunit --filter $(test)"
-
 tests-coverage: ## Run unit tests
 	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuit unit --coverage-xml var/phpunit/coverage-report"
 
 tests-unit: ## Run unit tests
 	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite unit"
-
-tests-contract: ## Run contract tests
-	docker exec -it deck-php sh -c "bin/phpunit --stop-on-failure --testdox --colors=always --testsuite contract"
-
-tests-consumer: ## Run Consumer tests
-	docker exec -it deck-php sh -c "bin/phpunit -c phpunit.consumer.xml --stop-on-failure --testdox --colors=always --testsuite consumer"
-
-tests-provider: ## Run Provider tests
-	docker exec -it deck-php sh -c "bin/phpunit -c phpunit.provider.xml --stop-on-failure --testdox --colors=always --testsuite provider"
-
-tests-dredd: ## Run Provider tests
-	docker exec -it deck-php sh -c "bin/docs-test.sh"

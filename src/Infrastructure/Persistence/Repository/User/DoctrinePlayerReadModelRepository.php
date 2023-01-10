@@ -76,11 +76,6 @@ class DoctrinePlayerReadModelRepository extends ServiceEntityRepository implemen
         return $userId['id'] ?? null;
     }
 
-    /**
-     * @throws NonUniqueResultException
-     * @throws UserNotFoundException
-     * @return array<AggregateId, string, string>
-     */
     public function getCredentialsByEmail(Email $email): array
     {
         $user = $this->findByEmailOrFail($email);

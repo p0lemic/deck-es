@@ -29,19 +29,19 @@ doctrine:
         auto_generate_proxy_classes: '%kernel.debug%'
         naming_strategy: doctrine.orm.naming_strategy.underscore
         auto_mapping: true
-        mappings:
-            game:
-                type: yml
-                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/Game"
-                prefix: Deck\Domain\Game
-                is_bundle: false
-            table:
-                type: yml
-                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/Table"
-                prefix: Deck\Domain\Table
-                is_bundle: false
-            user:
-                type: yml
-                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/User"
-                prefix: Deck\Domain\User
-                is_bundle: false
+#        mappings:
+#            game:
+#                type: yml
+#                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/Game"
+#                prefix: Deck\Domain\Game
+#                is_bundle: false
+#            table:
+#                type: yml
+#                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/Table"
+#                prefix: Deck\Domain\Table
+#                is_bundle: false
+#            user:
+#                type: yml
+#                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/User"
+#                prefix: Deck\Domain\User
+#                is_bundle: false

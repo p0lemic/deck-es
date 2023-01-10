@@ -48,11 +48,6 @@ class CardWasAddedToDeck implements DomainEvent
         ];
     }
 
-    /**
-     * @param array<string, string> $payload
-     * @return CardWasAddedToDeck
-     * @throws DateTimeException
-     */
     public static function denormalize(array $payload): self
     {
         return new self(

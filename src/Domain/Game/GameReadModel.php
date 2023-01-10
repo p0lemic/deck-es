@@ -83,7 +83,7 @@ class GameReadModel
             }
         }
 
-        $this->cardsOnTable[$playerId->value()] = $card;
+        $this->cardsOnTable[$playerId] = $card;
     }
 
     public function wonCard(
@@ -105,7 +105,7 @@ class GameReadModel
             'deck' => $this->deck,
             'currentPlayerId' => $this->currentPlayerId,
             'cardsOnTable' => array_map(
-                static fn(Card $card) => [$card->suite()->value(), $card->rank()->value()],
+                static fn (Card $card) => [$card->suite()->value(), $card->rank()->value()],
                 $this->cardsOnTable
             ),
         ];

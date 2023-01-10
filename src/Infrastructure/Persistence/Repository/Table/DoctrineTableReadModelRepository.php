@@ -58,7 +58,6 @@ class DoctrineTableReadModelRepository extends ServiceEntityRepository implement
         return $table;
     }
 
-    /** @return TableReadModel[] */
     public function all(): array
     {
         return $this->findAll();

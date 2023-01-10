@@ -19,9 +19,6 @@ class GameLoadController extends AbstractRenderController
         Request $request,
         string $id
     ): Response {
-        Assertion::notNull($id, 'Game Id can\'t be null');
-        Assertion::string($id);
-
         $game = $loadGame->execute(GameId::fromString($id));
 
         return $this->createApiResponse($game->normalize());

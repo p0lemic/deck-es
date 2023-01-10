@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
 use Assert\Assertion;
-use Deck\Application\Table\LoadTableQuery;
 use Deck\Application\Table\JoinTableCommand;
+use Deck\Application\Table\LoadTableQuery;
 use Deck\Infrastructure\User\Auth\Auth;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;

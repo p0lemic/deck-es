@@ -26,6 +26,12 @@ class UserProvider implements UserProviderInterface
         return $this->getUserData($username);
     }
 
+    /** @throws AssertionFailedException */
+    public function loadUserByIdentifier(string $identifier): UserInterface
+    {
+        return $this->getUserData($identifier);
+    }
+
     public function refreshUser(UserInterface $user): UserInterface
     {
         if (!$user instanceof Auth) {
@@ -38,12 +44,6 @@ class UserProvider implements UserProviderInterface
     public function supportsClass(string $class): bool
     {
         return Auth::class === $class;
-    }
-
-    /** @throws AssertionFailedException */
-    public function loadUserByIdentifier(string $identifier): UserInterface
-    {
-        return $this->getUserData($identifier);
     }
 
     /**

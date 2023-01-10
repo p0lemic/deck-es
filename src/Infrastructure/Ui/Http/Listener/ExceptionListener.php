@@ -30,7 +30,7 @@ class ExceptionListener implements EventSubscriberInterface
 
         if ($exception instanceof InvalidArgumentException) {
             $statusCode = Response::HTTP_BAD_REQUEST;
-        } elseif ($exception instanceof  NotFoundHttpException) {
+        } elseif ($exception instanceof NotFoundHttpException) {
             $statusCode = Response::HTTP_NOT_FOUND;
         } elseif ($exception instanceof HttpException) {
             if ($exception->getPrevious() instanceof AuthenticationException) {

@@ -32,7 +32,7 @@ class SignInHandler
      * @throws InvalidCredentialsException
      * @throws DateTimeException
      */
-    public function __invoke(SignInCommand $command): void
+    public function handle(SignInCommand $command): void
     {
         $aggregateId = $this->uuidFromEmail($command->email());
 

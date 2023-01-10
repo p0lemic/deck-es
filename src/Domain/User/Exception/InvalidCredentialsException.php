@@ -11,6 +11,6 @@ class InvalidCredentialsException extends InvalidArgumentException
 {
     public static function invalid(): self
     {
-        return new self('Invalid credentials entered.');
+        return new self('Invalid credentials provided.');
     }
 }

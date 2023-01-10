@@ -18,12 +18,12 @@ final class CreateGameCommand implements CommandInterface
     private DeckId $deckId;
     private Rules $rules;
 
-    public function __construct(string $aTableId)
+    public function __construct(string $aTableId, Rules $rules)
     {
         $this->tableId = TableId::fromString($aTableId);
         $this->gameId = GameId::create();
         $this->deckId = DeckId::create();
-        $this->rules = new Brisca();
+        $this->rules = $rules;
     }
 
     public function tableId(): TableId

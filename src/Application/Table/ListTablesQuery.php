@@ -5,7 +5,7 @@ namespace Deck\Application\Table;
 use Deck\Domain\Table\TableReadModel;
 use Deck\Domain\Table\TableReadModelRepositoryInterface;
 
-class TablesListQuery
+class ListTablesQuery
 {
     private TableReadModelRepositoryInterface $tableRepository;
 

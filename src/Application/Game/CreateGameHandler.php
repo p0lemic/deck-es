@@ -30,18 +30,20 @@ class CreateGameHandler
 
     public function handle(CreateGameCommand $createGameCommand): void
     {
-        $table = $this->tableRepository->findByTableIdOrFail(TableId::fromString($createGameCommand->tableId()->value()));
+        $table = $this->tableRepository->findByTableIdOrFail($createGameCommand->tableId());
 
         if (!$table->isFull()) {
             throw InvalidPlayerNumberException::gameTableIsNotFull();
         }
 
         $players = [];
+
         foreach ($table->players() as $playerId) {
             $player = $this->playerRepository->findByIdOrFail($playerId);
 
             $players[] = $player->id();
         }
+
         $game = $this->gameFactory->createNewGame($createGameCommand->gameId(), $createGameCommand->deckId(), $players, $createGameCommand->rules());
         $game->initGame();
 

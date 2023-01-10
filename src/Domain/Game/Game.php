@@ -15,6 +15,7 @@ use Deck\Domain\Game\Exception\PlayerNotAllowedToDraw;
 use Deck\Domain\Shared\Exception\DateTimeException;
 use Deck\Domain\Shared\ValueObject\DateTime;
 use Deck\Domain\User\PlayerId;
+use RuntimeException;
 use function count;
 use function next;
 use function reset;
@@ -82,7 +83,7 @@ class Game extends EventSourcedAggregateRoot
         return $this->players;
     }
 
-    public function getPlayer(PlayerId $playerId): ?Player
+    public function getPlayer(PlayerId $playerId): Player
     {
         foreach ($this->players as $player) {
             if ($player->playerId()->equals($playerId)) {
@@ -90,7 +91,7 @@ class Game extends EventSourcedAggregateRoot
             }
         }
 
-        return null;
+        throw new RuntimeException('Player not found');
     }
 
     public function currentPlayerId(): ?PlayerId
@@ -270,13 +271,13 @@ class Game extends EventSourcedAggregateRoot
         return [
             'id' => $this->id->value(),
             'players' => array_map(
-                static fn(Player $player) => $player->toArray(),
+                static fn (Player $player) => $player->toArray(),
                 $this->players,
             ),
             'deck' => $this->deck->toArray(),
-            'currentPlayerId' => $this->currentPlayerId->value(),
+            'currentPlayerId' => $this->currentPlayerId?->value(),
             'cardsOnTable' => array_map(
-                static fn(Card $card) => [$card->suite()->value(), $card->rank()->value()],
+                static fn (Card $card) => [$card->suite()->value(), $card->rank()->value()],
                 $this->cardsOnTable
             ),
         ];

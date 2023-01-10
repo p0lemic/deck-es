@@ -23,13 +23,6 @@ class InvalidPlayerNumberException extends Exception
         );
     }
 
-    public static function gameIsFull(): self
-    {
-        return new self(
-            'The Game is full'
-        );
-    }
-
     public static function gameTableIsNotFull(): self
     {
         return new self(

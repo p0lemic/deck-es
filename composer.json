@@ -111,11 +111,8 @@
         }
     },
     "require-dev": {
-        "ddelnano/dredd-hooks-php": "^2.0",
+        "dama/doctrine-test-bundle": "^7.1",
         "infection/infection": "^0.26.15",
-        "mmal/openapi-validator": "^0.9.12",
-        "osteel/openapi-httpfoundation-testing": "^0.7.2",
-        "pact-foundation/pact-php": "^8.0",
         "phpunit/phpunit": "^9.5",
         "roave/security-advisories": "dev-latest",
         "symfony/browser-kit": "6.1.*",

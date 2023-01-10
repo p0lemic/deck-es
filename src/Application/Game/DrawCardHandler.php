@@ -6,6 +6,7 @@ use Deck\Domain\Game\Exception\CardsNumberInUseNotValidException;
 use Deck\Domain\Game\Exception\PlayerNotAllowedToDraw;
 use Deck\Domain\Game\GameRepositoryInterface;
 use Deck\Domain\Shared\Exception\DateTimeException;
+use RuntimeException;
 
 class DrawCardHandler
 {
@@ -26,10 +27,6 @@ class DrawCardHandler
     {
         $game = $this->gameStore->get($drawCardCommand->gameId());
         $player = $game->getPlayer($drawCardCommand->playerId());
-
-        if (null === $player) {
-            throw new \RuntimeException('Player not found');
-        }
 
         $game->playerDraw($player);
 
