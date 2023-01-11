@@ -15,33 +15,3 @@ doctrine:
             collate: utf8_unicode_ci
         schema_filter: ~^(?!deck.sessions)~ #ignore those tables when generating migrations
         url: '%env(DATABASE_DB_TYPE)%://%env(DATABASE_USER)%:%env(DATABASE_PASSWORD)%@%env(DATABASE_DB_HOST)%:%env(DATABASE_PORT)%/%env(DATABASE_DB)%'
-        types:
-            email: Deck\Infrastructure\Persistence\Type\User\DoctrineEmailType
-            hashed_password: Deck\Infrastructure\Persistence\Type\User\DoctrineHashedPasswordType
-            aggregate_id: Deck\Infrastructure\Persistence\Type\Shared\DoctrineAggregateIdType
-            player_id: Deck\Infrastructure\Persistence\Type\User\DoctrinePlayerIdType
-            game_id: Deck\Infrastructure\Persistence\Type\Game\DoctrineGameIdType
-            table_id: Deck\Infrastructure\Persistence\Type\Table\DoctrineTableIdType
-            custom_datetime: Deck\Infrastructure\Persistence\Type\Shared\DoctrineDateTimeType
-            players_id_array: Deck\Infrastructure\Persistence\Type\User\DoctrinePlayerIdArrayType
-
-    orm:
-        auto_generate_proxy_classes: '%kernel.debug%'
-        naming_strategy: doctrine.orm.naming_strategy.underscore
-        auto_mapping: true
-#        mappings:
-#            game:
-#                type: yml
-#                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/Game"
-#                prefix: Deck\Domain\Game
-#                is_bundle: false
-#            table:
-#                type: yml
-#                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/Table"
-#                prefix: Deck\Domain\Table
-#                is_bundle: false
-#            user:
-#                type: yml
-#                dir: "%kernel.project_dir%/src/Infrastructure/Persistence/Mapping/User"
-#                prefix: Deck\Domain\User
-#                is_bundle: false

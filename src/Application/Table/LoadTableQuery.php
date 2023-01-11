@@ -19,9 +19,9 @@ class LoadTableQuery
 
     /**
      * @param TableId $id
-     * @return TableReadModel|null
+     * @return TableReadModel
      */
-    public function execute(TableId $id): ?TableReadModel
+    public function execute(TableId $id): TableReadModel
     {
         return $this->tableRepository->findByTableId($id);
     }

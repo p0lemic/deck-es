@@ -9,23 +9,22 @@ class TableReadModel
 {
     private const SIZE = 2;
 
-    private TableId $id;
-    /** @var PlayerId[] */
+    private string $id;
     private array $players;
 
     public function __construct(
-        TableId $tableId
+        string $tableId,
+        array $players,
     ) {
         $this->id = $tableId;
-        $this->players = [];
+        $this->players = $players;
     }
 
-    public function id(): TableId
+    public function id(): string
     {
         return $this->id;
     }
 
-    /** @return PlayerId[] */
     public function players(): array
     {
         return $this->players;
@@ -33,13 +32,13 @@ class TableReadModel
 
     public function joinPlayer(PlayerId $playerId): void
     {
-        $this->players[] = $playerId;
+        $this->players[] = $playerId->value();
     }
 
     public function removePlayer(PlayerId $playerId): void
     {
         foreach ($this->players as $key => $player) {
-            if ($player === $playerId) {
+            if ($player === $playerId->value()) {
                 unset($this->players[$key]);
             }
         }
@@ -50,14 +49,21 @@ class TableReadModel
         return count($this->players) === self::SIZE;
     }
 
-    public function toArray(): array
+    public function normalize(): array
     {
         return [
-            'id' => $this->id->value(),
-            'players' => array_map(
-                static fn (PlayerId $playerId) => $playerId->__toString(),
-                $this->players,
-            ),
+            'id' => $this->id,
+            'players' => $this->players
         ];
+    }
+
+    public static function denormalize(
+        string $id,
+        array $players
+    ): self {
+        return new self(
+            $id,
+            $players
+        );
     }
 }

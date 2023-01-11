@@ -2,7 +2,7 @@
 
 namespace Deck\Tests\Unit\Application\Game;
 
-use Deck\Application\Game\GamesListQuery;
+use Deck\Application\Game\ListGamesQuery;
 use Deck\Application\Game\LoadGameQuery;
 use Deck\Domain\Game\GameId;
 use Deck\Domain\Game\GameReadModelRepositoryInterface;

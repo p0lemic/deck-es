@@ -21,7 +21,7 @@ class TableListController extends AbstractRenderController
             ->setEncodingOptions(JsonResponse::DEFAULT_ENCODING_OPTIONS | JSON_PRESERVE_ZERO_FRACTION)
             ->setData(
                 array_map(
-                    static fn (TableReadModel $table) => $table->toArray(),
+                    static fn (TableReadModel $table) => $table->normalize(),
                     $tables
                 )
             );

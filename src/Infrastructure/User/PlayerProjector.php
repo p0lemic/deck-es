@@ -20,7 +20,7 @@ class PlayerProjector extends Projector
         $this->repository = $repository;
     }
 
-    public function exposeStatusOfPlayer(PlayerId $playerId): ?PlayerReadModel
+    public function exposeStatusOfPlayer(PlayerId $playerId): PlayerReadModel
     {
         return $this->loadReadModel($playerId);
     }
@@ -30,7 +30,8 @@ class PlayerProjector extends Projector
         $playerReadModel = new PlayerReadModel(
             $userWasCreated->aggregateId(),
             $userWasCreated->credentials(),
-            $userWasCreated->occurredOn()
+            $userWasCreated->occurredOn(),
+            $userWasCreated->occurredOn(),
         );
 
         $this->repository->save($playerReadModel);
@@ -46,7 +47,7 @@ class PlayerProjector extends Projector
         $this->repository->save($playerReadModel);
     }
 
-    private function loadReadModel(PlayerId $id): ?PlayerReadModel
+    private function loadReadModel(PlayerId $id): PlayerReadModel
     {
         return $this->repository->findById($id);
     }

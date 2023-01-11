@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Deck\Domain\Table\Exception;
 
 use Deck\Domain\User\PlayerId;
-use Exception;
+use InvalidArgumentException;
 
-class PlayerAlreadyInTableException extends Exception
+class PlayerAlreadyInTableException extends InvalidArgumentException
 {
     public static function alreadyInTable(PlayerId $playerId): self
     {

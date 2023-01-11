@@ -5,7 +5,7 @@ namespace Deck\Application\Game;
 use Deck\Domain\Game\GameReadModel;
 use Deck\Domain\Game\GameReadModelRepositoryInterface;
 
-class GamesListQuery
+class ListGamesQuery
 {
     private GameReadModelRepositoryInterface $gameRepository;
 

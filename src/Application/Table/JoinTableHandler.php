@@ -21,7 +21,7 @@ class JoinTableHandler
 
     public function handle(JoinTableCommand $joinTableCommand): void
     {
-        $player = $this->playerReadModelRepository->findByIdOrFail($joinTableCommand->playerId());
+        $player = $this->playerReadModelRepository->findById($joinTableCommand->playerId());
         $table = $this->tableRepository->get($joinTableCommand->tableId());
 
         $table->playerSits($player->id());

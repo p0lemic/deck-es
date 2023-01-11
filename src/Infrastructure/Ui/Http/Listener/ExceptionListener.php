@@ -43,7 +43,8 @@ class ExceptionListener implements EventSubscriberInterface
             json_encode(
                 [
                     'code' => $statusCode,
-                    'message' => $exception->getMessage()
+                    'message' => $exception->getMessage(),
+                    'line' => $exception->getFile() . ' => ' . $exception->getLine()
                 ]
             )
         );

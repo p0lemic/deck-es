@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Deck\Infrastructure\Ui\Http\Controller;
 
-use Deck\Application\Game\GamesListQuery;
+use Deck\Application\Game\ListGamesQuery;
 use Deck\Domain\Game\GameReadModel;
 use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Response;
@@ -13,7 +13,7 @@ use Symfony\Component\Routing\Annotation\Route;
 class GameListController extends AbstractRenderController
 {
     #[Route('/api/game', name: 'api.game.list', methods: ['GET'])]
-    public function list(GamesListQuery $listGames): Response
+    public function list(ListGamesQuery $listGames): Response
     {
         $games = $listGames->execute();
 

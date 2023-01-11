@@ -39,7 +39,7 @@ class JoinTableHandlerTest extends TestCase
             ->willReturn($playerId);
 
         $this->playerReadModelRepository->expects($this->once())
-            ->method('findByIdOrFail')
+            ->method('findById')
             ->with($playerId)
             ->willReturn($player);
 

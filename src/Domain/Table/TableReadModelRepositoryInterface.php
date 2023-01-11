@@ -6,9 +6,8 @@ namespace Deck\Domain\Table;
 
 interface TableReadModelRepositoryInterface
 {
-    public function findByTableId(TableId $tableId): ?TableReadModel;
-    public function findByTableIdOrFail(TableId $tableId): TableReadModel;
+    public function findByTableId(TableId $tableId): TableReadModel;
     public function all(): array;
     public function save(TableReadModel $table): void;
-    public function clearMemory(): void;
+    public function update(TableReadModel $table): void;
 }

@@ -21,7 +21,7 @@ class TableProjector extends Projector
         $this->repository = $repository;
     }
 
-    public function exposeStatusOfTable(TableId $tableId): ?TableReadModel
+    public function exposeStatusOfTable(TableId $tableId): TableReadModel
     {
         return $this->loadReadModel($tableId);
     }
@@ -29,7 +29,8 @@ class TableProjector extends Projector
     public function applyTableWasCreated(TableWasCreated $tableWasCreated): void
     {
         $tableReadModel = new TableReadModel(
-            $tableWasCreated->aggregateId()
+            $tableWasCreated->aggregateId()->value(),
+            []
         );
 
         $this->repository->save($tableReadModel);
@@ -37,23 +38,21 @@ class TableProjector extends Projector
 
     public function applyPlayerWasLeaved(PlayerWasLeaved $event): void
     {
-        /** @var TableReadModel $tableReadModel */
         $tableReadModel = $this->loadReadModel($event->aggregateId());
         $tableReadModel->removePlayer($event->playerId());
 
-        $this->repository->save($tableReadModel);
+        $this->repository->update($tableReadModel);
     }
 
     public function applyPlayerWasSeated(PlayerWasSeated $playerWasSeated): void
     {
-        /** @var TableReadModel $tableReadModel */
         $tableReadModel = $this->loadReadModel($playerWasSeated->aggregateId());
         $tableReadModel->joinPlayer($playerWasSeated->playerId());
 
-        $this->repository->save($tableReadModel);
+        $this->repository->update($tableReadModel);
     }
 
-    private function loadReadModel(TableId $id): ?TableReadModel
+    private function loadReadModel(TableId $id): TableReadModel
     {
         return $this->repository->findByTableId($id);
     }

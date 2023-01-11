@@ -53,12 +53,12 @@ class CreateGameHandlerTest extends TestCase
             );
 
         $this->tableRepository->expects($this->once())
-            ->method('findByTableIdOrFail')
+            ->method('findByTableId')
             ->with($tableId)
             ->willReturn($table);
 
         $this->playerRepository->expects($this->exactly(2))
-            ->method('findByIdOrFail');
+            ->method('findById');
 
         $game = $this->createMock(Game::class);
 
@@ -86,7 +86,7 @@ class CreateGameHandlerTest extends TestCase
             ->willReturn(false);
 
         $this->tableRepository->expects($this->once())
-            ->method('findByTableIdOrFail')
+            ->method('findByTableId')
             ->with($tableId)
             ->willReturn($table);
 
